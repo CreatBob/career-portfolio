@@ -1,0 +1,99 @@
+{
+  "version": "2.0",
+  "project": {
+    "name": "nextjs-portfolio-blog-research",
+    "type": "frontend",
+    "language": "typescript",
+    "description": "Next.js 16 portfolio and blog site with App Router, next-intl, MDX-style blog content, SEO helpers, and optional analytics integrations."
+  },
+  "runtime": {
+    "language": "typescript",
+    "version": "5.9",
+    "node": ">=18.18.0 <=22",
+    "package_manager": "pnpm",
+    "install_command": "pnpm install",
+    "build_command": "pnpm build",
+    "test_command": null,
+    "lint_command": "pnpm lint && pnpm lint:deps && pnpm lint:quality"
+  },
+  "startup": {
+    "command": "pnpm dev",
+    "args": [],
+    "working_dir": ".",
+    "env": {
+      "PORT": "${PORT:-3000}",
+      "NODE_ENV": "development"
+    },
+    "readiness": {
+      "type": "http",
+      "config": {
+        "endpoint": "/",
+        "port": "${PORT:-3000}",
+        "expected_status": 200,
+        "timeout_seconds": 45,
+        "poll_interval_ms": 1000
+      }
+    }
+  },
+  "services": [],
+  "env_vars": {
+    "required": {
+      "GA4_PROPERTY_ID": {
+        "purpose": "Google Analytics 4 property ID used by src/app/api/analytics/route.ts.",
+        "sensitive": false
+      },
+      "GA4_CLIENT_EMAIL": {
+        "purpose": "Google service account client email used server-side by the analytics API route.",
+        "sensitive": true
+      },
+      "GA4_PRIVATE_KEY": {
+        "purpose": "Google service account private key used server-side by the analytics API route.",
+        "sensitive": true
+      }
+    },
+    "optional": {
+      "PORT": {
+        "purpose": "Local Next.js server port.",
+        "default": "3000",
+        "sensitive": false
+      },
+      "NEXT_PUBLIC_GTM_ID": {
+        "purpose": "Google Tag Manager container ID for client-side script injection.",
+        "sensitive": false
+      },
+      "NEXT_PUBLIC_BAIDU_SITE_VERIFICATION": {
+        "purpose": "Baidu site verification token.",
+        "sensitive": false
+      },
+      "VERCEL_ENV": {
+        "purpose": "Vercel deployment environment flag used to enable Vercel Analytics and Speed Insights.",
+        "sensitive": false
+      }
+    }
+  },
+  "endpoints": {
+    "health": "/",
+    "base_url": "http://localhost:${PORT:-3000}",
+    "analytics": "/api/analytics",
+    "feed": "/api/feed/atom.xml"
+  },
+  "scripts": {
+    "setup": "harness/scripts/setup-env.sh",
+    "start": "harness/scripts/start-server.sh",
+    "teardown": "harness/scripts/teardown-env.sh"
+  },
+  "_meta": {
+    "generated_by": "harness-creator",
+    "generated_at": "2026-05-07T00:00:00+08:00",
+    "schema_version": "2.0",
+    "requires_user_input": [
+      "GA4_PROPERTY_ID",
+      "GA4_CLIENT_EMAIL",
+      "GA4_PRIVATE_KEY"
+    ],
+    "todos": [
+      "Add a test runner if future changes need automated unit or component tests.",
+      "Document any intentionally locale-specific blog slugs before relaxing parity checks."
+    ]
+  }
+}

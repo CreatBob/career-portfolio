@@ -1,8 +1,7 @@
-import { getTranslations } from "next-intl/server";
 import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 import type React from "react";
 
-import { Icons } from "@/components/icons";
 import AwardsSection from "@/components/portfolio/awards-section";
 import Brief from "@/components/portfolio/brief";
 import Contact from "@/components/portfolio/contact";

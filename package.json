@@ -12,6 +12,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
+    "lint:deps": "node scripts/lint-deps.mjs",
+    "lint:quality": "node scripts/lint-quality.mjs",
+    "harness:verify": "pnpm lint:deps && pnpm lint:quality",
     "analyze": "ANALYZE=true next build",
     "fix": "pnpm i -D fix-react2shell-next@latest && npx fix-react2shell-next"
   },

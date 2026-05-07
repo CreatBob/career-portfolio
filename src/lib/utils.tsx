@@ -1,6 +1,7 @@
 import { type ClassValue, clsx } from "clsx";
-import { twMerge } from "tailwind-merge";
 import React from "react";
+import { twMerge } from "tailwind-merge";
+
 import { Icons } from "@/components/icons";
 
 export function cn(...inputs: ClassValue[]) {

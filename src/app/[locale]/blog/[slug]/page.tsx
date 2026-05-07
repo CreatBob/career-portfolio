@@ -1,5 +1,5 @@
-import { Suspense } from "react";
 import { getTranslations } from "next-intl/server";
+import { Suspense } from "react";
 
 import { ViewCount } from "@/components/blog/view-count";
 import { DEFAULT_LOCALE, routing } from "@/i18n/routing";

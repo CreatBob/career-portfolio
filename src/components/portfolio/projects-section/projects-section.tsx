@@ -35,7 +35,6 @@ interface ProjectsSectionProps {
 
 export default function ProjectsSection({
   projects,
-  delay = 0,
   mobileDisplayCount = 6,
   desktopDisplayCount = 6,
   showAllText = "Show All",

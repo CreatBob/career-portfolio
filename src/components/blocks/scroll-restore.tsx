@@ -1,7 +1,8 @@
 "use client";
 
-import { usePathname } from "@/i18n/routing";
 import { useEffect } from "react";
+
+import { usePathname } from "@/i18n/routing";
 
 /**
  * Component to restore scroll position after language switch
