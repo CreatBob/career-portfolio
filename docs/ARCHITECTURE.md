@@ -16,7 +16,7 @@ This repository is a Next.js 16 App Router portfolio and blog application with T
 ```mermaid
 graph TD
     Browser["Browser"]
-    Proxy["src/proxy.ts"]
+    Proxy["src/middleware.ts"]
     App["src/app/[locale] routes"]
     Api["src/app/api routes"]
     Components["src/components"]
@@ -50,7 +50,7 @@ graph TD
     Api --> ThirdParty
 ```
 
-> Sources: `src/proxy.ts:1-17`, `src/app/[locale]/page.tsx:5-23`, `src/app/[locale]/layout.tsx:14-25`, `src/app/api/feed/atom.xml/route.ts:1-16`, `src/app/api/analytics/route.ts:5-15`
+> Sources: `src/middleware.ts:1-10`, `src/app/[locale]/page.tsx:5-23`, `src/app/[locale]/layout.tsx:14-25`, `src/app/api/feed/atom.xml/route.ts:1-16`, `src/app/api/analytics/route.ts:5-15`
 
 ### 2.2 Layer Hierarchy
 
@@ -60,7 +60,7 @@ graph TD
 | L1 I18n | `src/i18n/` | `src/data`, `src/i18n` | `src/app`, `src/components`, `src/lib` |
 | L2 Lib | `src/lib/` | `src/data`, `src/i18n`, special case `src/components/icons` | `src/app`, general `src/components` |
 | L3 Components | `src/components/` | `src/components`, `src/data`, `src/i18n`, `src/lib` | `src/app` |
-| L4 App | `src/app/`, `src/proxy.ts` | L0-L3, framework packages | N/A |
+| L4 App | `src/app/`, `src/middleware.ts` | L0-L3, framework packages | N/A |
 | L4 API | `src/app/api/` | `src/data`, `src/i18n`, `src/lib` | React component modules |
 
 > Enforced by: `scripts/lint-deps.mjs`
@@ -75,9 +75,9 @@ graph TD
 
 ### 3.1 Locale Routing
 
-Incoming non-API requests pass through `src/proxy.ts`, which delegates to `next-intl` middleware using the routing contract from `src/i18n/routing.ts`. The app supports `en` and `zh` with an `as-needed` locale prefix.
+Incoming non-API requests pass through `src/middleware.ts`, which delegates to `next-intl` middleware using the routing contract from `src/i18n/routing.ts`. The app supports `en` and `zh` with an `as-needed` locale prefix.
 
-> Sources: `src/proxy.ts:1-17`, `src/i18n/routing.ts:1-24`
+> Sources: `src/middleware.ts:1-10`, `src/i18n/routing.ts:1-24`
 
 ### 3.2 Request Message Loading
 
