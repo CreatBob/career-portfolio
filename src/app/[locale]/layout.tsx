@@ -1,7 +1,6 @@
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
-import { Inter as FontSans } from "next/font/google";
 import { notFound } from "next/navigation";
 import { hasLocale, Locale, NextIntlClientProvider } from "next-intl";
 import {
@@ -22,13 +21,6 @@ import {
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { DEFAULT_LOCALE, routing } from "@/i18n/routing";
 import { constructMetadata } from "@/lib/metadata";
-import { cn } from "@/lib/utils";
-
-/* Fonts */
-const fontSans = FontSans({
-  subsets: ["latin"],
-  variable: "--font-sans",
-});
 
 /* Metadata */
 type MetadataProps = {
@@ -72,12 +64,7 @@ export default async function LocaleLayout({
         <JsonLdScripts locale={locale} />
       </head>
 
-      <body
-        className={cn(
-          "bg-background min-h-screen font-sans antialiased",
-          fontSans.variable,
-        )}
-      >
+      <body className="bg-background min-h-screen font-sans antialiased">
         {/* Main Layout */}
         <NextIntlClientProvider locale={locale} messages={messages}>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>

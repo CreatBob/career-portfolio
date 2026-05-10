@@ -1,18 +1,18 @@
 {
-    "name": {
-        "full": "Zangwei Zheng",
-        "given": "Zangwei",
-        "family": "Zheng",
-        "initials": "ZZ"
-    },
-    "subtitle": "郑奘巍, Ph.D.",
-    "headline": "AI Researcher & Full Stack Developer\nTech Lead at HPC-AI Tech",
-    "welcome": "Welcome to my homepage!",
-    "ogImageUrl": "zangwei.dev",
-    "bioMarkdown": "Hi, I'm Zangwei👋, founder of [Open-Sora](https://github.com/hpcaitech/Open-Sora) and [Video-Ocean](https://video-ocean.com/). I'm working on AI-powered video generation and SaaS products that bridge research and real-world creativity.\n\nI earned my Ph.D. from ![NUS Logo](/icon/nus.png) [National University of Singapore](https://nus.edu.sg/) (NUS), advised by Prof. [Yang You](https://scholar.google.com/citations?user=jF4dPZwAAAAJ&hl=en). I had my research intern in ![Bytedance Logo](/icon/bytedance.png) [Bytedance](https://bytedance.com/), mentored by [Xuan Zhou](https://scholar.google.com/citations?user=gSqwyvsAAAAJ&hl=en) and [Youlong Cheng](https://scholar.google.com/citations?user=CSTk_LMAAAAJ&hl=en). I received my B.Sc. in Computer Science from ![NJU Logo](/icon/nju.png) [Nanjing University](https://www.nju.edu.cn/en/) (NJU). I worked remotely as a research intern at ![UC Berkeley Logo](/icon/ucb.png) [UC Berkeley](https://www.berkeley.edu/) for a year, mentored by Dr. [Xiangyu Yue](https://scholar.google.com/citations?user=-xQ-C1sAAAAJ&hl=en&authuser=1) and Prof. [Alberto L. Sangiovanni-Vincentelli](https://www2.eecs.berkeley.edu/Faculty/Homepages/sangiovanni-vicentelli.html). You can find more about my background in my [CV](./resume.pdf).\n\n🔬 **Research Interests:** Video Generation, Efficient ML and DL (Deep Learning) Optimization.",
-    "location": {
-        "name": "Singapore",
-        "mapUrl": "https://www.google.com/maps/place/singapore"
-    },
-    "blogTagline": "Thoughts on AI, software, life and more. Short notes and longer write-ups."
+  "name": {
+    "full": "Chen Yong Guan",
+    "given": "Yong Guan",
+    "family": "Chen",
+    "initials": "CYG"
+  },
+  "subtitle": "Java Back-end Engineer / AI Full-Stack Application Developer",
+  "headline": "Built on Java back-end development with hands-on AI full-stack application experience.\nWorked on knowledge base systems, e-commerce tools and automation workflows from development to deployment.",
+  "welcome": "Welcome to my portfolio.",
+  "ogImageUrl": "creatbob.github.io",
+  "bioMarkdown": "Hi, I'm Chen Yong Guan, a developer focused on Java back-end engineering and AI application delivery. I am comfortable with Spring Boot, MyBatis-Plus, MySQL and related back-end technologies, and I can also build AI-powered tools and web applications with Python and modern web stacks.\n\nDuring my internships, I worked on an AI knowledge base for an education platform, a multi-tenant sticker e-commerce system, production automation tools, OCR quality inspection and deployment workflows. These experiences helped me build practical understanding across business systems, AI integration, data storage, SEO and shipping real products.\n\nI am especially interested in Prompt design, Agent workflows and AI application architecture, and I want to keep growing into an engineer who can own business modules independently and push ideas into production.",
+  "location": {
+    "name": "Guangzhou",
+    "mapUrl": "https://www.google.com/maps/place/Guangzhou"
+  },
+  "blogTagline": "Notes on engineering, AI applications and the things I learn while building."
 }

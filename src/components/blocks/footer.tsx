@@ -81,15 +81,15 @@ export default function Footer() {
     name: string;
     url: string;
   }>;
+  const githubProfile = socialData.GitHub;
 
   // Create navigation sections with translations
   const translatedNavigationSections = [
     { name: t("footer.navigation.about"), href: "/#about" },
     { name: t("footer.navigation.projects"), href: "/#projects" },
-    { name: t("footer.navigation.education"), href: "/#education" },
     { name: t("footer.navigation.experience"), href: "/#work" },
+    { name: t("footer.navigation.education"), href: "/#education" },
     { name: t("footer.navigation.skills"), href: "/#skills" },
-    { name: t("footer.navigation.awards"), href: "/#awards" },
   ];
 
   return (
@@ -217,16 +217,18 @@ export default function Footer() {
               {t("footer.bottom.lastUpdated")}: {siteConfig.lastUpdated}
             </div>
 
-            <div className="text-muted-foreground flex items-center gap-2 text-sm">
-              <span>{t("footer.bottom.modifiedFrom")}</span>
-              <FooterLink
-                href="https://github.com/zhengzangw/nextjs-portfolio-blog-research"
-                className="hover:text-foreground inline-flex items-center gap-1 transition-colors"
-              >
-                <Icons.github className="h-4 w-4" />
-                <span>zhengzangw/nextjs-portfolio-blog-research</span>
-              </FooterLink>
-            </div>
+            {githubProfile ? (
+              <div className="text-muted-foreground flex items-center gap-2 text-sm">
+                <span>{t("footer.bottom.modifiedFrom")}</span>
+                <FooterLink
+                  href={githubProfile.url}
+                  className="hover:text-foreground inline-flex items-center gap-1 transition-colors"
+                >
+                  <Icons.github className="h-4 w-4" />
+                  <span>{githubProfile.name}</span>
+                </FooterLink>
+              </div>
+            ) : null}
           </div>
         </div>
       </div>

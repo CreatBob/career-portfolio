@@ -5,7 +5,7 @@ import { MobileTOC } from "@/components/blog/toc/mobile-toc";
 import { TableOfContents } from "@/components/blog/toc/table-of-contents";
 import type { Locale } from "@/i18n/routing";
 import { LOCALES, routing } from "@/i18n/routing";
-import { getAvailableLocales, getPost } from "@/lib/blog";
+import { getAvailableLocales, getPost, isPublishedPost } from "@/lib/blog";
 import { generateBlogPostingJsonLd } from "@/lib/jsonld";
 import { constructMetadata } from "@/lib/metadata";
 import { jsonldScript } from "@/lib/utils";
@@ -20,7 +20,7 @@ export async function generateMetadata(props: {
   const locale = (params.locale || routing.defaultLocale) as Locale;
   const post = await getPost(params.slug, locale);
 
-  if (!post) {
+  if (!isPublishedPost(post)) {
     return undefined;
   }
 
@@ -58,7 +58,7 @@ export default async function BlogLayout(props: {
   const locale = params.locale || routing.defaultLocale;
   const post = await getPost(params.slug, locale);
 
-  if (!post) {
+  if (!isPublishedPost(post)) {
     notFound();
   }
 

@@ -3,7 +3,7 @@ import { getTranslations } from "next-intl/server";
 
 import { BlogCard } from "@/components/blog/blog-card";
 import { routing } from "@/i18n/routing";
-import { getBlogPosts } from "@/lib/blog";
+import { getPublishedBlogPosts } from "@/lib/blog";
 import { generateBlogJsonLd } from "@/lib/jsonld";
 import { constructMetadata } from "@/lib/metadata";
 import { jsonldScript } from "@/lib/utils";
@@ -33,7 +33,7 @@ export default async function BlogPage(props: {
 }) {
   const params = await props.params;
   const locale = params.locale || routing.defaultLocale;
-  const posts = await getBlogPosts(locale);
+  const posts = await getPublishedBlogPosts(locale);
   const blogJsonLd = generateBlogJsonLd(posts);
   const t = await getTranslations({ locale });
 
@@ -50,25 +50,34 @@ export default async function BlogPage(props: {
       </div>
 
       <div className="mx-auto w-full max-w-3xl px-6 sm:px-8 md:px-10">
-        <div className="grid grid-cols-1 gap-4 sm:gap-5">
-          {posts
-            .sort((a, b) => {
-              if (new Date(a.metadata.date) > new Date(b.metadata.date)) {
-                return -1;
-              }
-              return 1;
-            })
-            .map((post) => (
-              <BlogCard
-                key={post.slug}
-                locale={locale}
-                slug={post.slug}
-                title={post.metadata.title}
-                date={post.metadata.date}
-                summary={post.metadata.summary}
-              />
-            ))}
-        </div>
+        {posts.length > 0 ? (
+          <div className="grid grid-cols-1 gap-4 sm:gap-5">
+            {posts
+              .sort((a, b) => {
+                if (new Date(a.metadata.date) > new Date(b.metadata.date)) {
+                  return -1;
+                }
+                return 1;
+              })
+              .map((post) => (
+                <BlogCard
+                  key={post.slug}
+                  locale={locale}
+                  slug={post.slug}
+                  title={post.metadata.title}
+                  date={post.metadata.date}
+                  summary={post.metadata.summary}
+                />
+              ))}
+          </div>
+        ) : (
+          <div className="border-border bg-card rounded-xl border p-6 shadow-sm">
+            <h2 className="mb-2 text-lg font-medium">{t("blog.emptyTitle")}</h2>
+            <p className="text-muted-foreground text-sm md:text-base">
+              {t("blog.emptyDescription")}
+            </p>
+          </div>
+        )}
       </div>
     </main>
   );

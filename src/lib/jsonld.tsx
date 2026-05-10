@@ -338,7 +338,7 @@ export async function generateBlogPostingJsonLd(post: {
     description: post.metadata.summary,
     image: post.metadata.image
       ? `${siteConfig.url}${post.metadata.image}`
-      : `${postUrl}/opengraph-image`,
+      : `${siteConfig.url}${siteConfig.avatarUrl}`,
     url: postUrl,
     author,
     publisher,

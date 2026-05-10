@@ -2,7 +2,7 @@ import { MetadataRoute } from "next";
 
 import { siteConfig } from "@/data/site";
 import { DEFAULT_LOCALE, LOCALES } from "@/i18n/routing";
-import { getBlogPosts } from "@/lib/blog";
+import { getPublishedBlogPosts } from "@/lib/blog";
 
 const siteUrl = siteConfig.url;
 
@@ -17,7 +17,6 @@ type ChangeFrequency =
   | undefined;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  // Static pages
   const staticPages = ["", "/blog", "/privacy-policy", "/terms-of-service"];
 
   const pages = LOCALES.flatMap((locale) => {
@@ -31,38 +30,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }));
   });
 
-  const allBlogSitemapEntries: MetadataRoute.Sitemap = [];
+  const blogEntries: MetadataRoute.Sitemap = [];
 
   for (const locale of LOCALES) {
-    const posts = await getBlogPosts(locale);
-    posts
-      .filter(
-        (post) =>
-          post.slug &&
-          (post.metadata.status !== "draft" || !post.metadata.status),
-      )
-      .forEach((post) => {
-        const slugPart = post.slug.replace(/^\//, "").replace(/^blogs\//, "");
-        if (slugPart) {
-          allBlogSitemapEntries.push({
-            url: `${siteUrl}${
-              locale === DEFAULT_LOCALE ? "" : `/${locale}`
-            }/blog/${slugPart}`,
-            lastModified: post.metadata.updatedAt
-              ? new Date(post.metadata.updatedAt as string)
-              : post.metadata.date
-                ? new Date(post.metadata.date)
-                : new Date(),
-            changeFrequency: "monthly" as ChangeFrequency,
-            priority: 0.7,
-          });
-        }
+    const posts = await getPublishedBlogPosts(locale);
+    posts.forEach((post) => {
+      blogEntries.push({
+        url: `${siteUrl}${locale === DEFAULT_LOCALE ? "" : `/${locale}`}/blog/${post.slug}`,
+        lastModified: post.metadata.updatedAt
+          ? new Date(post.metadata.updatedAt as string)
+          : new Date(post.metadata.date),
+        changeFrequency: "monthly" as ChangeFrequency,
+        priority: 0.7,
       });
+    });
   }
 
-  const uniqueBlogPostEntries = Array.from(
-    new Map(allBlogSitemapEntries.map((entry) => [entry.url, entry])).values(),
-  );
-
-  return [...pages, ...uniqueBlogPostEntries];
+  return [...pages, ...blogEntries];
 }

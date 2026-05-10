@@ -6,7 +6,7 @@
 export const BLUR_FADE_DELAY = 0.05;
 
 export const siteConfig = {
-  url: "https://www.zangwei.dev", // Use 'www' for vercel recommendation
-  lastUpdated: "2025.12",
-  avatarUrl: "/me.png",
+  url: "https://creatbob.github.io",
+  lastUpdated: "2026.05",
+  avatarUrl: "/avatar-placeholder.svg",
 } as const;

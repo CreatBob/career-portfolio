@@ -2,7 +2,6 @@ import fs from "fs";
 import matter from "gray-matter";
 import path from "path";
 import rehypeKatex from "rehype-katex";
-import rehypePrettyCode from "rehype-pretty-code";
 import rehypeSlug from "rehype-slug";
 import rehypeStringify from "rehype-stringify";
 import remarkGfm from "remark-gfm";
@@ -30,6 +29,21 @@ export interface BlogPost {
   slug: string;
   source: string;
   locale: string;
+}
+
+export function isPublishedPost(
+  post: BlogPost | null | undefined,
+): post is BlogPost {
+  return Boolean(post && post.metadata.status === "published");
+}
+
+function getContentDirectory(locale: string) {
+  return path.join(
+    process.cwd(),
+    "content",
+    "blog",
+    locale === "zh" ? "zh" : "en",
+  );
 }
 
 function getMDXFiles(dir: string) {
@@ -83,14 +97,6 @@ export async function markdownToHTML(markdown: string) {
     .use(remarkRehype)
     .use(rehypeSlug)
     .use(rehypeKatex)
-    .use(rehypePrettyCode, {
-      // https://rehype-pretty.pages.dev/#usage
-      theme: {
-        light: "github-light",
-        dark: "github-dark-dimmed",
-      },
-      keepBackground: false,
-    })
     .use(rehypeStringify)
     .process(markdown);
 
@@ -101,8 +107,7 @@ export async function getPost(
   slug: string,
   locale: string = "en",
 ): Promise<BlogPost | null> {
-  const contentDir = locale === "zh" ? "content/blog/zh" : "content/blog/en";
-  const filePath = path.join(contentDir, `${slug}.mdx`);
+  const filePath = path.join(getContentDirectory(locale), `${slug}.mdx`);
 
   // Check if file exists
   if (!fs.existsSync(filePath)) {
@@ -155,11 +160,7 @@ async function getAllPosts(
 
 export async function getBlogPosts(locale: string = "en"): Promise<BlogPost[]> {
   try {
-    const contentDir = locale === "zh" ? "content/blog/zh" : "content/blog/en";
-    const posts = await getAllPosts(
-      path.join(process.cwd(), contentDir),
-      locale,
-    );
+    const posts = await getAllPosts(getContentDirectory(locale), locale);
     return Array.isArray(posts) ? posts : [];
   } catch (error) {
     console.error(`Error getting blog posts for locale ${locale}:`, error);
@@ -167,14 +168,21 @@ export async function getBlogPosts(locale: string = "en"): Promise<BlogPost[]> {
   }
 }
 
+export async function getPublishedBlogPosts(
+  locale: string = "en",
+): Promise<BlogPost[]> {
+  const posts = await getBlogPosts(locale);
+  return posts.filter(isPublishedPost);
+}
+
 export async function hasChineseVersion(slug: string): Promise<boolean> {
-  const chineseFilePath = path.join("content/blog/zh", `${slug}.mdx`);
-  return fs.existsSync(chineseFilePath);
+  const post = await getPost(slug, "zh");
+  return isPublishedPost(post);
 }
 
 export async function hasEnglishVersion(slug: string): Promise<boolean> {
-  const englishFilePath = path.join("content/blog/en", `${slug}.mdx`);
-  return fs.existsSync(englishFilePath);
+  const post = await getPost(slug, "en");
+  return isPublishedPost(post);
 }
 
 /**
@@ -190,10 +198,8 @@ export async function getAvailableLocales(
   const availableLocales: string[] = [];
 
   for (const locale of locales) {
-    // Use the same logic as getPost to determine content directory
-    const contentDir = locale === "zh" ? "content/blog/zh" : "content/blog/en";
-    const filePath = path.join(process.cwd(), contentDir, `${slug}.mdx`);
-    if (fs.existsSync(filePath)) {
+    const post = await getPost(slug, locale);
+    if (isPublishedPost(post)) {
       availableLocales.push(locale);
     }
   }

@@ -1,14 +1,15 @@
+import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { Suspense } from "react";
 
 import { ViewCount } from "@/components/blog/view-count";
 import { DEFAULT_LOCALE, routing } from "@/i18n/routing";
-import { getBlogPosts, getPost } from "@/lib/blog";
+import { getPost, getPublishedBlogPosts, isPublishedPost } from "@/lib/blog";
 import { formatDate } from "@/lib/utils";
 
 export async function generateStaticParams() {
-  const enPosts = await getBlogPosts("en");
-  const zhPosts = await getBlogPosts("zh");
+  const enPosts = await getPublishedBlogPosts("en");
+  const zhPosts = await getPublishedBlogPosts("zh");
 
   const params: Array<{ locale: string; slug: string }> = [];
 
@@ -42,8 +43,8 @@ export default async function Blog(props: {
   const post = await getPost(params.slug, locale);
   const t = await getTranslations({ locale });
 
-  if (!post) {
-    return null; // Layout will handle notFound()
+  if (!isPublishedPost(post)) {
+    notFound();
   }
 
   const readingTime = post.metadata.readingTime || 1;

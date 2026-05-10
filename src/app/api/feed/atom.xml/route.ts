@@ -7,7 +7,7 @@ import {
   type Locale,
   routing,
 } from "@/i18n/routing";
-import { getBlogPosts } from "@/lib/blog";
+import { getPublishedBlogPosts } from "@/lib/blog";
 
 // ISR configuration - revalidate every hour (3600 seconds)
 export const revalidate = 3600;
@@ -87,7 +87,7 @@ function getSelfFeedUrl(locale: Locale, explicit: boolean): string {
 
 export async function GET(request: Request) {
   const { locale, explicit } = resolveLocale(request);
-  const posts = await getBlogPosts(locale);
+  const posts = await getPublishedBlogPosts(locale);
   const t = await getTranslations({ locale });
   const socialData = t.raw("social") as Record<
     string,
