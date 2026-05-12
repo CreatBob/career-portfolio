@@ -43,6 +43,16 @@
         "label": "Home"
       },
       {
+        "href": "/#projects",
+        "icon": "layers3",
+        "label": "Portfolio"
+      },
+      {
+        "href": "/#about",
+        "icon": "userround",
+        "label": "About"
+      },
+      {
         "href": "/blog",
         "icon": "notebook",
         "label": "Blog"
@@ -54,7 +64,8 @@
       }
     ],
     "theme": "Theme",
-    "language": "Language"
+    "language": "Language",
+    "brandLabel": "Personal Brand"
   },
   "blog": {
     "title": "Blog",

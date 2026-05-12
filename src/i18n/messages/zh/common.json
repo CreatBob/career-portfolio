@@ -43,6 +43,16 @@
         "label": "首页"
       },
       {
+        "href": "/#projects",
+        "icon": "layers3",
+        "label": "作品集"
+      },
+      {
+        "href": "/#about",
+        "icon": "userround",
+        "label": "关于我"
+      },
+      {
         "href": "/blog",
         "icon": "notebook",
         "label": "博客"
@@ -54,7 +64,8 @@
       }
     ],
     "theme": "主题",
-    "language": "语言"
+    "language": "语言",
+    "brandLabel": "个人品牌"
   },
   "blog": {
     "title": "博客",

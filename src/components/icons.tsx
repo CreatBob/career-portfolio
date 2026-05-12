@@ -11,12 +11,14 @@ import {
   GlobeIcon,
   HeartIcon,
   HomeIcon,
+  Layers3,
   LightbulbIcon,
   Loader2Icon,
   MailIcon,
   NewspaperIcon,
   NotebookIcon,
   TrendingUpIcon,
+  UserRound,
 } from "lucide-react";
 
 export type IconProps = React.HTMLAttributes<SVGElement>;
@@ -30,6 +32,7 @@ export const Icons = {
   globe: (props: IconProps) => <GlobeIcon {...props} />,
   heartbeat: (props: IconProps) => <HeartIcon {...props} />,
   home: (props: IconProps) => <HomeIcon {...props} />,
+  layers3: (props: IconProps) => <Layers3 {...props} />,
   lightbulb: (props: IconProps) => <LightbulbIcon {...props} />,
   bookopen: (props: IconProps) => <BookOpenIcon {...props} />,
   newspaper: (props: IconProps) => <NewspaperIcon {...props} />,
@@ -40,6 +43,7 @@ export const Icons = {
   spin: (props: IconProps) => <Loader2Icon {...props} />,
   trend: (props: IconProps) => <TrendingUpIcon {...props} />,
   candlestick: (props: IconProps) => <ChartCandlestickIcon {...props} />,
+  userround: (props: IconProps) => <UserRound {...props} />,
   // Social Icons
   linkedin: (props: IconProps) => (
     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" {...props}>

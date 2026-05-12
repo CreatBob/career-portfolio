@@ -12,93 +12,115 @@ interface NavbarProps {
   languageToggleDisabled?: boolean;
 }
 
+interface NavbarItem {
+  href: string;
+  icon: string;
+  label: string;
+}
+
+function isStaticFile(href: string) {
+  return [
+    ".pdf",
+    ".png",
+    ".jpg",
+    ".jpeg",
+    ".webp",
+    ".svg",
+  ].some((extension) => href.endsWith(extension));
+}
+
+function isHashLink(href: string) {
+  return href.startsWith("/#");
+}
+
+function getItemState(pathname: string, href: string) {
+  if (isStaticFile(href) || isHashLink(href)) {
+    return false;
+  }
+
+  return href === "/"
+    ? pathname === href
+    : pathname === href || pathname.startsWith(`${href}/`);
+}
+
+function getIconComponent(iconName: string) {
+  const iconMap: Record<string, typeof Icons.home> = {
+    fileuser: Icons.fileuser,
+    home: Icons.home,
+    layers3: Icons.layers3,
+    notebook: Icons.notebook,
+    userround: Icons.userround,
+  };
+
+  return iconMap[iconName] || Icons.home;
+}
+
 export default function Navbar({
   languageToggleDisabled = false,
 }: NavbarProps) {
   const t = useTranslations();
   const pathname = usePathname();
   const displayName = t("name.full");
-  const navbarItems = t.raw("navbar.items") as Array<{
-    href: string;
-    icon: string;
-    label: string;
-  }>;
-
-  const getIconComponent = (iconName: string) => {
-    const iconMap: Record<string, typeof Icons.home> = {
-      home: Icons.home,
-      notebook: Icons.notebook,
-      fileuser: Icons.fileuser,
-    };
-
-    return iconMap[iconName] || Icons.home;
-  };
+  const brandLabel = t("navbar.brandLabel");
+  const navbarItems = t.raw("navbar.items") as NavbarItem[];
 
   return (
     <>
       <header className="portfolio-shell pointer-events-none fixed inset-x-0 top-0 z-50">
-        <div className="border-border/60 pointer-events-auto mx-auto mt-4 hidden items-center justify-between rounded-full border bg-white/72 px-3 py-2 shadow-[0_18px_60px_-40px_rgba(15,23,42,0.45)] backdrop-blur-xl md:flex dark:bg-black/25">
+        <div className="pointer-events-auto mx-auto mt-4 hidden items-center justify-between rounded-full border border-white/12 bg-black/50 px-3 py-2 shadow-[0_28px_80px_-44px_rgba(0,0,0,0.9)] backdrop-blur-2xl md:flex">
           <I18nLink
             href="/"
-            className="flex items-center gap-3 rounded-full px-3 py-2 transition-colors hover:bg-black/5 dark:hover:bg-white/5"
+            className="group flex items-center gap-3 rounded-full px-3 py-2 transition-colors hover:bg-white/5"
           >
-            <span className="bg-foreground text-background brand-grid flex size-10 items-center justify-center rounded-2xl">
+            <span className="brand-grid flex size-10 items-center justify-center rounded-2xl border border-white/10 bg-white/8 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.12)]">
               <span className="font-sans text-lg leading-none font-semibold tracking-[-0.08em]">
                 CY
               </span>
             </span>
             <span className="flex flex-col">
-              <span className="font-sans text-[1rem] leading-none font-semibold tracking-[-0.045em]">
+              <span className="font-sans text-[1rem] leading-none font-semibold tracking-[-0.045em] text-white">
                 {displayName}
               </span>
-              <span className="text-muted-foreground font-mono text-[0.65rem] tracking-[0.28em] uppercase">
-                Personal Brand
+              <span className="text-[0.65rem] tracking-[0.28em] text-white/45 uppercase">
+                {brandLabel}
               </span>
             </span>
           </I18nLink>
 
           <nav className="flex items-center gap-1">
             {navbarItems.map((item) => {
-              const href = item.href;
-              const label = item.label;
               const IconComponent = getIconComponent(item.icon);
-              const isStaticFile =
-                href.endsWith(".pdf") ||
-                href.endsWith(".png") ||
-                href.endsWith(".jpg") ||
-                href.endsWith(".jpeg");
-              const isActive =
-                !isStaticFile &&
-                (href === "/"
-                  ? pathname === href
-                  : pathname === href || pathname.startsWith(`${href}/`));
-
+              const isActive = getItemState(pathname, item.href);
               const linkClassName = cn(
                 "inline-flex items-center gap-2 rounded-full px-4 py-2 text-[0.95rem] font-medium tracking-[-0.01em] transition-all duration-300 hover:-translate-y-0.5",
                 isActive
-                  ? "bg-foreground text-background shadow-sm"
-                  : "text-muted-foreground hover:bg-black/5 hover:text-foreground dark:hover:bg-white/5",
+                  ? "bg-white text-black shadow-[0_12px_36px_-18px_rgba(255,255,255,0.7)]"
+                  : "text-white/68 hover:bg-white/7 hover:text-white",
               );
 
-              return isStaticFile ? (
-                <a
-                  key={href}
-                  href={href}
-                  className={linkClassName}
-                  aria-label={label}
-                >
-                  <IconComponent className="size-4" />
-                  <span>{label}</span>
-                </a>
-              ) : (
+              if (isStaticFile(item.href)) {
+                return (
+                  <a
+                    key={item.href}
+                    href={item.href}
+                    className={linkClassName}
+                    aria-label={item.label}
+                  >
+                    <IconComponent className="size-4" />
+                    <span>{item.label}</span>
+                  </a>
+                );
+              }
+
+              return (
                 <I18nLink
-                  key={href}
-                  href={href}
+                  key={item.href}
+                  href={item.href}
                   className={linkClassName}
-                  aria-label={label}
+                  aria-label={item.label}
                 >
                   <IconComponent className="size-4" />
-                  <span>{label}</span>
+                  <span>{item.label}</span>
                 </I18nLink>
               );
             })}
@@ -112,44 +134,36 @@ export default function Navbar({
       </header>
 
       <div className="pointer-events-none fixed inset-x-0 bottom-0 z-50 flex justify-center px-4 pb-5 md:hidden">
-        <div className="border-border/70 pointer-events-auto flex items-center gap-1 rounded-full border bg-white/82 p-2 shadow-[0_18px_60px_-40px_rgba(15,23,42,0.55)] backdrop-blur-xl dark:bg-black/35">
+        <div className="pointer-events-auto flex items-center gap-1 rounded-full border border-white/12 bg-black/60 p-2 shadow-[0_24px_72px_-40px_rgba(0,0,0,0.95)] backdrop-blur-2xl">
           {navbarItems.map((item) => {
-            const href = item.href;
-            const label = item.label;
             const IconComponent = getIconComponent(item.icon);
-            const isStaticFile =
-              href.endsWith(".pdf") ||
-              href.endsWith(".png") ||
-              href.endsWith(".jpg") ||
-              href.endsWith(".jpeg");
-            const isActive =
-              !isStaticFile &&
-              (href === "/"
-                ? pathname === href
-                : pathname === href || pathname.startsWith(`${href}/`));
-
+            const isActive = getItemState(pathname, item.href);
             const itemClassName = cn(
               "flex size-11 items-center justify-center rounded-full transition-colors",
               isActive
-                ? "bg-foreground text-background"
-                : "text-muted-foreground hover:bg-black/5 hover:text-foreground dark:hover:bg-white/5",
+                ? "bg-white text-black"
+                : "text-white/68 hover:bg-white/7 hover:text-white",
             );
 
-            return isStaticFile ? (
-              <a
-                key={href}
-                href={href}
-                className={itemClassName}
-                aria-label={label}
-              >
-                <IconComponent className="size-4" />
-              </a>
-            ) : (
+            if (isStaticFile(item.href)) {
+              return (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  className={itemClassName}
+                  aria-label={item.label}
+                >
+                  <IconComponent className="size-4" />
+                </a>
+              );
+            }
+
+            return (
               <I18nLink
-                key={href}
-                href={href}
+                key={item.href}
+                href={item.href}
                 className={itemClassName}
-                aria-label={label}
+                aria-label={item.label}
               >
                 <IconComponent className="size-4" />
               </I18nLink>
