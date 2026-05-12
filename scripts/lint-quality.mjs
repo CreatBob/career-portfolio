@@ -18,7 +18,8 @@ function readJson(...parts) {
 }
 
 function flattenKeys(value, prefix = "") {
-  if (!value || typeof value !== "object" || Array.isArray(value)) return [prefix];
+  if (!value || typeof value !== "object" || Array.isArray(value))
+    return [prefix];
   return Object.entries(value).flatMap(([key, child]) => {
     const next = prefix ? `${prefix}.${key}` : key;
     return flattenKeys(child, next);
@@ -27,7 +28,8 @@ function flattenKeys(value, prefix = "") {
 
 function markdownFileCount(dir) {
   if (!exists(dir)) return 0;
-  return fs.readdirSync(repoPath(dir)).filter((name) => name.endsWith(".md")).length;
+  return fs.readdirSync(repoPath(dir)).filter((name) => name.endsWith(".md"))
+    .length;
 }
 
 function mdxSlugs(dir) {
@@ -36,6 +38,33 @@ function mdxSlugs(dir) {
     .readdirSync(repoPath(dir))
     .filter((name) => name.endsWith(".mdx"))
     .map((name) => name.replace(/\.mdx$/, ""))
+    .sort();
+}
+
+function projectSlugsFromCollections(locale) {
+  const file = readJson("src", "i18n", "messages", locale, "collections.json");
+  const items = file.projects?.items;
+  if (!Array.isArray(items)) return [];
+
+  const missingSlugTitles = items
+    .filter((item) => typeof item.slug !== "string" || item.slug.trim() === "")
+    .map((item) => item.title || "untitled");
+
+  if (missingSlugTitles.length > 0) {
+    failures.push(
+      [
+        `projects.items in ${locale}/collections.json must include a non-empty slug.`,
+        `Missing slug entries: ${missingSlugTitles.join(", ")}.`,
+        "Fix options:",
+        `1. Add slug values to src/i18n/messages/${locale}/collections.json.`,
+        "2. Keep slug values aligned with content/projects/<locale> filenames.",
+      ].join("\n  "),
+    );
+  }
+
+  return items
+    .map((item) => item.slug)
+    .filter((slug) => typeof slug === "string" && slug.trim().length > 0)
     .sort();
 }
 
@@ -65,6 +94,7 @@ const requiredFiles = [
   "docs/QUALITY.md",
   "docs/design-docs/i18n-routing.md",
   "docs/design-docs/blog-content.md",
+  "docs/design-docs/project-content.md",
   "docs/design-docs/analytics-api.md",
   "harness/config/environment.json",
   "scripts/lint-deps.mjs",
@@ -73,24 +103,37 @@ const requiredFiles = [
 
 for (const file of requiredFiles) {
   if (!exists(file)) {
-    failures.push(`${file} is missing. Create it or update scripts/lint-quality.mjs if the harness structure changed.`);
+    failures.push(
+      `${file} is missing. Create it or update scripts/lint-quality.mjs if the harness structure changed.`,
+    );
   }
 }
 
 if (exists("AGENTS.md")) {
-  const lineCount = fs.readFileSync(repoPath("AGENTS.md"), "utf8").trimEnd().split(/\r?\n/).length;
+  const lineCount = fs
+    .readFileSync(repoPath("AGENTS.md"), "utf8")
+    .trimEnd()
+    .split(/\r?\n/).length;
   if (lineCount < 80 || lineCount > 120) {
-    failures.push(`AGENTS.md has ${lineCount} lines. Keep it between 80 and 120 lines so it stays a navigation map, not a manual.`);
+    failures.push(
+      `AGENTS.md has ${lineCount} lines. Keep it between 80 and 120 lines so it stays a navigation map, not a manual.`,
+    );
   }
 }
 
 if (markdownFileCount("docs/design-docs") < 3) {
-  failures.push("docs/design-docs should contain at least three component design documents. Add docs for major subsystems.");
+  failures.push(
+    "docs/design-docs should contain at least three component design documents. Add docs for major subsystems.",
+  );
 }
 
 for (const namespace of ["common", "personal", "collections"]) {
-  const en = flattenKeys(readJson("src", "i18n", "messages", "en", `${namespace}.json`)).sort();
-  const zh = flattenKeys(readJson("src", "i18n", "messages", "zh", `${namespace}.json`)).sort();
+  const en = flattenKeys(
+    readJson("src", "i18n", "messages", "en", `${namespace}.json`),
+  ).sort();
+  const zh = flattenKeys(
+    readJson("src", "i18n", "messages", "zh", `${namespace}.json`),
+  ).sort();
   compareSets(`i18n namespace ${namespace}`, "en", en, "zh", zh);
 }
 
@@ -102,19 +145,60 @@ compareSets(
   mdxSlugs("content/blog/zh"),
 );
 
+compareSets(
+  "project slug parity",
+  "content/projects/en",
+  mdxSlugs("content/projects/en"),
+  "content/projects/zh",
+  mdxSlugs("content/projects/zh"),
+);
+
+const enProjectSlugs = projectSlugsFromCollections("en");
+const zhProjectSlugs = projectSlugsFromCollections("zh");
+
+compareSets(
+  "project listing parity",
+  "collections.en.projects.items",
+  enProjectSlugs,
+  "collections.zh.projects.items",
+  zhProjectSlugs,
+);
+
+compareSets(
+  "project listing vs content parity (en)",
+  "collections.en.projects.items",
+  enProjectSlugs,
+  "content/projects/en",
+  mdxSlugs("content/projects/en"),
+);
+
+compareSets(
+  "project listing vs content parity (zh)",
+  "collections.zh.projects.items",
+  zhProjectSlugs,
+  "content/projects/zh",
+  mdxSlugs("content/projects/zh"),
+);
+
 if (exists("harness/config/environment.json")) {
   const envConfig = readJson("harness", "config", "environment.json");
   if (envConfig.version !== "2.0") {
-    failures.push("harness/config/environment.json must use schema version 2.0.");
+    failures.push(
+      "harness/config/environment.json must use schema version 2.0.",
+    );
   }
   if (envConfig.scripts?.verify) {
-    failures.push("Do not add a static verify script to environment.json. Verification is generated at task runtime.");
+    failures.push(
+      "Do not add a static verify script to environment.json. Verification is generated at task runtime.",
+    );
   }
 }
 
 if (failures.length > 0) {
   console.error(`Found ${failures.length} quality issue(s):\n`);
-  console.error(failures.map((failure, i) => `${i + 1}. ${failure}`).join("\n\n"));
+  console.error(
+    failures.map((failure, i) => `${i + 1}. ${failure}`).join("\n\n"),
+  );
   process.exit(1);
 }
 

@@ -6,6 +6,7 @@
     "items": [
       {
         "title": "匠邦 AI 知识库系统",
+        "slug": "jbang-ai-knowledge-base",
         "href": "https://ai.jbangai.com/",
         "dates": "2025.03 - 2025.09",
         "active": true,
@@ -29,6 +30,7 @@
       },
       {
         "title": "多租户贴纸商城与 AI 运营工具",
+        "slug": "sticker-commerce-ai-ops-toolkit",
         "href": "https://vzay-sticker.com/",
         "dates": "2025.09 - 2026.03",
         "active": true,
@@ -53,15 +55,11 @@
       },
       {
         "title": "贴纸生产自动化工具",
+        "slug": "sticker-production-automation-tool",
         "dates": "2025.09 - 2026.03",
         "active": true,
         "description": "将贴纸生产中依赖人工导出设计文件与生成打印、巡边切割文件的流程改造成一键自动化工作流。",
-        "technologies": [
-          "Python",
-          "PyQt6",
-          "Automation",
-          "File Processing"
-        ],
+        "technologies": ["Python", "PyQt6", "Automation", "File Processing"],
         "authors": "**角色：** AI 全栈开发实习"
       }
     ]

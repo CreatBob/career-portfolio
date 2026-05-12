@@ -12,16 +12,17 @@ This file is the entry map for AI agents working in this repository. Keep it sho
 
 ## 2 Project Shape
 
-| Area | Path | Purpose |
-| --- | --- | --- |
-| App routes | `src/app/` | Next.js App Router pages, layouts, metadata, API routes |
-| Components | `src/components/` | UI, portfolio sections, blog rendering, third-party script wrappers |
-| Content | `content/blog/` | English and Chinese MDX blog posts |
-| I18n | `src/i18n/` | Locale routing and request message loading |
-| Data | `src/data/` | Site-wide constants and portfolio config |
-| Domain helpers | `src/lib/` | Blog parsing, JSON-LD, metadata, icon mapping, utilities |
-| Static assets | `public/` | Images, resume, blog assets, icons |
-| Harness | `harness/`, `scripts/`, `docs/` | Agent documentation, environment contract, mechanical checks |
+| Area            | Path                            | Purpose                                                             |
+| --------------- | ------------------------------- | ------------------------------------------------------------------- |
+| App routes      | `src/app/`                      | Next.js App Router pages, layouts, metadata, API routes             |
+| Components      | `src/components/`               | UI, portfolio sections, blog rendering, third-party script wrappers |
+| Blog content    | `content/blog/`                 | English and Chinese MDX blog posts                                  |
+| Project content | `content/projects/`             | English and Chinese MDX project case studies                        |
+| I18n            | `src/i18n/`                     | Locale routing and request message loading                          |
+| Data            | `src/data/`                     | Site-wide constants and portfolio config                            |
+| Domain helpers  | `src/lib/`                      | Blog/project parsing, JSON-LD, metadata, icon mapping, utilities    |
+| Static assets   | `public/`                       | Images, resume, blog assets, icons                                  |
+| Harness         | `harness/`, `scripts/`, `docs/` | Agent documentation, environment contract, mechanical checks        |
 
 ## 3 Architecture Rules
 
@@ -36,13 +37,14 @@ This file is the entry map for AI agents working in this repository. Keep it sho
 
 ## 4 Common Workflows
 
-1. Add portfolio data: edit `src/i18n/messages/{en,zh}/personal.json` or `collections.json`.
+1. Add profile, work, or section list data: edit `src/i18n/messages/{en,zh}/personal.json` or `collections.json`.
 2. Add a blog post: add matching slugs under `content/blog/en/` and `content/blog/zh/` unless intentionally locale-specific.
-3. Add a route: create it under `src/app/[locale]/` unless it is a locale-neutral API or metadata route.
-4. Add UI primitives: place reusable shadcn-style primitives under `src/components/ui/`.
-5. Add section-level UI: place feature components under `src/components/portfolio/`, `src/components/blog/`, or `src/components/blocks/`.
-6. Add analytics behavior: keep credentials server-side in `src/app/api/analytics/route.ts`.
-7. Update SEO behavior: review `src/lib/metadata.ts`, `src/lib/jsonld.tsx`, `src/app/sitemap.ts`, and `src/app/robots.ts`.
+3. Add a project case study: add matching slugs under `content/projects/en/` and `content/projects/zh/`, then add the same slug under `src/i18n/messages/{en,zh}/collections.json`.
+4. Add a route: create it under `src/app/[locale]/` unless it is a locale-neutral API or metadata route.
+5. Add UI primitives: place reusable shadcn-style primitives under `src/components/ui/`.
+6. Add section-level UI: place feature components under `src/components/portfolio/`, `src/components/blog/`, or `src/components/blocks/`.
+7. Add analytics behavior: keep credentials server-side in `src/app/api/analytics/route.ts`.
+8. Update SEO behavior: review `src/lib/metadata.ts`, `src/lib/jsonld.tsx`, `src/app/sitemap.ts`, and `src/app/robots.ts`.
 
 ## 5 Commands
 
@@ -60,14 +62,15 @@ pnpm harness:verify
 
 ## 6 Documentation Map
 
-| Section | Document | Use it for |
-| --- | --- | --- |
-| 6.1 | [Architecture](docs/ARCHITECTURE.md) | System boundaries, dependency graph, data flow |
-| 6.2 | [Development](docs/DEVELOPMENT.md) | Install, commands, environment, CI |
-| 6.3 | [Quality](docs/QUALITY.md) | Review standards and mechanical checks |
-| 6.4 | [I18n Design](docs/design-docs/i18n-routing.md) | Locale routing, message loading, nav helpers |
-| 6.5 | [Content Design](docs/design-docs/blog-content.md) | MDX loading, feeds, rendering |
-| 6.6 | [Analytics Design](docs/design-docs/analytics-api.md) | GA4 API route and env handling |
+| Section | Document                                                      | Use it for                                                |
+| ------- | ------------------------------------------------------------- | --------------------------------------------------------- |
+| 6.1     | [Architecture](docs/ARCHITECTURE.md)                          | System boundaries, dependency graph, data flow            |
+| 6.2     | [Development](docs/DEVELOPMENT.md)                            | Install, commands, environment, CI                        |
+| 6.3     | [Quality](docs/QUALITY.md)                                    | Review standards and mechanical checks                    |
+| 6.4     | [I18n Design](docs/design-docs/i18n-routing.md)               | Locale routing, message loading, nav helpers              |
+| 6.5     | [Blog Content Design](docs/design-docs/blog-content.md)       | Blog MDX loading, feeds, rendering                        |
+| 6.6     | [Project Content Design](docs/design-docs/project-content.md) | Project case study MDX loading, slug rules, detail routes |
+| 6.7     | [Analytics Design](docs/design-docs/analytics-api.md)         | GA4 API route and env handling                            |
 
 ## 7 Environment
 
@@ -89,11 +92,16 @@ Optional third-party and platform variables:
 2. Preserve pnpm as the package manager because `pnpm-lock.yaml` is committed.
 3. Keep i18n key parity between `src/i18n/messages/en` and `src/i18n/messages/zh`.
 4. Keep blog slug parity between `content/blog/en` and `content/blog/zh` unless docs explain the exception.
-5. Never commit `.env` files or secret material.
-6. Do not modify unrelated user changes in the working tree.
-7. Prefer small, focused patches and run the narrowest useful checks.
+5. Keep project slug parity between `content/projects/en` and `content/projects/zh`, and keep those slugs aligned with `collections.json`.
+6. Never commit `.env` files or secret material.
+7. Do not modify unrelated user changes in the working tree.
+8. Prefer small, focused patches and run the narrowest useful checks.
 
-## 9 Handoff Checklist
+## 9 Commit Message Convention
+
+Only commit when the user asks. Use Conventional Commit type plus a concise Chinese description, such as `feat: 新增项目筛选` or `docs: 补充提交规范`.
+
+## 10 Handoff Checklist
 
 1. State which files changed.
 2. State which commands passed or failed.

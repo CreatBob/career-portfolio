@@ -1,20 +1,11 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { useEffect, useState } from "react";
 
 import { LanguageToggle } from "@/components/blocks/navbar/language-toggle";
 import { ModeToggle } from "@/components/blocks/navbar/mode-toggle";
 import { Icons } from "@/components/icons";
-import { buttonVariants } from "@/components/ui/button";
-import { Dock, DockIcon } from "@/components/ui/dock";
-import { Separator } from "@/components/ui/separator";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { Link as I18nLink } from "@/i18n/routing";
+import { Link as I18nLink, usePathname } from "@/i18n/routing";
 import { cn } from "@/lib/utils";
 
 interface NavbarProps {
@@ -25,21 +16,8 @@ export default function Navbar({
   languageToggleDisabled = false,
 }: NavbarProps) {
   const t = useTranslations();
-  const [isDesktop, setIsDesktop] = useState(false);
-
-  useEffect(() => {
-    const checkScreenSize = () => {
-      setIsDesktop(window.innerWidth >= 768); // md breakpoint
-    };
-
-    checkScreenSize();
-    window.addEventListener("resize", checkScreenSize);
-
-    return () => {
-      window.removeEventListener("resize", checkScreenSize);
-    };
-  }, []);
-
+  const pathname = usePathname();
+  const displayName = t("name.full");
   const navbarItems = t.raw("navbar.items") as Array<{
     href: string;
     icon: string;
@@ -52,115 +30,141 @@ export default function Navbar({
       notebook: Icons.notebook,
       fileuser: Icons.fileuser,
     };
+
     return iconMap[iconName] || Icons.home;
   };
 
   return (
-    <div
-      className={cn(
-        "pointer-events-none fixed inset-x-0 bottom-0 z-40 mx-auto mb-9 flex h-full max-h-14 origin-bottom md:top-0 md:mb-0",
-      )}
-    >
-      <div
-        className={cn(
-          "fixed inset-x-0 bottom-0 h-16 w-full backdrop-blur-lg [-webkit-mask-image:linear-gradient(to_top,black,transparent)] md:hidden",
-        )}
-      ></div>
-      <Dock className="bg-background pointer-events-auto relative z-50 mx-auto flex h-full min-h-full transform-gpu items-center px-1 [box-shadow:0_0_0_1px_rgba(0,0,0,.03),0_2px_4px_rgba(0,0,0,.05),0_12px_24px_rgba(0,0,0,.05)] md:mt-1 dark:[box-shadow:0_-20px_80px_-20px_#ffffff1f_inset] dark:[border:1px_solid_rgba(255,255,255,.1)]">
-        {navbarItems.map((item) => {
-          // Use next-intl Link which automatically handles locale prefixes
-          // With localePrefix: 'as-needed', en routes don't have /en prefix
-          // For static files (e.g., .pdf, .png), use regular <a> tag to avoid routing issues
-          // Otherwise use i18n Link for internal routes
-          const href = item.href;
-          const label = item.label;
-          const IconComponent = getIconComponent(item.icon);
-          const isStaticFile = href.includes(".") && (href.endsWith(".pdf") || href.endsWith(".png") || href.endsWith(".jpg") || href.endsWith(".jpeg"));
-          const LinkComponent = isStaticFile ? "a" : I18nLink;
+    <>
+      <header className="portfolio-shell pointer-events-none fixed inset-x-0 top-0 z-50">
+        <div className="border-border/60 pointer-events-auto mx-auto mt-4 hidden items-center justify-between rounded-full border bg-white/72 px-3 py-2 shadow-[0_18px_60px_-40px_rgba(15,23,42,0.45)] backdrop-blur-xl md:flex dark:bg-black/25">
+          <I18nLink
+            href="/"
+            className="flex items-center gap-3 rounded-full px-3 py-2 transition-colors hover:bg-black/5 dark:hover:bg-white/5"
+          >
+            <span className="bg-foreground text-background brand-grid flex size-10 items-center justify-center rounded-2xl">
+              <span className="font-sans text-lg leading-none font-semibold tracking-[-0.08em]">
+                CY
+              </span>
+            </span>
+            <span className="flex flex-col">
+              <span
+                className={cn(
+                  "font-sans text-[1rem] leading-none font-semibold tracking-[-0.045em]",
+                  /[\u3400-\u9fff]/.test(displayName) &&
+                    "script-mark text-[1.28rem] tracking-[0.06em] text-foreground/90",
+                )}
+              >
+                {displayName}
+              </span>
+              <span className="text-muted-foreground font-mono text-[0.65rem] tracking-[0.28em] uppercase">
+                Personal Brand
+              </span>
+            </span>
+          </I18nLink>
 
-          return (
-            <DockIcon key={item.href}>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  {isStaticFile ? (
-                    <a
-                      href={href}
-                      className={cn(
-                        buttonVariants({ variant: "ghost", size: "icon" }),
-                        "size-12",
-                      )}
-                      aria-label={label}
-                    >
-                      <IconComponent className="size-4" />
-                    </a>
-                  ) : (
-                    <LinkComponent
-                      href={href}
-                      className={cn(
-                        buttonVariants({ variant: "ghost", size: "icon" }),
-                        "size-12",
-                      )}
-                      aria-label={label}
-                    >
-                      <IconComponent className="size-4" />
-                    </LinkComponent>
-                  )}
-                </TooltipTrigger>
-                <TooltipContent
-                  side={isDesktop ? "bottom" : "top"}
-                  sideOffset={8}
+          <nav className="flex items-center gap-1">
+            {navbarItems.map((item) => {
+              const href = item.href;
+              const label = item.label;
+              const IconComponent = getIconComponent(item.icon);
+              const isStaticFile =
+                href.endsWith(".pdf") ||
+                href.endsWith(".png") ||
+                href.endsWith(".jpg") ||
+                href.endsWith(".jpeg");
+              const isActive =
+                !isStaticFile &&
+                (href === "/"
+                  ? pathname === href
+                  : pathname === href || pathname.startsWith(`${href}/`));
+
+              const linkClassName = cn(
+                "inline-flex items-center gap-2 rounded-full px-4 py-2 text-[0.95rem] font-medium tracking-[-0.01em] transition-all duration-300 hover:-translate-y-0.5",
+                isActive
+                  ? "bg-foreground text-background shadow-sm"
+                  : "text-muted-foreground hover:bg-black/5 hover:text-foreground dark:hover:bg-white/5",
+              );
+
+              return isStaticFile ? (
+                <a
+                  key={href}
+                  href={href}
+                  className={linkClassName}
+                  aria-label={label}
                 >
-                  <p>{label}</p>
-                </TooltipContent>
-              </Tooltip>
-            </DockIcon>
-          );
-        })}
-        <Separator orientation="vertical" className="h-full" />
-        {/* {Object.entries(siteConfig.social)
-          .filter(([, social]) => social.navbar)
-          .map(([name, social]) => (
-            <DockIcon key={name}>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Link
-                    href={social.url}
-                    className={cn(
-                      buttonVariants({ variant: "ghost", size: "icon" }),
-                      "size-12",
-                    )}
-                  >
-                    <social.icon className="size-4" />
-                  </Link>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>{name}</p>
-                </TooltipContent>
-              </Tooltip>
-            </DockIcon>
-          ))}
-        <Separator orientation="vertical" className="h-full py-2" /> */}
-        <DockIcon>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <ModeToggle />
-            </TooltipTrigger>
-            <TooltipContent side={isDesktop ? "bottom" : "top"} sideOffset={8}>
-              <p>{t("navbar.theme")}</p>
-            </TooltipContent>
-          </Tooltip>
-        </DockIcon>
-        <DockIcon>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <LanguageToggle disabled={languageToggleDisabled} />
-            </TooltipTrigger>
-            <TooltipContent side={isDesktop ? "bottom" : "top"} sideOffset={8}>
-              <p>{t("navbar.language")}</p>
-            </TooltipContent>
-          </Tooltip>
-        </DockIcon>
-      </Dock>
-    </div>
+                  <IconComponent className="size-4" />
+                  <span>{label}</span>
+                </a>
+              ) : (
+                <I18nLink
+                  key={href}
+                  href={href}
+                  className={linkClassName}
+                  aria-label={label}
+                >
+                  <IconComponent className="size-4" />
+                  <span>{label}</span>
+                </I18nLink>
+              );
+            })}
+          </nav>
+
+          <div className="flex items-center gap-2">
+            <ModeToggle />
+            <LanguageToggle disabled={languageToggleDisabled} />
+          </div>
+        </div>
+      </header>
+
+      <div className="pointer-events-none fixed inset-x-0 bottom-0 z-50 flex justify-center px-4 pb-5 md:hidden">
+        <div className="border-border/70 pointer-events-auto flex items-center gap-1 rounded-full border bg-white/82 p-2 shadow-[0_18px_60px_-40px_rgba(15,23,42,0.55)] backdrop-blur-xl dark:bg-black/35">
+          {navbarItems.map((item) => {
+            const href = item.href;
+            const label = item.label;
+            const IconComponent = getIconComponent(item.icon);
+            const isStaticFile =
+              href.endsWith(".pdf") ||
+              href.endsWith(".png") ||
+              href.endsWith(".jpg") ||
+              href.endsWith(".jpeg");
+            const isActive =
+              !isStaticFile &&
+              (href === "/"
+                ? pathname === href
+                : pathname === href || pathname.startsWith(`${href}/`));
+
+            const itemClassName = cn(
+              "flex size-11 items-center justify-center rounded-full transition-colors",
+              isActive
+                ? "bg-foreground text-background"
+                : "text-muted-foreground hover:bg-black/5 hover:text-foreground dark:hover:bg-white/5",
+            );
+
+            return isStaticFile ? (
+              <a
+                key={href}
+                href={href}
+                className={itemClassName}
+                aria-label={label}
+              >
+                <IconComponent className="size-4" />
+              </a>
+            ) : (
+              <I18nLink
+                key={href}
+                href={href}
+                className={itemClassName}
+                aria-label={label}
+              >
+                <IconComponent className="size-4" />
+              </I18nLink>
+            );
+          })}
+          <ModeToggle />
+          <LanguageToggle disabled={languageToggleDisabled} />
+        </div>
+      </div>
+    </>
   );
 }

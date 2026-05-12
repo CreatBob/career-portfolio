@@ -1,5 +1,7 @@
 import Link from "next/link";
 
+import { cn } from "@/lib/utils";
+
 interface Social {
   name: string;
   url: string;
@@ -11,14 +13,14 @@ interface Social {
 
 export default function SocialLinks({
   socials,
-  className = "text-muted-foreground hover:text-foreground",
+  className,
 }: {
   socials: Record<string, Social>;
   delay?: number;
   className?: string;
 }) {
   return (
-    <div className="flex items-center justify-center gap-4">
+    <div className="flex flex-wrap items-center gap-3">
       {Object.values(socials)
         .filter((social) => social.content)
         .map((social) => (
@@ -27,10 +29,15 @@ export default function SocialLinks({
             href={social.url}
             target="_blank"
             rel="noopener noreferrer"
-            className={className}
+            className={cn(
+              "group editorial-card hover:border-foreground/20 hover:text-foreground inline-flex items-center gap-3 rounded-full px-4 py-2.5 text-[0.95rem] font-medium tracking-[-0.01em] transition-transform duration-300 hover:-translate-y-0.5",
+              className,
+            )}
           >
-            <social.icon className="size-5" />
-            <span className="sr-only">{social.name}</span>
+            <span className="bg-foreground text-background flex size-8 items-center justify-center rounded-full transition-transform duration-300 group-hover:scale-105">
+              <social.icon className="size-4" />
+            </span>
+            <span>{social.name}</span>
           </Link>
         ))}
     </div>

@@ -5,10 +5,10 @@ import { useTranslations } from "next-intl";
 import type React from "react";
 
 import { Icons } from "@/components/icons";
-import { Separator } from "@/components/ui/separator";
 import { siteConfig } from "@/data/site";
 import { Link as I18nLink } from "@/i18n/routing";
 import { transformSocialData } from "@/lib/social-icons";
+import { cn } from "@/lib/utils";
 
 interface FooterLinkProps {
   href: string;
@@ -18,11 +18,10 @@ interface FooterLinkProps {
   icon?: React.ComponentType<{ className?: string }>;
 }
 
-// Reusable function to render footer links with appropriate props
 function FooterLink({
   href,
   children,
-  className = "text-muted-foreground hover:text-foreground block text-sm transition-colors",
+  className,
   ariaLabel,
   icon: Icon,
 }: FooterLinkProps) {
@@ -32,34 +31,42 @@ function FooterLink({
     href.endsWith(".png") ||
     href.endsWith(".jpg") ||
     href.endsWith(".jpeg");
-  const isExternalLink = !isInternalLink;
-  const containsDot = href.includes(".");
-  const LinkComponent = containsDot ? NextLink : I18nLink;
+  const target = isFileLink || !isInternalLink ? "_blank" : undefined;
+  const rel = isFileLink || !isInternalLink ? "noopener noreferrer" : undefined;
 
-  // Determine target and rel attributes
-  const target = isFileLink || isExternalLink ? "_blank" : undefined;
-  const rel = isFileLink || isExternalLink ? "noopener noreferrer" : undefined;
-  const prefetch = isInternalLink && !isFileLink ? false : undefined;
+  const baseClassName = cn(
+    "text-muted-foreground inline-flex items-center gap-2 text-sm transition-colors hover:text-foreground",
+    className,
+  );
+
+  if (isFileLink || !isInternalLink) {
+    return (
+      <NextLink
+        href={href}
+        target={target}
+        rel={rel}
+        className={baseClassName}
+        aria-label={ariaLabel}
+      >
+        {Icon ? <Icon className="size-4" /> : null}
+        {children ? <span>{children}</span> : null}
+      </NextLink>
+    );
+  }
 
   return (
-    <LinkComponent
-      href={href}
-      target={target}
-      rel={rel}
-      className={className}
-      prefetch={prefetch}
-      aria-label={ariaLabel}
-    >
-      {Icon ? <Icon className="h-5 w-5" /> : children || null}
-    </LinkComponent>
+    <I18nLink href={href} className={baseClassName} aria-label={ariaLabel}>
+      {Icon ? <Icon className="size-4" /> : null}
+      {children ? <span>{children}</span> : null}
+    </I18nLink>
   );
 }
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
   const t = useTranslations();
+  const displayName = t("name.full");
 
-  // Get data from i18n
   const socialData = transformSocialData(
     t.raw("social") as Record<
       string,
@@ -82,8 +89,6 @@ export default function Footer() {
     url: string;
   }>;
   const githubProfile = socialData.GitHub;
-
-  // Create navigation sections with translations
   const translatedNavigationSections = [
     { name: t("footer.navigation.about"), href: "/#about" },
     { name: t("footer.navigation.projects"), href: "/#projects" },
@@ -93,28 +98,24 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="bg-background/95 supports-[backdrop-filter]:bg-background/60 border-t backdrop-blur">
-      <div className="mx-auto max-w-7xl px-6 py-12 pb-20 sm:px-16 md:px-20 lg:px-24 xl:px-32">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-5">
-          {/* Quick Navigation */}
-          <div className="space-y-4">
-            <h3 className="text-foreground text-sm font-semibold tracking-wider">
-              {t("footer.sections.quickNavigation")}
-            </h3>
-            <nav className="space-y-2">
-              {translatedNavigationSections.map((section) => (
-                <FooterLink key={section.name} href={section.href}>
-                  {section.name}
-                </FooterLink>
-              ))}
-            </nav>
-          </div>
+    <footer className="portfolio-shell pt-10 pb-24 md:pb-14">
+      <div className="editorial-panel overflow-hidden px-6 py-8 sm:px-8 lg:px-10">
+        <div className="grid gap-8 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1.8fr)]">
+          <div className="space-y-5">
+            <div className="section-kicker">{t("footer.sections.connect")}</div>
+            <div className="space-y-3">
+              <h2
+                className={cn(
+                  "font-sans text-3xl leading-none font-semibold tracking-[-0.05em] sm:text-4xl",
+                  /[\u3400-\u9fff]/.test(displayName) &&
+                    "script-mark text-[2.45rem] tracking-[0.04em] text-foreground/92 sm:text-[3.05rem]",
+                )}
+              >
+                {displayName}
+              </h2>
+              <p className="section-copy max-w-xl">{t("headline")}</p>
+            </div>
 
-          {/* Social Links */}
-          <div className="space-y-4">
-            <h3 className="text-foreground text-sm font-semibold tracking-wider">
-              {t("footer.sections.connect")}
-            </h3>
             <div className="flex flex-wrap gap-3">
               {Object.values(socialData)
                 .filter((social) => social.footer)
@@ -123,111 +124,81 @@ export default function Footer() {
                     key={social.name}
                     href={social.url}
                     ariaLabel={social.name}
+                    className="editorial-card rounded-full px-4 py-2.5 text-[0.95rem] font-medium tracking-[-0.01em] hover:-translate-y-0.5"
                     icon={social.icon}
-                    className="text-muted-foreground hover:text-foreground transition-colors"
                   />
                 ))}
             </div>
           </div>
 
-          {/* Resources */}
-          <div className="space-y-4">
-            <h3 className="text-foreground text-sm font-semibold tracking-wider">
-              {t("footer.sections.resources")}
-            </h3>
-            <nav className="space-y-2">
-              {footerResources.map((resource) => (
-                <FooterLink key={resource.name} href={resource.url}>
-                  {resource.name}
-                </FooterLink>
-              ))}
-            </nav>
-          </div>
+          <div className="grid gap-6 sm:grid-cols-3">
+            <div className="space-y-3">
+              <div className="section-kicker">
+                {t("footer.sections.quickNavigation")}
+              </div>
+              <div className="space-y-2">
+                {translatedNavigationSections.map((section) => (
+                  <FooterLink key={section.name} href={section.href}>
+                    {section.name}
+                  </FooterLink>
+                ))}
+              </div>
+            </div>
 
-          {/* Discover */}
-          <div className="space-y-4">
-            <h3 className="text-foreground text-sm font-semibold tracking-wider">
-              {t("footer.sections.discover")}
-            </h3>
-            <nav className="space-y-2">
-              {footerDiscover.map((item) => (
-                <FooterLink key={item.name} href={item.url}>
-                  {item.name}
-                </FooterLink>
-              ))}
-            </nav>
-          </div>
+            <div className="space-y-3">
+              <div className="section-kicker">
+                {t("footer.sections.resources")}
+              </div>
+              <div className="space-y-2">
+                {footerResources.map((resource) => (
+                  <FooterLink key={resource.name} href={resource.url}>
+                    {resource.name}
+                  </FooterLink>
+                ))}
+              </div>
+            </div>
 
-          {/* Contact Info */}
-          <div className="space-y-4">
-            <h3 className="text-foreground text-sm font-semibold tracking-wider">
-              {t("footer.sections.contact")}
-            </h3>
-            <div className="text-muted-foreground space-y-2 text-sm">
-              <FooterLink
-                href={t("location.mapUrl")}
-                className="hover:text-foreground block transition-colors"
-              >
-                {t("location.name")}
-              </FooterLink>
-              <FooterLink
-                href={socialData.email.url}
-                className="hover:text-foreground block transition-colors"
-              >
-                {t("footer.contact.support")}
-              </FooterLink>
+            <div className="space-y-3">
+              <div className="section-kicker">
+                {t("footer.sections.discover")}
+              </div>
+              <div className="space-y-2">
+                {footerDiscover.map((item) => (
+                  <FooterLink key={item.name} href={item.url}>
+                    {item.name}
+                  </FooterLink>
+                ))}
+              </div>
             </div>
           </div>
         </div>
 
-        <Separator className="my-8" />
-
-        {/* Bottom Section */}
-        <div className="space-y-2">
-          {/* Copyright and Legal Links - Desktop: same line, Mobile: separate lines */}
-          <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
-            <div className="text-muted-foreground flex items-center gap-2 text-sm">
-              <span>
-                © {currentYear} {t("name.full")}
-              </span>
-              <span>•</span>
-              <span>{t("footer.legal.allRightsReserved")}</span>
-            </div>
-
-            <div className="text-muted-foreground flex items-center gap-2 text-sm">
-              <FooterLink
-                href="/privacy-policy"
-                className="hover:text-foreground transition-colors"
-              >
-                {t("footer.legal.privacyPolicy")}
-              </FooterLink>
-              <span>•</span>
-              <FooterLink
-                href="/terms-of-service"
-                className="hover:text-foreground transition-colors"
-              >
-                {t("footer.legal.termsDisclaimer")}
-              </FooterLink>
-            </div>
+        <div className="border-border/60 text-muted-foreground mt-8 flex flex-col gap-4 border-t pt-6 text-sm lg:flex-row lg:items-center lg:justify-between">
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+            <span>
+              © {currentYear} {t("name.full")}
+            </span>
+            <span>{t("footer.legal.allRightsReserved")}</span>
+            <span>
+              {t("footer.bottom.lastUpdated")}: {siteConfig.lastUpdated}
+            </span>
           </div>
 
-          {/* Last Updated and Made with - Desktop: same line, Mobile: separate lines */}
-          <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
-            <div className="text-muted-foreground text-sm">
-              {t("footer.bottom.lastUpdated")}: {siteConfig.lastUpdated}
-            </div>
-
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+            <FooterLink href="/privacy-policy">
+              {t("footer.legal.privacyPolicy")}
+            </FooterLink>
+            <FooterLink href="/terms-of-service">
+              {t("footer.legal.termsDisclaimer")}
+            </FooterLink>
             {githubProfile ? (
-              <div className="text-muted-foreground flex items-center gap-2 text-sm">
-                <span>{t("footer.bottom.modifiedFrom")}</span>
-                <FooterLink
-                  href={githubProfile.url}
-                  className="hover:text-foreground inline-flex items-center gap-1 transition-colors"
-                >
-                  <Icons.github className="h-4 w-4" />
-                  <span>{githubProfile.name}</span>
-                </FooterLink>
-              </div>
+              <FooterLink
+                href={githubProfile.url}
+                className="inline-flex items-center gap-1"
+              >
+                <Icons.github className="size-4" />
+                <span>{githubProfile.name}</span>
+              </FooterLink>
             ) : null}
           </div>
         </div>

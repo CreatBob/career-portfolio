@@ -1,0 +1,110 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 1200 360"
+  fill="none"
+  role="img"
+  aria-labelledby="title desc"
+>
+  <title id="title">陈永冠中文签名字标</title>
+  <desc id="desc">现代手写签名字形，用于中文首页 Hero 主视觉。</desc>
+  <defs>
+    <linearGradient id="inkStroke" x1="110" y1="80" x2="1040" y2="280" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="currentColor" stop-opacity="0.92" />
+      <stop offset="52%" stop-color="currentColor" stop-opacity="1" />
+      <stop offset="100%" stop-color="currentColor" stop-opacity="0.88" />
+    </linearGradient>
+    <filter id="softGlow" x="-10%" y="-20%" width="120%" height="150%">
+      <feGaussianBlur stdDeviation="9" result="blur" />
+      <feColorMatrix
+        in="blur"
+        type="matrix"
+        values="1 0 0 0 0
+                0 1 0 0 0
+                0 0 1 0 0
+                0 0 0 0.22 0"
+        result="glow"
+      />
+      <feBlend in="SourceGraphic" in2="glow" mode="normal" />
+    </filter>
+  </defs>
+
+  <g filter="url(#softGlow)" transform="translate(38 6) rotate(-4 560 170)">
+    <path
+      d="M86 226
+         C120 148, 156 98, 198 82
+         C230 70, 244 94, 225 122
+         C204 152, 164 174, 118 190
+         C160 190, 196 194, 236 207
+         C268 218, 282 238, 274 262
+         C261 299, 205 311, 150 296
+         C111 286, 84 264, 75 238
+         M189 112
+         C227 134, 258 150, 303 158
+         M155 138
+         C172 176, 177 216, 166 266"
+      stroke="url(#inkStroke)"
+      stroke-width="22"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+
+    <path
+      d="M350 249
+         C363 196, 371 145, 377 90
+         M313 165
+         C347 149, 382 137, 420 130
+         C470 120, 501 130, 514 157
+         C526 183, 514 213, 489 238
+         C459 268, 411 286, 350 295
+         M430 105
+         C451 145, 472 182, 505 216
+         C534 245, 566 264, 610 274"
+      stroke="url(#inkStroke)"
+      stroke-width="21"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+
+    <path
+      d="M666 232
+         C678 164, 687 118, 694 88
+         M624 142
+         C664 124, 707 111, 753 106
+         C789 101, 815 109, 829 132
+         C842 155, 839 183, 819 209
+         C797 236, 763 256, 716 269
+         C746 274, 771 286, 790 302
+         C806 315, 813 331, 811 346
+         M736 138
+         C744 191, 760 229, 787 261
+         C815 294, 858 315, 920 323
+         M690 76
+         C727 79, 763 80, 800 78"
+      stroke="url(#inkStroke)"
+      stroke-width="22"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+
+    <path
+      d="M928 256
+         C973 248, 1014 232, 1052 205
+         C1086 182, 1112 152, 1120 116"
+      stroke="url(#inkStroke)"
+      stroke-width="16"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+
+    <path
+      d="M114 318
+         C270 334, 464 338, 700 329
+         C846 324, 969 315, 1070 302"
+      stroke="currentColor"
+      stroke-opacity="0.18"
+      stroke-width="9"
+      stroke-linecap="round"
+      stroke-dasharray="2 18"
+    />
+  </g>
+</svg>

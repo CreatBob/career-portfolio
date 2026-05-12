@@ -1,6 +1,13 @@
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
+import {
+  IBM_Plex_Mono,
+  Ma_Shan_Zheng,
+  Noto_Sans_SC,
+  Sora,
+  Zhi_Mang_Xing,
+} from "next/font/google";
 import { notFound } from "next/navigation";
 import { hasLocale, Locale, NextIntlClientProvider } from "next-intl";
 import {
@@ -21,6 +28,41 @@ import {
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { DEFAULT_LOCALE, routing } from "@/i18n/routing";
 import { constructMetadata } from "@/lib/metadata";
+
+const bodyFont = Sora({
+  subsets: ["latin"],
+  variable: "--font-body",
+  display: "swap",
+  weight: ["400", "500", "600", "700"],
+});
+
+const bodyCjkFont = Noto_Sans_SC({
+  variable: "--font-body-cjk",
+  display: "swap",
+  preload: false,
+  weight: ["400", "500", "700"],
+});
+
+const scriptCjkFont = Ma_Shan_Zheng({
+  variable: "--font-script-cjk",
+  display: "swap",
+  preload: false,
+  weight: "400",
+});
+
+const scriptDisplayFont = Zhi_Mang_Xing({
+  variable: "--font-script-display",
+  display: "swap",
+  preload: false,
+  weight: "400",
+});
+
+const monoFont = IBM_Plex_Mono({
+  subsets: ["latin"],
+  variable: "--font-code",
+  display: "swap",
+  weight: ["400", "500", "600"],
+});
 
 /* Metadata */
 type MetadataProps = {
@@ -64,7 +106,9 @@ export default async function LocaleLayout({
         <JsonLdScripts locale={locale} />
       </head>
 
-      <body className="bg-background min-h-screen font-sans antialiased">
+      <body
+        className={`${bodyFont.variable} ${bodyCjkFont.variable} ${scriptCjkFont.variable} ${scriptDisplayFont.variable} ${monoFont.variable} bg-background min-h-screen font-sans antialiased`}
+      >
         {/* Main Layout */}
         <NextIntlClientProvider locale={locale} messages={messages}>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>

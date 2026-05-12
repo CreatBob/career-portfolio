@@ -26,50 +26,55 @@ export default function Contact({
   schedule = "Schedule",
 }: ContactProps) {
   return (
-    <div className="space-y-3">
-      <div className="bg-foreground text-background inline-block rounded-lg px-3 py-1 text-sm">
-        {contactLabel}
-      </div>
-      <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
-        {getInTouch}
-      </h2>
-      <div className="mx-auto max-w-[600px] space-y-6">
-        <p className="text-muted-foreground text-center text-lg leading-relaxed md:text-xl">
-          {contactDescription}{" "}
-          <Link
-            href={emailUrl}
-            className="inline-flex items-center gap-1 text-foreground underline transition-colors hover:no-underline"
-          >
-            {viaEmail}
-          </Link>{" "}
-          <span className="inline-block transition-transform group-hover:translate-x-1">
-            →
-          </span>
-        </p>
+    <div className="editorial-panel grain-mask relative overflow-hidden px-6 py-8 text-left sm:px-8 lg:px-10">
+      <div className="absolute inset-y-0 right-0 hidden w-1/3 bg-gradient-to-l from-[hsl(var(--spotlight)/0.12)] to-transparent lg:block" />
+      <div className="relative grid gap-8 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:items-end">
+        <div className="space-y-4">
+          <div className="section-kicker">{contactLabel}</div>
+          <h2 className="font-serif text-4xl leading-none font-medium sm:text-5xl">
+            {getInTouch}
+          </h2>
+          <p className="section-copy max-w-2xl">{contactDescription}</p>
 
-        <div className="flex flex-col items-center space-y-4">
-          <ul className="text-muted-foreground grid gap-3 text-center text-lg leading-relaxed md:text-xl">
-            <li className="hover:text-foreground transition-colors">
-              • {askQuestions}
-            </li>
-            <li className="hover:text-foreground transition-colors">
-              • {exploreCollaboration}
-            </li>
-            {calendlyUrl && (
-              <li className="hover:text-foreground transition-colors">
-                • {coffeeChat} (
-                <Link
-                  href={calendlyUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-foreground underline transition-colors hover:no-underline"
-                >
-                  {schedule}
-                </Link>
-                )
-              </li>
-            )}
-          </ul>
+          <div className="flex flex-wrap gap-3">
+            <Link
+              href={emailUrl}
+              className="bg-foreground text-background inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-medium transition-transform duration-300 hover:-translate-y-0.5"
+            >
+              <span>{viaEmail}</span>
+              <span>↗</span>
+            </Link>
+            {calendlyUrl ? (
+              <Link
+                href={calendlyUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="border-border/70 inline-flex items-center gap-2 rounded-full border bg-white/70 px-5 py-3 text-sm font-medium shadow-sm backdrop-blur transition-transform duration-300 hover:-translate-y-0.5 dark:bg-white/6"
+              >
+                <span>{schedule}</span>
+                <span>↗</span>
+              </Link>
+            ) : null}
+          </div>
+        </div>
+
+        <div className="space-y-3">
+          <div className="section-kicker">{getInTouch}</div>
+          <div className="grid gap-3">
+            <div className="editorial-card rounded-[1.75rem] px-4 py-4">
+              <p className="text-sm font-medium">{askQuestions}</p>
+            </div>
+            <div className="editorial-card rounded-[1.75rem] px-4 py-4">
+              <p className="text-sm font-medium">{exploreCollaboration}</p>
+            </div>
+            {calendlyUrl ? (
+              <div className="editorial-card rounded-[1.75rem] px-4 py-4">
+                <p className="text-sm font-medium">
+                  {coffeeChat} · {schedule}
+                </p>
+              </div>
+            ) : null}
+          </div>
         </div>
       </div>
     </div>

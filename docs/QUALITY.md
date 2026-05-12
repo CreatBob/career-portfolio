@@ -6,18 +6,18 @@
 
 1. Keep routes thin and composition-focused.
 2. Keep API routes server-only and free of React component imports.
-3. Keep content and translations structurally paired across `en` and `zh`.
+3. Keep i18n, blog content, and project content structurally paired across `en` and `zh`.
 4. Keep agent-facing documentation truthful and source-linked.
 5. Keep environment secrets out of source control.
 
 ## 2 Mechanical Checks
 
-| Check | Command | Enforces |
-| --- | --- | --- |
-| ESLint | `pnpm lint` | Syntax, recommended JS/TS rules, import sorting |
-| Dependency boundaries | `pnpm lint:deps` | Layer import rules from `docs/ARCHITECTURE.md` |
-| Harness quality | `pnpm lint:quality` | Required docs, AGENTS size, i18n parity, blog slug parity |
-| Build | `pnpm build` | Next.js compile and route generation |
+| Check                 | Command             | Enforces                                                                       |
+| --------------------- | ------------------- | ------------------------------------------------------------------------------ |
+| ESLint                | `pnpm lint`         | Syntax, recommended JS/TS rules, import sorting                                |
+| Dependency boundaries | `pnpm lint:deps`    | Layer import rules from `docs/ARCHITECTURE.md`                                 |
+| Harness quality       | `pnpm lint:quality` | Required docs, AGENTS size, i18n parity, blog slug parity, project slug parity |
+| Build                 | `pnpm build`        | Next.js compile and route generation                                           |
 
 > Sources: `eslint.config.mts:1-14`, `scripts/lint-deps.mjs`, `scripts/lint-quality.mjs`, `package.json:15-22`
 
@@ -26,7 +26,7 @@
 1. Lead with behavior risk, not style preference.
 2. Cite exact files and lines for issues.
 3. Check whether changes respect locale routing and message loading.
-4. Check whether blog/content changes preserve slug and asset references.
+4. Check whether blog and project content changes preserve slug, locale parity, and asset references.
 5. Check whether analytics changes keep GA4 credentials server-side.
 6. Check whether app routes import only allowed layers.
 

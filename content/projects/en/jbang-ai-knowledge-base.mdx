@@ -1,0 +1,75 @@
+---
+title: "JBang AI Knowledge Base System"
+summary: "Built the knowledge base management and document processing workflows for an AI education platform serving teachers and operational teams."
+dates: "Mar. 2025 - Sep. 2025"
+role: "Java Back-end + AI Application Development Intern"
+company: "Guangzhou Weijiang Internet Technology Co., Ltd."
+location: "Guangzhou"
+status: "published"
+order: 1
+featured: true
+technologies:
+  - Java
+  - Spring Boot
+  - MyBatis-Plus
+  - MySQL
+  - Milvus
+  - SSE
+links:
+  - label: "Product Site"
+    href: "https://ai.jbangai.com/"
+highlights:
+  - "Delivered category management, document records and bot binding modules for the knowledge base."
+  - "Built the asynchronous parsing and ingestion flow from uploaded files to searchable vector knowledge."
+  - "Used SSE to stream ingestion progress so operational teams could observe long-running tasks."
+---
+
+## Project Context
+
+The platform wanted to give teachers a reliable way to organize educational documents, ingest them into a knowledge base, and use large-model question answering on top of that content.
+
+From the business side, the biggest challenge was not only storing documents, but making the upload-to-answer pipeline stable enough for non-technical users. The system needed to support document categorization, enterprise-level data isolation, and transparent ingestion progress.
+
+## What I Built
+
+I focused on the back-end modules that make the knowledge base usable in day-to-day operations.
+
+- Built category management and document record modules so users could manage knowledge assets in a structured way.
+- Implemented bot-to-knowledge-base binding so different assistants could target different datasets.
+- Designed the asynchronous parsing pipeline for uploaded files, including task handling and progress updates.
+
+## System Flow
+
+The workflow I helped implement followed a clear pipeline:
+
+1. Users upload a document and assign it to a category.
+2. The system stores file metadata and creates an ingestion task.
+3. The parser extracts text, splits it into chunks, and prepares embeddings.
+4. The processed content is written into MySQL and Milvus with tenant-aware isolation.
+5. The front end receives SSE updates to show real-time progress.
+
+This structure made the whole process more understandable and easier to monitor.
+
+## Key Technical Decisions
+
+### Asynchronous ingestion instead of blocking uploads
+
+Document parsing and vectorization can take time, especially for large files. I separated the ingestion step from the upload request so the user interface stayed responsive and the system could report progress more clearly.
+
+### MySQL plus Milvus for mixed storage needs
+
+We needed both relational data management and vector retrieval. MySQL handled records, categories and business relationships, while Milvus handled semantic search over document chunks.
+
+### SSE for long-running status feedback
+
+For operational users, a silent background task feels broken. SSE gave us a lightweight way to continuously expose state changes without forcing users to refresh the page.
+
+## Outcome
+
+This project gave the knowledge base a more complete operational backbone. It improved the path from document upload to searchable knowledge and made the ingestion process visible enough for real business use.
+
+Personally, it strengthened my understanding of how business modules, async task pipelines and AI retrieval systems fit together in production-oriented applications.
+
+## Reflection
+
+The most valuable lesson from this project was that "AI capability" is not only about models. In real delivery, a large part of the value comes from reliable ingestion, clean data boundaries, and feedback loops that help users trust the system.

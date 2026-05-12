@@ -6,19 +6,20 @@ import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 
 export function ModeToggle() {
-  const { theme, setTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
+  const isDark = resolvedTheme === "dark";
 
   return (
     <Button
       variant="ghost"
       type="button"
       size="icon"
-      className="px-2"
-      onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+      className="border-border/60 size-10 rounded-full border bg-white/70 shadow-sm backdrop-blur transition-transform hover:-translate-y-0.5 hover:bg-white dark:bg-white/5 dark:hover:bg-white/10"
+      onClick={() => setTheme(isDark ? "light" : "dark")}
       aria-label="Toggle theme"
     >
-      <SunIcon className="h-[1.2rem] w-[1.2rem] text-neutral-800 dark:hidden dark:text-neutral-200" />
-      <MoonIcon className="hidden h-[1.2rem] w-[1.2rem] text-neutral-800 dark:block dark:text-neutral-200" />
+      <SunIcon className="h-[1.1rem] w-[1.1rem] text-neutral-800 dark:hidden" />
+      <MoonIcon className="hidden h-[1.1rem] w-[1.1rem] text-neutral-100 dark:block" />
     </Button>
   );
 }

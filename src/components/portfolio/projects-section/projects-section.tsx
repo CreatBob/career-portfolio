@@ -31,6 +31,7 @@ interface ProjectsSectionProps {
   mobileDisplayCount?: number;
   desktopDisplayCount?: number;
   showAllText?: string;
+  featuredFirst?: boolean;
 }
 
 export default function ProjectsSection({
@@ -38,6 +39,7 @@ export default function ProjectsSection({
   mobileDisplayCount = 6,
   desktopDisplayCount = 6,
   showAllText = "Show All",
+  featuredFirst = false,
 }: ProjectsSectionProps) {
   const [showAll, setShowAll] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -47,13 +49,12 @@ export default function ProjectsSection({
     setMounted(true);
 
     const updateDisplayCount = () => {
-      // 使用 Tailwind 的 lg 断点 (1024px) 作为桌面和移动端的分界
-      const isDesktop = window.matchMedia("(min-width: 1024px)").matches;
+      const isDesktop = window.matchMedia("(min-width: 1280px)").matches;
       setDisplayCount(isDesktop ? desktopDisplayCount : mobileDisplayCount);
     };
 
     updateDisplayCount();
-    const mediaQuery = window.matchMedia("(min-width: 1024px)");
+    const mediaQuery = window.matchMedia("(min-width: 1280px)");
     mediaQuery.addEventListener("change", updateDisplayCount);
 
     return () => {
@@ -64,56 +65,51 @@ export default function ProjectsSection({
   const displayed = showAll ? projects : projects.slice(0, displayCount);
   const hasMore = projects.length > displayCount;
 
+  const renderProjects = (items: readonly ProjectItem[]) =>
+    items.map((project, index) => (
+      <ProjectCard
+        key={project.title}
+        href={project.href}
+        title={project.title}
+        description={project.description}
+        dates={project.dates}
+        tags={project.technologies}
+        image={project.image}
+        video={project.video}
+        links={project.links}
+        authors={project.authors}
+        active={project.active}
+        index={index}
+        featured={featuredFirst && index === 0}
+      />
+    ));
+
   if (!mounted) {
     return (
-      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        {projects.slice(0, displayCount).map((project) => (
-          <ProjectCard
-            key={project.title}
-            href={project.href}
-            title={project.title}
-            description={project.description}
-            dates={project.dates}
-            tags={project.technologies}
-            image={project.image}
-            video={project.video}
-            links={project.links}
-            authors={project.authors}
-          />
-        ))}
+      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-5 xl:grid-cols-2">
+        {renderProjects(projects.slice(0, displayCount))}
       </div>
     );
   }
 
   return (
-    <div className="mx-auto grid max-w-6xl grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-      {displayed.map((project) => (
-        <ProjectCard
-          key={project.title}
-          href={project.href}
-          title={project.title}
-          description={project.description}
-          dates={project.dates}
-          tags={project.technologies}
-          image={project.image}
-          video={project.video}
-          links={project.links}
-          authors={project.authors}
-        />
-      ))}
-      {hasMore && !showAll && (
-        <div className="col-span-full flex justify-center pt-1">
+    <div className="space-y-6">
+      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-5 xl:grid-cols-2">
+        {renderProjects(displayed)}
+      </div>
+      {hasMore && !showAll ? (
+        <div className="flex justify-center pt-1">
           <Button
             variant="outline"
             size="sm"
             onClick={() => setShowAll(true)}
-            className="flex items-center gap-2"
+            className="rounded-full px-4"
           >
             <ChevronDown className="h-4 w-4" />
             {showAllText}
           </Button>
         </div>
-      )}
+      ) : null}
     </div>
   );
 }

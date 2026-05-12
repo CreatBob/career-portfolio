@@ -7,8 +7,19 @@
 
 @theme {
   --font-sans:
-    ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    var(--font-body), var(--font-body-cjk), "PingFang SC", "Hiragino Sans GB",
+    "Microsoft YaHei", "Noto Sans SC", sans-serif;
+  --font-serif:
+    var(--font-body), var(--font-body-cjk), "PingFang SC", "Hiragino Sans GB",
+    "Microsoft YaHei", "Noto Sans SC", sans-serif;
+  --font-mono:
+    var(--font-code), "SFMono-Regular", Consolas, "Liberation Mono", Menlo,
+    monospace;
+  --font-script:
+    var(--font-script-cjk), "STKaiti", "KaiTi", "Kaiti SC", cursive;
+  --font-script-accent:
+    var(--font-script-display), var(--font-script-cjk), "STKaiti", "KaiTi",
+    "Kaiti SC", cursive;
 
   --color-border: hsl(var(--border));
   --color-input: hsl(var(--input));
@@ -82,74 +93,299 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 210 11.1% 3.53%;
+    --background: 210 33% 97%;
+    --foreground: 222 30% 12%;
 
     --card: 0 0% 100%;
-    --card-foreground: 210 11.1% 3.53%;
+    --card-foreground: 222 30% 12%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 210 11.1% 3.53%;
+    --popover-foreground: 222 30% 12%;
 
-    --primary: 0 0% 9%;
-    --primary-foreground: 0 0% 98%;
+    --primary: 221 39% 15%;
+    --primary-foreground: 210 33% 97%;
 
-    --secondary: 0 0% 96.1%;
-    --secondary-foreground: 0 0% 9%;
+    --secondary: 210 26% 92%;
+    --secondary-foreground: 222 28% 18%;
 
-    --muted: 0 0% 96.1%;
-    --muted-foreground: 0 0% 45.1%;
+    --muted: 210 24% 92%;
+    --muted-foreground: 217 14% 38%;
 
-    --accent: 0 0% 96.1%;
-    --accent-foreground: 0 0% 9%;
+    --accent: 199 89% 48%;
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive: 0 74% 54%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 89.8%;
-    --input: 0 0% 89.8%;
-    --ring: 0 0% 3.9%;
+    --border: 214 19% 81%;
+    --input: 214 19% 86%;
+    --ring: 199 89% 48%;
 
-    --radius: 0.5rem;
+    --radius: 1rem;
+    --spotlight: 214 84% 64%;
+    --spotlight-soft: 190 85% 53%;
+    --paper-shadow: 220 38% 12%;
   }
 
   .dark {
-    --background: 210 11.1% 3.53%;
-    --foreground: 0 0% 98%;
+    --background: 222 33% 8%;
+    --foreground: 210 24% 93%;
 
-    --card: 210 11.1% 3.53%;
-    --card-foreground: 0 0% 98%;
+    --card: 222 28% 11%;
+    --card-foreground: 210 24% 93%;
 
-    --popover: 210 11.1% 3.53%;
-    --popover-foreground: 0 0% 98%;
+    --popover: 222 28% 11%;
+    --popover-foreground: 210 24% 93%;
 
-    --primary: 0 0% 98%;
-    --primary-foreground: 0 0% 9%;
+    --primary: 210 24% 93%;
+    --primary-foreground: 222 33% 8%;
 
-    --secondary: 0 0% 14.9%;
-    --secondary-foreground: 0 0% 98%;
+    --secondary: 220 21% 17%;
+    --secondary-foreground: 210 24% 93%;
 
-    --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%;
+    --muted: 222 18% 15%;
+    --muted-foreground: 214 15% 69%;
 
-    --accent: 0 0% 14.9%;
-    --accent-foreground: 0 0% 98%;
+    --accent: 195 88% 58%;
+    --accent-foreground: 222 33% 8%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive: 0 65% 48%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 14.9%;
-    --input: 0 0% 14.9%;
-    --ring: 0 0% 83.1%;
+    --border: 218 19% 21%;
+    --input: 218 19% 17%;
+    --ring: 195 88% 58%;
+
+    --spotlight: 214 82% 63%;
+    --spotlight-soft: 188 74% 50%;
+    --paper-shadow: 0 0% 0%;
   }
 }
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
+    position: relative;
+    font-feature-settings:
+      "liga" 1,
+      "calt" 1,
+      "ss01" 1;
+    background-image:
+      radial-gradient(
+        circle at 12% 14%,
+        hsl(var(--spotlight) / 0.18),
+        transparent 24%
+      ),
+      radial-gradient(
+        circle at 82% 10%,
+        hsl(var(--spotlight-soft) / 0.14),
+        transparent 22%
+      ),
+      linear-gradient(
+        180deg,
+        hsl(var(--background)) 0%,
+        hsl(210 35% 94%) 46%,
+        hsl(var(--background)) 100%
+      );
+    background-attachment: fixed;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: -1;
+    opacity: 0.5;
+    background-image:
+      linear-gradient(
+        to right,
+        hsl(var(--foreground) / 0.03) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        to bottom,
+        hsl(var(--foreground) / 0.03) 1px,
+        transparent 1px
+      );
+    background-size: 72px 72px;
+    mask-image: linear-gradient(to bottom, black 30%, transparent 100%);
+  }
+
+  .dark body {
+    background-image:
+      radial-gradient(
+        circle at 15% 16%,
+        hsl(var(--spotlight) / 0.16),
+        transparent 22%
+      ),
+      radial-gradient(
+        circle at 84% 12%,
+        hsl(var(--spotlight-soft) / 0.12),
+        transparent 20%
+      ),
+      linear-gradient(
+        180deg,
+        hsl(var(--background)) 0%,
+        hsl(221 31% 10%) 44%,
+        hsl(var(--background)) 100%
+      );
+  }
+
+  ::selection {
+    background: hsl(var(--accent) / 0.22);
+    color: hsl(var(--foreground));
+  }
+
+  a {
+    text-underline-offset: 0.2em;
+  }
+
+  strong {
+    font-weight: 600;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+}
+
+@layer utilities {
+  .portfolio-shell {
+    @apply mx-auto w-full max-w-7xl px-5 sm:px-10 md:px-14 lg:px-20 xl:px-28;
+  }
+
+  .editorial-card {
+    @apply border-border/70 rounded-[1.6rem] border bg-white/72 shadow-[0_24px_64px_-42px_hsl(var(--paper-shadow)/0.38)] backdrop-blur-xl dark:bg-white/5;
+  }
+
+  .editorial-panel {
+    @apply border-border/60 rounded-[1.9rem] border bg-white/66 shadow-[0_24px_72px_-44px_hsl(var(--paper-shadow)/0.42)] backdrop-blur-xl dark:bg-white/5;
+  }
+
+  .section-kicker {
+    @apply text-muted-foreground font-mono text-[0.68rem] tracking-[0.34em] uppercase;
+  }
+
+  .section-title {
+    @apply font-sans text-3xl leading-[1.02] font-semibold tracking-[-0.05em] sm:text-4xl lg:text-5xl;
+  }
+
+  .hero-title {
+    @apply font-sans text-5xl leading-[0.9] font-semibold tracking-[-0.07em] sm:text-6xl lg:text-7xl xl:text-[6.1rem];
+  }
+
+  .section-copy {
+    @apply text-muted-foreground text-base leading-8 sm:text-lg;
+  }
+
+  .surface-outline {
+    @apply border border-white/60 dark:border-white/10;
+  }
+
+  .grain-mask {
+    background-image:
+      radial-gradient(
+        circle at top,
+        hsl(var(--foreground) / 0.08),
+        transparent 52%
+      ),
+      linear-gradient(135deg, hsl(var(--foreground) / 0.03), transparent 35%);
+  }
+
+  .editorial-subtitle {
+    @apply text-muted-foreground max-w-3xl text-[0.78rem] leading-6 font-semibold tracking-[0.2em] uppercase sm:text-[0.88rem];
+  }
+
+  .editorial-lead {
+    @apply text-muted-foreground max-w-3xl text-lg leading-8 sm:text-[1.08rem] sm:leading-9;
+  }
+
+  .luxury-tag {
+    @apply border-border/65 rounded-full border bg-white/80 px-3.5 py-1.5 font-mono text-[0.68rem] tracking-[0.18em] uppercase shadow-sm backdrop-blur-sm dark:bg-white/6;
+  }
+
+  .tech-surface {
+    @apply border-border/70 bg-card/75 border shadow-[0_20px_55px_-38px_hsl(var(--paper-shadow)/0.45)] backdrop-blur-xl;
+  }
+
+  .brand-grid {
+    background-image:
+      linear-gradient(
+        to right,
+        hsl(var(--foreground) / 0.04) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        to bottom,
+        hsl(var(--foreground) / 0.04) 1px,
+        transparent 1px
+      );
+    background-size: 28px 28px;
+  }
+
+  .script-mark {
+    font-family: var(--font-script);
+    font-weight: 400;
+    letter-spacing: 0.08em;
+  }
+
+  .signature-font-title {
+    position: relative;
+    display: inline-block;
+    font-family: var(--font-script-accent);
+    text-shadow:
+      0 10px 24px hsl(var(--spotlight) / 0.16),
+      0 2px 3px hsl(var(--foreground) / 0.08);
+    transform: rotate(-4deg);
+    transform-origin: left center;
+  }
+
+  .signature-font-shadow {
+    position: absolute;
+    left: 0.5rem;
+    top: 0.45rem;
+    z-index: -1;
+    color: hsl(var(--foreground) / 0.08);
+    filter: blur(0.6px);
+    transform: rotate(2deg);
+    user-select: none;
+    pointer-events: none;
+  }
+
+  .signature-font-underline {
+    position: absolute;
+    left: 0.35rem;
+    right: 8%;
+    bottom: 0.55rem;
+    z-index: -1;
+    height: 2px;
+    border-radius: 999px;
+    background:
+      linear-gradient(
+        90deg,
+        hsl(var(--spotlight) / 0),
+        hsl(var(--spotlight) / 0.42) 14%,
+        hsl(var(--spotlight-soft) / 0.26) 56%,
+        hsl(var(--spotlight) / 0)
+      );
+    transform: rotate(-2.5deg);
+    transform-origin: left center;
   }
 }
 

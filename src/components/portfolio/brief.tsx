@@ -1,4 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { cn } from "@/lib/utils";
 
 export default function Brief({
   name,
@@ -10,6 +11,7 @@ export default function Brief({
   avatarUrl,
   className = "",
   locale,
+  showAvatar = true,
 }: {
   name: string;
   firstName?: string;
@@ -20,39 +22,78 @@ export default function Brief({
   avatarUrl: string;
   className?: string;
   locale?: string;
+  showAvatar?: boolean;
 }) {
-  // For Chinese locale, display surname first (姓在前)
   const isChinese = locale === "zh";
 
   return (
     <div
-      className={`flex flex-col-reverse items-center justify-center gap-6 sm:flex-row sm:justify-between md:gap-8 lg:gap-10 ${className || ""}`}
+      className={cn(
+        "flex flex-col gap-5 text-left",
+        showAvatar &&
+          "flex-col-reverse items-start justify-between sm:flex-row sm:items-center",
+        className,
+      )}
     >
-      <div className="flex flex-1 flex-col items-center space-y-1.5 text-center sm:items-start sm:text-left">
-        <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
+      <div className="flex flex-1 flex-col gap-3">
+        <h1
+          className={cn(
+            "hero-title max-w-5xl text-balance",
+            isChinese &&
+              "signature-font-title mb-4 text-[4.8rem] leading-[1.04] font-normal tracking-[0.1em] sm:mb-5 sm:text-[6.2rem] lg:mb-6 lg:text-[7.6rem] xl:text-[8.5rem]",
+          )}
+        >
           {firstName && surname ? (
             isChinese ? (
               `${surname}${firstName}`
             ) : (
               <>
                 <span>{firstName}</span>{" "}
-                <span className="inline-block w-1"></span>
+                <span className="inline-block w-3"></span>
                 <span>{surname}</span>
               </>
             )
           ) : (
             name
           )}
+          {isChinese ? (
+            <>
+              <span
+                className="signature-font-shadow"
+                aria-hidden="true"
+              >
+                {firstName && surname ? `${surname}${firstName}` : name}
+              </span>
+              <span
+                className="signature-font-underline"
+                aria-hidden="true"
+              />
+            </>
+          ) : null}
         </h1>
-        <p className="text-muted-foreground text-lg">{subtitle}</p>
-        <p className="max-w-[600px] whitespace-pre-line md:text-xl">
+        <p
+          className={cn(
+            "editorial-subtitle",
+            isChinese && "text-[0.88rem] tracking-[0.16em] sm:text-[0.96rem]",
+          )}
+        >
+          {subtitle}
+        </p>
+        <p
+          className={cn(
+            "editorial-lead whitespace-pre-line",
+            isChinese && "max-w-4xl text-[1.02rem] leading-8 md:text-[1.12rem]",
+          )}
+        >
           {description}
         </p>
       </div>
-      <Avatar className="size-24 border sm:size-28 md:size-32 lg:size-36">
-        <AvatarImage alt={name} src={avatarUrl} />
-        <AvatarFallback>{initials}</AvatarFallback>
-      </Avatar>
+      {showAvatar ? (
+        <Avatar className="surface-outline size-24 rounded-[1.75rem] sm:size-28 md:size-32 lg:size-36">
+          <AvatarImage alt={name} src={avatarUrl} className="object-cover" />
+          <AvatarFallback>{initials}</AvatarFallback>
+        </Avatar>
+      ) : null}
     </div>
   );
 }

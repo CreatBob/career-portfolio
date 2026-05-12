@@ -3,6 +3,7 @@ import type {
   BlogPosting,
   BreadcrumbList,
   Country,
+  CreativeWork,
   EducationalOrganization,
   Occupation,
   Organization,
@@ -211,7 +212,7 @@ export async function generatePersonJsonLd(
   } catch {
     // If skills doesn't exist, use empty array
   }
-  
+
   // Safely get job title from work items
   let jobTitle: string | undefined;
   try {
@@ -349,4 +350,55 @@ export async function generateBlogPostingJsonLd(post: {
   };
 
   return JSON.stringify(blogPosting);
+}
+
+export async function generateProjectCaseStudyJsonLd(project: {
+  metadata: {
+    title: string;
+    summary: string;
+    dates: string;
+    role: string;
+    company: string;
+    location: string;
+    technologies?: string[];
+    links?: Array<{ label: string; href: string }>;
+    cover?: string;
+  };
+  slug: string;
+  locale?: Locale;
+}): Promise<string> {
+  const locale = (project.locale || DEFAULT_LOCALE) as Locale;
+  const t = await getTranslations({ locale });
+  const baseUrl = getLocaleUrl(locale);
+  const projectUrl = getLocaleUrl(locale, `/projects/${project.slug}`);
+  const socialMediaUrls = await getSocialMediaUrls(locale);
+
+  const author: Person = {
+    "@type": "Person",
+    name: t("name.full"),
+    url: baseUrl,
+    sameAs: socialMediaUrls,
+  };
+
+  const creativeWork: WithContext<CreativeWork> = {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    name: project.metadata.title,
+    description: project.metadata.summary,
+    url: projectUrl,
+    about: project.metadata.technologies,
+    image: project.metadata.cover
+      ? `${siteConfig.url}${project.metadata.cover}`
+      : `${siteConfig.url}${siteConfig.avatarUrl}`,
+    creator: author,
+    author,
+    publisher: author,
+    provider: {
+      "@type": "Organization",
+      name: project.metadata.company,
+    },
+    keywords: project.metadata.technologies?.join(", "),
+  };
+
+  return JSON.stringify(creativeWork);
 }

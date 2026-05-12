@@ -5,6 +5,7 @@
   "projects": {
     "items": [
       {
+        "slug": "jbang-ai-knowledge-base",
         "title": "JBang AI Knowledge Base System",
         "href": "https://ai.jbangai.com/",
         "dates": "Mar. 2025 - Sep. 2025",
@@ -28,6 +29,7 @@
         ]
       },
       {
+        "slug": "sticker-commerce-ai-ops-toolkit",
         "title": "Multi-tenant Sticker Commerce & AI Ops Toolkit",
         "href": "https://vzay-sticker.com/",
         "dates": "Sep. 2025 - Mar. 2026",
@@ -52,16 +54,12 @@
         ]
       },
       {
+        "slug": "sticker-production-automation-tool",
         "title": "Sticker Production Automation Tool",
         "dates": "Sep. 2025 - Mar. 2026",
         "active": true,
         "description": "Led an internal tool that turns manual sticker production file preparation into a one-click workflow for printing and contour cutting.",
-        "technologies": [
-          "Python",
-          "PyQt6",
-          "Automation",
-          "File Processing"
-        ],
+        "technologies": ["Python", "PyQt6", "Automation", "File Processing"],
         "authors": "**Role:** AI Full-Stack Development Intern"
       }
     ]

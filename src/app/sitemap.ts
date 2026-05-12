@@ -3,6 +3,7 @@ import { MetadataRoute } from "next";
 import { siteConfig } from "@/data/site";
 import { DEFAULT_LOCALE, LOCALES } from "@/i18n/routing";
 import { getPublishedBlogPosts } from "@/lib/blog";
+import { getPublishedProjects } from "@/lib/projects";
 
 const siteUrl = siteConfig.url;
 
@@ -31,6 +32,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   });
 
   const blogEntries: MetadataRoute.Sitemap = [];
+  const projectEntries: MetadataRoute.Sitemap = [];
 
   for (const locale of LOCALES) {
     const posts = await getPublishedBlogPosts(locale);
@@ -44,7 +46,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         priority: 0.7,
       });
     });
+
+    const projects = await getPublishedProjects(locale);
+    projects.forEach((project) => {
+      projectEntries.push({
+        url: `${siteUrl}${locale === DEFAULT_LOCALE ? "" : `/${locale}`}/projects/${project.slug}`,
+        lastModified: project.metadata.updatedAt
+          ? new Date(project.metadata.updatedAt)
+          : new Date(),
+        changeFrequency: "monthly" as ChangeFrequency,
+        priority: 0.75,
+      });
+    });
   }
 
-  return [...pages, ...blogEntries];
+  return [...pages, ...blogEntries, ...projectEntries];
 }

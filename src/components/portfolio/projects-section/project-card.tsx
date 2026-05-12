@@ -21,7 +21,6 @@ interface Props {
   description: string;
   dates: string;
   tags?: readonly string[];
-  link?: string;
   image?: string;
   video?: string;
   links?: readonly {
@@ -30,6 +29,9 @@ interface Props {
     href: string;
   }[];
   authors?: string;
+  active?: boolean;
+  featured?: boolean;
+  index?: number;
   className?: string;
 }
 
@@ -39,159 +41,227 @@ export function ProjectCard({
   description,
   dates,
   tags,
-  link,
   image,
   video,
   links,
   authors,
+  active = false,
+  featured = false,
+  index = 0,
   className,
 }: Props) {
-  const [isTapped, setIsTapped] = useState(false);
+  const [isTouched, setIsTouched] = useState(false);
+  const itemIndex = `${index + 1}`.padStart(2, "0");
+  const initials = title
+    .split(/[\s/-]+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase())
+    .join("");
 
   const handleTouchStart = () => {
     if (window.innerWidth < 640) {
-      // sm breakpoint
-      setIsTapped(true);
+      setIsTouched(true);
     }
   };
 
   const handleTouchEnd = () => {
     if (window.innerWidth < 640) {
-      // Keep the effect for a bit longer
-      setTimeout(() => setIsTapped(false), 200);
+      setTimeout(() => setIsTouched(false), 200);
     }
   };
 
-  return (
-    <Card
+  const media = (
+    <div
       className={cn(
-        "flex h-full flex-col overflow-hidden border transition-all duration-300 ease-out hover:shadow-lg",
-        isTapped && "shadow-lg",
+        "brand-grid border-border/60 relative overflow-hidden rounded-[1.4rem] border",
+        featured ? "h-64 sm:h-72" : "h-52 sm:h-56",
+        active
+          ? "bg-[linear-gradient(135deg,hsl(var(--spotlight)/0.18),transparent_55%),linear-gradient(180deg,rgba(255,255,255,0.88),rgba(255,255,255,0.62))] dark:bg-[linear-gradient(135deg,hsl(var(--spotlight)/0.18),transparent_55%),linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))]"
+          : "bg-[linear-gradient(135deg,hsl(var(--spotlight-soft)/0.15),transparent_55%),linear-gradient(180deg,rgba(255,255,255,0.82),rgba(255,255,255,0.55))] dark:bg-[linear-gradient(135deg,hsl(var(--spotlight-soft)/0.14),transparent_55%),linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02))]",
       )}
-      onTouchStart={handleTouchStart}
-      onTouchEnd={handleTouchEnd}
     >
-      <Link
-        href={href || "#"}
-        className={cn("group block cursor-pointer", className)}
-        aria-label={`View project: ${title}`}
-      >
-        {video && (
-          <div className="bg-muted relative h-40 w-full overflow-hidden rounded-md sm:h-44 md:h-48">
-            {/* blurred background video to fill empty space */}
-            <video
-              src={video}
-              autoPlay
-              loop
-              muted
-              playsInline
-              className="pointer-events-none absolute inset-0 h-full w-full scale-110 object-cover opacity-60 blur-xl select-none dark:opacity-40"
-              aria-hidden
+      {video ? (
+        <>
+          <video
+            src={video}
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="pointer-events-none absolute inset-0 h-full w-full scale-110 object-cover opacity-50 blur-xl"
+            aria-hidden
+          />
+          <video
+            src={video}
+            autoPlay
+            loop
+            muted
+            playsInline
+            className={cn(
+              "pointer-events-none absolute inset-0 h-full w-full object-contain p-6 transition-transform duration-500 ease-out will-change-transform group-hover:scale-[1.03]",
+              isTouched && "scale-[1.03]",
+            )}
+          >
+            <track
+              kind="captions"
+              srcLang="en"
+              label="English captions"
+              default
             />
-            {/* subtle gradient overlay for polish and readability */}
-            <div
-              className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-black/0 to-black/10 dark:via-white/0 dark:to-white/10"
-              aria-hidden
-            />
-            {/* foreground video kept fully visible */}
-            <video
-              src={video}
-              autoPlay
-              loop
-              muted
-              playsInline
-              className={cn(
-                "pointer-events-none absolute inset-0 h-full w-full object-contain object-center transition-transform duration-500 ease-out will-change-transform select-none group-hover:scale-[1.02]",
-                isTapped && "scale-[1.02]",
-              )}
-            >
-              <track
-                kind="captions"
-                srcLang="en"
-                label="English captions"
-                default
-              />
-            </video>
+          </video>
+        </>
+      ) : null}
+
+      {image ? (
+        <>
+          <Image
+            src={image}
+            alt={title}
+            aria-hidden
+            fill
+            sizes="(max-width: 1280px) 100vw, 900px"
+            className="pointer-events-none scale-110 object-cover opacity-50 blur-xl"
+          />
+          <Image
+            src={image}
+            alt={title}
+            fill
+            sizes="(max-width: 1280px) 100vw, 900px"
+            className={cn(
+              "pointer-events-none object-contain p-6 transition-transform duration-500 ease-out will-change-transform group-hover:scale-[1.03]",
+              isTouched && "scale-[1.03]",
+            )}
+          />
+        </>
+      ) : null}
+
+      {!image && !video ? (
+        <>
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.7),transparent_35%),linear-gradient(135deg,rgba(15,23,42,0.05),transparent_35%)] dark:bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.12),transparent_35%),linear-gradient(135deg,rgba(255,255,255,0.04),transparent_35%)]" />
+          <div className="text-foreground/10 absolute bottom-5 left-5 font-sans text-5xl leading-none font-semibold tracking-[-0.08em] sm:text-6xl">
+            {initials || itemIndex}
           </div>
-        )}
-        {image && (
-          <div className="bg-muted relative h-40 w-full overflow-hidden rounded-md sm:h-44 md:h-48">
-            {/* blurred background to fill empty space */}
-            <Image
-              src={image}
-              alt={title}
-              aria-hidden
-              fill
-              sizes="(max-width: 768px) 100vw, 500px"
-              className="pointer-events-none scale-110 object-cover opacity-60 blur-xl select-none dark:opacity-40"
-            />
-            {/* subtle gradient overlay for polish and readability */}
-            <div
-              className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-black/0 to-black/10 dark:via-white/0 dark:to-white/10"
-              aria-hidden
-            />
-            {/* foreground image kept fully visible */}
-            <Image
-              src={image}
-              alt={title}
-              fill
-              sizes="(max-width: 768px) 100vw, 500px"
-              className={cn(
-                "pointer-events-none object-contain object-center transition-transform duration-500 ease-out will-change-transform select-none group-hover:scale-[1.02]",
-                isTapped && "scale-[1.02]",
-              )}
-            />
+          <div className="luxury-tag absolute top-5 right-5 px-3 py-1">
+            {itemIndex}
           </div>
+        </>
+      ) : null}
+
+      <div className="absolute inset-x-0 top-0 flex items-center justify-between p-5">
+        <div className="luxury-tag px-3 py-1">
+          {dates}
+        </div>
+        {active ? (
+          <span className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/12 px-3 py-1 text-emerald-700 dark:text-emerald-300">
+            <span className="size-1.5 rounded-full bg-current" />
+          </span>
+        ) : null}
+      </div>
+    </div>
+  );
+
+  const cardBody = (
+    <>
+      <div className="group block">
+        {href ? (
+          <Link
+            href={href}
+            aria-label={`View project: ${title}`}
+            className="block"
+            target={href.startsWith("http") ? "_blank" : undefined}
+            rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
+          >
+            {media}
+          </Link>
+        ) : (
+          media
         )}
-      </Link>
-      <CardHeader className="px-2">
-        <div className="space-y-1">
-          <CardTitle className="mt-1 text-base [&_img]:my-0 [&_img]:inline-block [&_img]:h-[1em] [&_img]:w-auto [&_img]:align-baseline">
-            <CustomReactMarkdown>{title}</CustomReactMarkdown>
+      </div>
+
+      <CardHeader className="space-y-3 px-0 pt-5">
+        <div className="space-y-3">
+          <CardTitle className="font-sans text-2xl leading-tight font-semibold tracking-[-0.045em]">
+            {href ? (
+              <Link
+                href={href}
+                target={href.startsWith("http") ? "_blank" : undefined}
+                rel={
+                  href.startsWith("http") ? "noopener noreferrer" : undefined
+                }
+                className="transition-opacity hover:opacity-80"
+              >
+                <span className="[&_img]:my-0 [&_img]:inline-block [&_img]:h-[1em] [&_img]:w-auto [&_img]:align-baseline">
+                  <CustomReactMarkdown>{title}</CustomReactMarkdown>
+                </span>
+              </Link>
+            ) : (
+              <span className="[&_img]:my-0 [&_img]:inline-block [&_img]:h-[1em] [&_img]:w-auto [&_img]:align-baseline">
+                <CustomReactMarkdown>{title}</CustomReactMarkdown>
+              </span>
+            )}
           </CardTitle>
-          <time className="font-sans text-xs">{dates}</time>
-          <div className="hidden font-sans text-xs underline print:visible">
-            {link?.replace("https://", "").replace("www.", "").replace("/", "")}
-          </div>
-          <div className="prose text-muted-foreground dark:prose-invert max-w-full font-sans text-xs text-pretty mt-1 mb-1 [&_p]:mt-1 [&_p]:mb-1 [&_img]:my-0 [&_img]:inline-block [&_img]:h-[1em] [&_img]:w-auto [&_img]:align-baseline">
+          <div className="prose dark:prose-invert text-muted-foreground max-w-full text-sm leading-7 [&_img]:my-0 [&_img]:inline-block [&_img]:h-[1em] [&_img]:w-auto [&_img]:align-baseline [&_p]:my-0">
             <CustomReactMarkdown>{description}</CustomReactMarkdown>
           </div>
-          {authors && authors.trim() !== "" && (
-            <div className="prose text-muted-foreground dark:prose-invert max-w-full font-sans text-xs text-pretty mt-1 mb-1 [&_p]:mt-1 [&_p]:mb-1">
+          {authors?.trim() ? (
+            <div className="prose dark:prose-invert text-foreground/75 max-w-full text-sm leading-6 [&_p]:my-0">
               <CustomReactMarkdown>{authors}</CustomReactMarkdown>
             </div>
-          )}
+          ) : null}
         </div>
       </CardHeader>
-      <CardContent className="mt-auto flex flex-col px-2">
-        {tags && tags.length > 0 && (
-          <div className="mt-2 flex flex-wrap gap-1">
-            {tags?.map((tag) => (
+
+      <CardContent className="mt-auto px-0 pt-1">
+        {tags?.length ? (
+          <div className="flex flex-wrap gap-2">
+            {tags.map((tag) => (
               <Badge
-                className="px-1 py-0 text-[10px]"
-                variant="secondary"
                 key={tag}
+                variant="outline"
+                className="luxury-tag px-3 py-1"
               >
                 {tag}
               </Badge>
             ))}
           </div>
-        )}
+        ) : null}
       </CardContent>
-      <CardFooter className="px-2 pb-2">
-        {links && links.length > 0 && (
-          <div className="flex flex-row flex-wrap items-start gap-1">
-            {links?.map((link, idx) => (
-              <Link href={link?.href} key={idx} target="_blank">
-                <Badge key={idx} className="flex gap-2 px-2 py-1 text-[10px]">
+
+      {links?.length ? (
+        <CardFooter className="px-0 pt-4">
+          <div className="flex flex-row flex-wrap items-start gap-2">
+            {links.map((link, linkIndex) => (
+              <Link
+                href={link.href}
+                key={`${link.href}-${linkIndex}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Badge className="flex gap-2 rounded-full px-3 py-1.5 text-[0.7rem]">
                   {link.icon}
                   {link.type}
                 </Badge>
               </Link>
             ))}
           </div>
-        )}
-      </CardFooter>
+        </CardFooter>
+      ) : null}
+    </>
+  );
+
+  return (
+    <Card
+      className={cn(
+        "editorial-card hover:border-foreground/15 flex h-full flex-col rounded-[2rem] p-5 transition-all duration-300 hover:-translate-y-1",
+        featured && "xl:col-span-2 xl:p-6",
+        isTouched && "border-foreground/20 shadow-lg",
+        className,
+      )}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+    >
+      {cardBody}
     </Card>
   );
 }

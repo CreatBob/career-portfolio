@@ -14,8 +14,6 @@ export function LanguageToggle({ disabled = false }: LanguageToggleProps) {
   const pathname = usePathname();
   const router = useRouter();
   const locale = useLocale();
-
-  // Check if current locale is Chinese
   const isChinese = locale === "zh";
 
   const handleLanguageToggle = (e: React.MouseEvent) => {
@@ -23,22 +21,18 @@ export function LanguageToggle({ disabled = false }: LanguageToggleProps) {
       e.preventDefault();
       return;
     }
+
     e.preventDefault();
 
-    // Save current scroll position before switching language
     if (typeof window !== "undefined") {
       const scrollPosition = window.scrollY || window.pageYOffset;
       const scrollKey = `scroll-${pathname}`;
       sessionStorage.setItem(scrollKey, scrollPosition.toString());
     }
 
-    // Switch to the other locale while preserving the path
-    const targetLocale = isChinese ? "en" : "zh";
-    router.replace(pathname, { locale: targetLocale });
+    router.replace(pathname, { locale: isChinese ? "en" : "zh" });
   };
 
-  // Determine display text based on current locale
-  // When disabled, always show "EN"
   const displayText = disabled ? "EN" : isChinese ? "中" : "EN";
 
   return (
@@ -46,7 +40,10 @@ export function LanguageToggle({ disabled = false }: LanguageToggleProps) {
       variant="ghost"
       type="button"
       size="icon"
-      className={cn("px-2", disabled && "cursor-not-allowed opacity-50")}
+      className={cn(
+        "border-border/60 size-10 rounded-full border bg-white/70 text-sm shadow-sm backdrop-blur transition-transform hover:-translate-y-0.5 hover:bg-white dark:bg-white/5 dark:hover:bg-white/10",
+        disabled && "cursor-not-allowed opacity-50",
+      )}
       onClick={handleLanguageToggle}
       aria-label="Toggle language"
       disabled={disabled}
