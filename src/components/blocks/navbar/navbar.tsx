@@ -67,21 +67,21 @@ export default function Navbar({
   return (
     <>
       <header className="portfolio-shell pointer-events-none fixed inset-x-0 top-0 z-50">
-        <div className="pointer-events-auto mx-auto mt-4 hidden items-center justify-between rounded-full border border-white/12 bg-black/50 px-3 py-2 shadow-[0_28px_80px_-44px_rgba(0,0,0,0.9)] backdrop-blur-2xl md:flex">
+        <div className="border-border/70 bg-background/78 pointer-events-auto mx-auto mt-4 hidden items-center justify-between rounded-full border px-3 py-2 text-foreground shadow-[0_28px_80px_-44px_hsl(var(--paper-shadow)/0.35)] backdrop-blur-2xl md:flex dark:border-white/12 dark:bg-black/50 dark:text-white dark:shadow-[0_28px_80px_-44px_rgba(0,0,0,0.9)]">
           <I18nLink
             href="/"
-            className="group flex items-center gap-3 rounded-full px-3 py-2 transition-colors hover:bg-white/5"
+            className="group hover:bg-foreground/5 flex items-center gap-3 rounded-full px-3 py-2 transition-colors dark:hover:bg-white/5"
           >
-            <span className="brand-grid flex size-10 items-center justify-center rounded-2xl border border-white/10 bg-white/8 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.12)]">
+            <span className="brand-grid border-border/60 bg-foreground/6 text-foreground shadow-[inset_0_1px_0_hsl(var(--foreground)/0.08)] flex size-10 items-center justify-center rounded-2xl border dark:border-white/10 dark:bg-white/8 dark:text-white dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.12)]">
               <span className="font-sans text-lg leading-none font-semibold tracking-[-0.08em]">
                 CY
               </span>
             </span>
             <span className="flex flex-col">
-              <span className="font-sans text-[1rem] leading-none font-semibold tracking-[-0.045em] text-white">
+              <span className="text-foreground font-sans text-[1rem] leading-none font-semibold tracking-[-0.045em] dark:text-white">
                 {displayName}
               </span>
-              <span className="text-[0.65rem] tracking-[0.28em] text-white/45 uppercase">
+              <span className="text-muted-foreground text-[0.65rem] tracking-[0.28em] uppercase dark:text-white/45">
                 {brandLabel}
               </span>
             </span>
@@ -94,8 +94,8 @@ export default function Navbar({
               const linkClassName = cn(
                 "inline-flex items-center gap-2 rounded-full px-4 py-2 text-[0.95rem] font-medium tracking-[-0.01em] transition-all duration-300 hover:-translate-y-0.5",
                 isActive
-                  ? "bg-white text-black shadow-[0_12px_36px_-18px_rgba(255,255,255,0.7)]"
-                  : "text-white/68 hover:bg-white/7 hover:text-white",
+                  ? "bg-foreground text-background shadow-[0_12px_36px_-18px_hsl(var(--paper-shadow)/0.18)] dark:bg-white dark:text-black dark:shadow-[0_12px_36px_-18px_rgba(255,255,255,0.7)]"
+                  : "text-foreground/68 hover:bg-foreground/7 hover:text-foreground dark:text-white/68 dark:hover:bg-white/7 dark:hover:text-white",
               );
 
               if (isStaticFile(item.href)) {
@@ -134,15 +134,15 @@ export default function Navbar({
       </header>
 
       <div className="pointer-events-none fixed inset-x-0 bottom-0 z-50 flex justify-center px-4 pb-5 md:hidden">
-        <div className="pointer-events-auto flex items-center gap-1 rounded-full border border-white/12 bg-black/60 p-2 shadow-[0_24px_72px_-40px_rgba(0,0,0,0.95)] backdrop-blur-2xl">
+        <div className="border-border/70 bg-background/82 pointer-events-auto flex items-center gap-1 rounded-full border p-2 text-foreground shadow-[0_24px_72px_-40px_hsl(var(--paper-shadow)/0.32)] backdrop-blur-2xl dark:border-white/12 dark:bg-black/60 dark:text-white dark:shadow-[0_24px_72px_-40px_rgba(0,0,0,0.95)]">
           {navbarItems.map((item) => {
             const IconComponent = getIconComponent(item.icon);
             const isActive = getItemState(pathname, item.href);
             const itemClassName = cn(
               "flex size-11 items-center justify-center rounded-full transition-colors",
               isActive
-                ? "bg-white text-black"
-                : "text-white/68 hover:bg-white/7 hover:text-white",
+                ? "bg-foreground text-background dark:bg-white dark:text-black"
+                : "text-foreground/68 hover:bg-foreground/7 hover:text-foreground dark:text-white/68 dark:hover:bg-white/7 dark:hover:text-white",
             );
 
             if (isStaticFile(item.href)) {

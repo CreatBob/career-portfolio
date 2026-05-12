@@ -56,10 +56,10 @@ function SectionIntro({
 function MetricCard({ value, label }: { value: string; label: string }) {
   return (
     <div className="hero-metric-card rounded-[1.75rem] px-4 py-4">
-      <div className="font-sans text-4xl leading-none font-semibold tracking-[-0.06em] text-white">
+      <div className="text-foreground font-sans text-4xl leading-none font-semibold tracking-[-0.06em]">
         {value}
       </div>
-      <div className="mt-2 text-sm leading-6 text-white/58">
+      <div className="text-muted-foreground mt-2 text-sm leading-6">
         {label}
       </div>
     </div>
@@ -252,7 +252,7 @@ export default async function Page(props: {
                   showAvatar={false}
                   className="home-page__brief"
                 />
-                <div className="flex flex-wrap items-center gap-3 text-sm text-white/55">
+                <div className="text-muted-foreground flex flex-wrap items-center gap-3 text-sm">
                   <span className="hero-chip">
                     <MapPin className="size-4" />
                     {t("location.name")}
@@ -315,7 +315,7 @@ export default async function Page(props: {
             <BlurFade delay={BLUR_FADE_DELAY * 3}>
               <SocialLinks
                 socials={socialData}
-                className="hero-social-link border-white/12 bg-white/4 text-white/82"
+                className="hero-social-link text-foreground/82"
               />
             </BlurFade>
 
@@ -340,7 +340,7 @@ export default async function Page(props: {
                     <div className="hero-kicker">
                       {locale === "zh" ? "当前定位" : "Current Focus"}
                     </div>
-                    <h2 className="text-2xl leading-tight font-semibold tracking-[-0.04em] text-white">
+                    <h2 className="text-foreground text-2xl leading-tight font-semibold tracking-[-0.04em]">
                       {t("subtitle")}
                     </h2>
                   </div>
@@ -354,10 +354,10 @@ export default async function Page(props: {
                     <div className="hero-kicker">
                       {locale === "zh" ? "代表项目" : "Featured Build"}
                     </div>
-                    <div className="text-xl leading-tight font-semibold tracking-[-0.04em] text-white">
+                    <div className="text-foreground text-xl leading-tight font-semibold tracking-[-0.04em]">
                       {leadingProject?.title ?? t("sections.selectedProjects")}
                     </div>
-                    <p className="text-sm leading-7 text-white/62">
+                    <p className="text-muted-foreground text-sm leading-7">
                       {leadingProject?.description ?? t("headline")}
                     </p>
                   </div>
@@ -378,13 +378,13 @@ export default async function Page(props: {
                         key={`${item.company}-${item.start}`}
                         className="hero-mini-card"
                       >
-                        <div className="text-sm font-semibold text-white">
+                        <div className="text-foreground text-sm font-semibold">
                           {item.title}
                         </div>
-                        <div className="mt-1 text-sm text-white/62">
+                        <div className="text-muted-foreground mt-1 text-sm">
                           {item.company}
                         </div>
-                        <div className="mt-3 text-[0.68rem] tracking-[0.18em] text-white/42 uppercase">
+                        <div className="text-muted-foreground/75 mt-3 text-[0.68rem] tracking-[0.18em] uppercase">
                           {item.start} - {item.end}
                         </div>
                       </div>
@@ -393,7 +393,7 @@ export default async function Page(props: {
 
                   <a
                     href="#projects"
-                    className="inline-flex items-center gap-2 text-sm font-medium text-white/84 transition-colors hover:text-white"
+                    className="text-foreground/84 hover:text-foreground inline-flex items-center gap-2 text-sm font-medium transition-colors"
                   >
                     <span>
                       {locale === "zh" ? "向下查看项目" : "Explore projects below"}
@@ -467,7 +467,7 @@ export default async function Page(props: {
                 description={t("blogTagline")}
               />
               <div className="home-about-panel px-6 py-6 sm:px-7 sm:py-7">
-                <div className="prose max-w-none text-base leading-8 text-white/72 [&_img]:my-0 [&_img]:inline-block [&_img]:h-[1em] [&_img]:w-auto [&_img]:align-baseline">
+                <div className="text-foreground/78 prose max-w-none text-base leading-8 [&_img]:my-0 [&_img]:inline-block [&_img]:h-[1em] [&_img]:w-auto [&_img]:align-baseline">
                   <CustomReactMarkdown>{t("bioMarkdown")}</CustomReactMarkdown>
                 </div>
               </div>
@@ -484,13 +484,13 @@ export default async function Page(props: {
                   <div className="space-y-3">
                     {aboutSummary.map((item) => (
                       <div key={`${item.company}-${item.period}`} className="hero-mini-card">
-                        <div className="text-sm font-semibold text-white">
+                        <div className="text-foreground text-sm font-semibold">
                           {item.title}
                         </div>
-                        <div className="mt-1 text-sm text-white/62">
+                        <div className="text-muted-foreground mt-1 text-sm">
                           {item.company}
                         </div>
-                        <div className="mt-3 text-[0.68rem] tracking-[0.18em] text-white/42 uppercase">
+                        <div className="text-muted-foreground/75 mt-3 text-[0.68rem] tracking-[0.18em] uppercase">
                           {item.period}
                         </div>
                       </div>
