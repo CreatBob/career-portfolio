@@ -48,13 +48,7 @@ export default function Navbar({
               </span>
             </span>
             <span className="flex flex-col">
-              <span
-                className={cn(
-                  "font-sans text-[1rem] leading-none font-semibold tracking-[-0.045em]",
-                  /[\u3400-\u9fff]/.test(displayName) &&
-                    "script-mark text-[1.28rem] tracking-[0.06em] text-foreground/90",
-                )}
-              >
+              <span className="font-sans text-[1rem] leading-none font-semibold tracking-[-0.045em]">
                 {displayName}
               </span>
               <span className="text-muted-foreground font-mono text-[0.65rem] tracking-[0.28em] uppercase">

@@ -15,11 +15,6 @@
   --font-mono:
     var(--font-code), "SFMono-Regular", Consolas, "Liberation Mono", Menlo,
     monospace;
-  --font-script:
-    var(--font-script-cjk), "STKaiti", "KaiTi", "Kaiti SC", cursive;
-  --font-script-accent:
-    var(--font-script-display), var(--font-script-cjk), "STKaiti", "KaiTi",
-    "Kaiti SC", cursive;
 
   --color-border: hsl(var(--border));
   --color-input: hsl(var(--input));
@@ -339,54 +334,6 @@
     background-size: 28px 28px;
   }
 
-  .script-mark {
-    font-family: var(--font-script);
-    font-weight: 400;
-    letter-spacing: 0.08em;
-  }
-
-  .signature-font-title {
-    position: relative;
-    display: inline-block;
-    font-family: var(--font-script-accent);
-    text-shadow:
-      0 10px 24px hsl(var(--spotlight) / 0.16),
-      0 2px 3px hsl(var(--foreground) / 0.08);
-    transform: rotate(-4deg);
-    transform-origin: left center;
-  }
-
-  .signature-font-shadow {
-    position: absolute;
-    left: 0.5rem;
-    top: 0.45rem;
-    z-index: -1;
-    color: hsl(var(--foreground) / 0.08);
-    filter: blur(0.6px);
-    transform: rotate(2deg);
-    user-select: none;
-    pointer-events: none;
-  }
-
-  .signature-font-underline {
-    position: absolute;
-    left: 0.35rem;
-    right: 8%;
-    bottom: 0.55rem;
-    z-index: -1;
-    height: 2px;
-    border-radius: 999px;
-    background:
-      linear-gradient(
-        90deg,
-        hsl(var(--spotlight) / 0),
-        hsl(var(--spotlight) / 0.42) 14%,
-        hsl(var(--spotlight-soft) / 0.26) 56%,
-        hsl(var(--spotlight) / 0)
-      );
-    transform: rotate(-2.5deg);
-    transform-origin: left center;
-  }
 }
 
 /* code styling */

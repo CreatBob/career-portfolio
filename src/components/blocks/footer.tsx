@@ -104,13 +104,7 @@ export default function Footer() {
           <div className="space-y-5">
             <div className="section-kicker">{t("footer.sections.connect")}</div>
             <div className="space-y-3">
-              <h2
-                className={cn(
-                  "font-sans text-3xl leading-none font-semibold tracking-[-0.05em] sm:text-4xl",
-                  /[\u3400-\u9fff]/.test(displayName) &&
-                    "script-mark text-[2.45rem] tracking-[0.04em] text-foreground/92 sm:text-[3.05rem]",
-                )}
-              >
+              <h2 className="font-sans text-3xl leading-none font-semibold tracking-[-0.05em] sm:text-4xl">
                 {displayName}
               </h2>
               <p className="section-copy max-w-xl">{t("headline")}</p>

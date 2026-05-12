@@ -37,11 +37,7 @@ export default function Brief({
     >
       <div className="flex flex-1 flex-col gap-3">
         <h1
-          className={cn(
-            "hero-title max-w-5xl text-balance",
-            isChinese &&
-              "signature-font-title mb-4 text-[4.8rem] leading-[1.04] font-normal tracking-[0.1em] sm:mb-5 sm:text-[6.2rem] lg:mb-6 lg:text-[7.6rem] xl:text-[8.5rem]",
-          )}
+          className={cn("hero-title max-w-5xl text-balance")}
         >
           {firstName && surname ? (
             isChinese ? (
@@ -56,20 +52,6 @@ export default function Brief({
           ) : (
             name
           )}
-          {isChinese ? (
-            <>
-              <span
-                className="signature-font-shadow"
-                aria-hidden="true"
-              >
-                {firstName && surname ? `${surname}${firstName}` : name}
-              </span>
-              <span
-                className="signature-font-underline"
-                aria-hidden="true"
-              />
-            </>
-          ) : null}
         </h1>
         <p
           className={cn(
