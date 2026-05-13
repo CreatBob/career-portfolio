@@ -23,6 +23,9 @@ const nextConfig: NextConfig = {
 
 export default withNextIntl(nextConfig);
 
-import("@opennextjs/cloudflare").then((m) =>
-  m.initOpenNextCloudflareForDev(),
-);
+if (process.env.NODE_ENV === "development" && process.env.VERCEL !== "1") {
+  // Cloudflare's local runtime bridge is only needed for `next dev`.
+  void import("@opennextjs/cloudflare").then((m) =>
+    m.initOpenNextCloudflareForDev(),
+  );
+}
