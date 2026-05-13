@@ -85,6 +85,14 @@
     "noteBody": "这些项目不是截图集合，而是按案例方式组织的工程叙事。我更希望你看到我如何理解系统、权衡取舍并推动交付。",
     "storySpread": "开篇导读",
     "nextReading": "下一组阅读",
+    "caseStudy": {
+      "tldr": "我的贡献 TL;DR",
+      "coreRole": "核心角色",
+      "keyResults": "关键结果",
+      "techStack": "技术栈",
+      "figureLabel": "证据快照",
+      "figureProof": "这部分证明了什么"
+    },
     "meta": {
       "role": "角色",
       "company": "公司",

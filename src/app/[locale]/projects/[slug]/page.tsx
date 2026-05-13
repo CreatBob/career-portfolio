@@ -4,6 +4,7 @@ import {
   ArrowUpRight,
   Building2,
   CalendarRange,
+  CheckCircle2,
   Layers3,
   MapPin,
 } from "lucide-react";
@@ -14,6 +15,10 @@ import type React from "react";
 
 import { Link } from "@/i18n/routing";
 import { routing } from "@/i18n/routing";
+import {
+  extractCaseStudySections,
+  getProjectEvidenceCardConfig,
+} from "@/lib/project-case-study";
 import {
   getProject,
   getPublishedProjectSummaries,
@@ -62,10 +67,12 @@ export default async function ProjectPage(props: {
       return 0;
     })
     .slice(0, 2);
+  const sections = extractCaseStudySections(project.source);
+  const evidence = getProjectEvidenceCardConfig(project.slug);
 
   return (
     <div className="portfolio-shell">
-      <div className="mx-auto flex w-full max-w-6xl flex-col gap-12">
+      <div className="mx-auto flex w-full max-w-6xl flex-col gap-10 sm:gap-12">
         <Link
           href="/projects"
           className="text-muted-foreground hover:text-foreground inline-flex items-center gap-2 text-sm font-medium transition-colors"
@@ -107,16 +114,31 @@ export default async function ProjectPage(props: {
                 />
               </div>
 
-              <div className="flex flex-wrap gap-2">
-                {(project.metadata.technologies || []).map((tech) => (
-                  <span key={tech} className="archive-tech-pill">
-                    {tech}
-                  </span>
-                ))}
-              </div>
+              {(project.metadata.highlights || []).length > 0 ? (
+                <section className="project-story-tldr">
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="section-kicker">
+                      {t("portfolioArchive.caseStudy.tldr")}
+                    </div>
+                    <div className="archive-results-count">
+                      {(project.metadata.highlights || []).length
+                        .toString()
+                        .padStart(2, "0")}
+                    </div>
+                  </div>
+                  <div className="grid gap-3 md:grid-cols-3">
+                    {(project.metadata.highlights || []).map((highlight) => (
+                      <div key={highlight} className="project-story-highlight">
+                        <CheckCircle2 className="project-story-highlight__icon size-4" />
+                        <p>{highlight}</p>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              ) : null}
             </div>
 
-            <aside className="project-story-aside">
+            <aside className="project-story-aside xl:sticky xl:top-28">
               <div className="grain-mask border-border/60 relative overflow-hidden rounded-[2rem] border bg-[linear-gradient(135deg,hsl(var(--spotlight)/0.16),transparent_55%),linear-gradient(180deg,rgba(255,255,255,0.82),rgba(255,255,255,0.58))] p-6 dark:bg-[linear-gradient(135deg,hsl(var(--spotlight)/0.22),transparent_55%),linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.02))]">
                 {project.metadata.cover ? (
                   <div className="relative aspect-[16/10] overflow-hidden rounded-[1.35rem]">
@@ -129,64 +151,138 @@ export default async function ProjectPage(props: {
                     />
                   </div>
                 ) : (
-                  <div className="space-y-5">
-                    <div className="text-muted-foreground font-mono text-xs tracking-[0.3em] uppercase">
-                      {project.slug}
+                  <div className="project-story-proof">
+                    <div className="project-story-proof__header">
+                      <span className="section-kicker">
+                        {t("portfolioArchive.caseStudy.figureLabel")}
+                      </span>
+                      <div className="text-muted-foreground font-mono text-xs tracking-[0.3em] uppercase">
+                        {project.slug}
+                      </div>
                     </div>
-                    <div className="project-story-cover-title">
-                      {project.metadata.title}
+                    <div className="project-story-proof__title">
+                      {evidence.figureTitle}
                     </div>
-                    <div className="project-story-cover-copy">
-                      {project.metadata.summary}
+                    <p className="project-story-proof__copy">{evidence.figureCaption}</p>
+                    <div className="project-story-proof__grid" aria-hidden="true">
+                      <span />
+                      <span />
+                      <span />
+                      <span />
                     </div>
                   </div>
                 )}
               </div>
 
-              {(project.metadata.links || []).length > 0 ? (
-                <div className="flex flex-wrap gap-3">
-                  {(project.metadata.links || []).map((link) => (
-                    <a
-                      key={link.href}
-                      href={link.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="bg-foreground text-background inline-flex items-center gap-2 rounded-full px-4 py-2.5 text-sm font-medium transition-transform duration-300 hover:-translate-y-0.5"
-                    >
-                      <span>{link.label}</span>
-                      <ArrowUpRight className="size-4" />
-                    </a>
-                  ))}
+              <div className="project-story-evidence-card editorial-card">
+                <div className="project-story-evidence-card__section">
+                  <div className="section-kicker">
+                    {t("portfolioArchive.caseStudy.coreRole")}
+                  </div>
+                  <p className="project-story-evidence-card__value">
+                    {project.metadata.role}
+                  </p>
                 </div>
-              ) : null}
+
+                <div className="project-story-evidence-card__section">
+                  <div className="section-kicker">
+                    {t("portfolioArchive.caseStudy.keyResults")}
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {evidence.resultTags.map((tag) => (
+                      <span key={tag} className="archive-tech-pill">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {(project.metadata.technologies || []).length > 0 ? (
+                  <div className="project-story-evidence-card__section">
+                    <div className="section-kicker">
+                      {t("portfolioArchive.caseStudy.techStack")}
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {(project.metadata.technologies || []).map((tech) => (
+                        <span key={tech} className="archive-tech-pill">
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                ) : null}
+
+                {(project.metadata.links || []).length > 0 ? (
+                  <div className="project-story-evidence-card__actions">
+                    {(project.metadata.links || []).map((link) => (
+                      <a
+                        key={link.href}
+                        href={link.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="bg-foreground text-background inline-flex items-center gap-2 rounded-full px-4 py-2.5 text-sm font-medium transition-transform duration-300 hover:-translate-y-0.5"
+                      >
+                        <span>{link.label}</span>
+                        <ArrowUpRight className="size-4" />
+                      </a>
+                    ))}
+                  </div>
+                ) : null}
+              </div>
             </aside>
           </div>
         </section>
 
-        {(project.metadata.highlights || []).length > 0 ? (
-          <section className="project-story-spread">
-            <div className="project-story-intro">
-              <div className="section-kicker">
-                {t("portfolioArchive.storySpread")}
-              </div>
-              <p className="project-story-intro-copy">{project.metadata.summary}</p>
-            </div>
-
-            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-              {(project.metadata.highlights || []).map((highlight) => (
-                <div key={highlight} className="project-story-highlight">
-                  {highlight}
-                </div>
-              ))}
-            </div>
-          </section>
-        ) : null}
-
         <section className="grid gap-8 xl:grid-cols-[minmax(0,1fr)_minmax(260px,0.4fr)]">
-          <article
-            className="project-story-body prose prose-neutral dark:prose-invert max-w-none px-6 py-8 sm:px-8 sm:py-9 [&_blockquote]:border-l-0 [&_blockquote]:bg-white/60 [&_blockquote]:px-6 [&_blockquote]:py-5 [&_blockquote]:font-serif [&_blockquote]:text-xl [&_blockquote]:leading-9 dark:[&_blockquote]:bg-white/6 [&_h2]:font-serif [&_h2]:text-4xl [&_h2]:font-medium [&_h2]:tracking-tight [&_h3]:font-serif [&_h3]:text-2xl [&_h3]:font-medium [&_img]:rounded-[1.5rem] [&_p]:text-[1.02rem] [&_p]:leading-8"
-            dangerouslySetInnerHTML={{ __html: project.source }}
-          />
+          <article className="space-y-6">
+            {sections.map((section) => (
+              <section
+                key={section.id}
+                id={section.id}
+                className={
+                  section.title === "Impact" || section.title === "结果与影响"
+                    ? "project-story-section project-story-section--impact"
+                    : "project-story-section"
+                }
+              >
+                <div className="project-story-section__header">
+                  <span className="archive-results-count">
+                    {section.index.toString().padStart(2, "0")}
+                  </span>
+                  <h2 className="project-story-section__title">{section.title}</h2>
+                </div>
+                <div
+                  className="project-story-body prose prose-neutral dark:prose-invert max-w-none [&_blockquote]:border-l-0 [&_blockquote]:bg-white/60 [&_blockquote]:px-5 [&_blockquote]:py-4 [&_blockquote]:font-serif [&_blockquote]:text-lg [&_blockquote]:leading-8 dark:[&_blockquote]:bg-white/6 [&_h2]:hidden [&_h3]:font-serif [&_h3]:text-[1.35rem] [&_h3]:font-medium [&_h3]:tracking-tight [&_img]:rounded-[1.5rem] [&_p]:text-[1rem] [&_p]:leading-7 [&_ul]:space-y-3 [&_ol]:space-y-3 [&_li]:text-[1rem] [&_li]:leading-7"
+                  dangerouslySetInnerHTML={{ __html: section.bodyHtml }}
+                />
+                {section.title === "Solutions" || section.title === "解决方案" ? (
+                  <div className="project-story-figure editorial-panel">
+                    <div className="project-story-figure__header">
+                      <div className="section-kicker">
+                        {t("portfolioArchive.caseStudy.figureLabel")}
+                      </div>
+                      <div className="archive-results-count">
+                        {t("portfolioArchive.caseStudy.figureProof")}
+                      </div>
+                    </div>
+                    <h3 className="project-story-figure__title">
+                      {evidence.figureTitle}
+                    </h3>
+                    <p className="project-story-figure__caption">
+                      {evidence.figureCaption}
+                    </p>
+                    <div className="grid gap-3 md:grid-cols-3">
+                      {evidence.figurePoints.map((point) => (
+                        <div key={point} className="project-story-figure__point">
+                          {point}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ) : null}
+              </section>
+            ))}
+          </article>
 
           {relatedProjects.length > 0 ? (
             <aside className="space-y-4 xl:sticky xl:top-32 xl:self-start">

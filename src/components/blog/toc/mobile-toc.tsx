@@ -10,9 +10,10 @@ import { TableOfContents } from "./table-of-contents";
 
 interface MobileTOCProps {
   content: string;
+  maxLevel?: number;
 }
 
-export function MobileTOC({ content }: MobileTOCProps) {
+export function MobileTOC({ content, maxLevel = 2 }: MobileTOCProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [hasHeadings, setHasHeadings] = useState(false);
   const t = useTranslations();
@@ -107,6 +108,7 @@ export function MobileTOC({ content }: MobileTOCProps) {
               <TableOfContents
                 content={content}
                 hideTitle={true}
+                maxLevel={maxLevel}
                 onItemClick={() => setIsOpen(false)}
               />
             </div>

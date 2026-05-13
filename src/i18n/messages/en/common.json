@@ -85,6 +85,14 @@
     "noteBody": "These projects are written as case studies, not just screenshots. The goal is to show how I think through systems, tradeoffs and delivery.",
     "storySpread": "Opening Spread",
     "nextReading": "Next Reading",
+    "caseStudy": {
+      "tldr": "My Contribution TL;DR",
+      "coreRole": "Core Role",
+      "keyResults": "Key Results",
+      "techStack": "Tech Stack",
+      "figureLabel": "Evidence Snapshot",
+      "figureProof": "What this proves"
+    },
     "meta": {
       "role": "Role",
       "company": "Company",

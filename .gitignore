@@ -19,6 +19,11 @@
 # misc
 .DS_Store
 *.pem
+.idea/
+.playwright-mcp/
+.codex-dev.log
+projects-page-no-top-hero.png
+projects-unified-simple-cards.png
 
 # debug
 npm-debug.log*

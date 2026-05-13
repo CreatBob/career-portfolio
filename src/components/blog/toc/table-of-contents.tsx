@@ -16,6 +16,7 @@ interface TableOfContentsProps {
   className?: string;
   hideTitle?: boolean;
   onItemClick?: () => void;
+  maxLevel?: number;
 }
 
 export function TableOfContents({
@@ -23,6 +24,7 @@ export function TableOfContents({
   className,
   hideTitle = false,
   onItemClick,
+  maxLevel = 2,
 }: TableOfContentsProps) {
   const [toc, setToc] = useState<TOCItem[]>([]);
   const t = useTranslations();
@@ -34,7 +36,7 @@ export function TableOfContents({
     const headings = doc.querySelectorAll("h1, h2, h3, h4, h5, h6");
 
     const tocItems: TOCItem[] = Array.from(headings)
-      .filter((heading) => heading.id) // Only include headings with IDs
+      .filter((heading) => heading.id)
       .map((heading) => {
         const id = heading.id;
         const text = heading.textContent?.trim() || "";
@@ -42,9 +44,9 @@ export function TableOfContents({
 
         return { id, text, level };
       })
-      .filter((item) => item.text.length > 0); // Filter out empty headings
+      .filter((item) => item.text.length > 0 && item.level <= maxLevel);
     setToc(tocItems);
-  }, [content]);
+  }, [content, maxLevel]);
 
   const scrollToHeading = (id: string) => {
     const element = document.getElementById(id);
@@ -81,12 +83,10 @@ export function TableOfContents({
                 "hover:bg-muted/50 -mx-3 -my-0.5 rounded-lg px-3 py-2",
                 "text-muted-foreground hover:text-foreground/80",
                 {
-                  "pl-3": item.level === 1,
-                  "pl-6": item.level === 2,
-                  "pl-9": item.level === 3,
-                  "pl-12": item.level === 4,
-                  "pl-15": item.level === 5,
-                  "pl-18": item.level === 6,
+                  "pl-3": item.level <= 1,
+                  "pl-5": item.level === 2,
+                  "pl-8": item.level === 3,
+                  "pl-10": item.level >= 4,
                 },
               )}
             >

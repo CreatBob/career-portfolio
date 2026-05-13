@@ -67,10 +67,10 @@ export default async function ProjectLayout(props: {
       {jsonldScript(projectJsonLd)}
 
       <div className="fixed top-32 left-6 z-10 hidden xl:block">
-        <TableOfContents content={project.source} />
+        <TableOfContents content={project.source} maxLevel={2} />
       </div>
 
-      <MobileTOC content={project.source} />
+      <MobileTOC content={project.source} maxLevel={2} />
 
       {props.children}
     </main>

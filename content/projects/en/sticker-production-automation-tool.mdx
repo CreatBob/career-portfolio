@@ -20,51 +20,63 @@ highlights:
   - "Improved production-side efficiency by reducing operator repetition."
 ---
 
-## Project Context
+## Project Overview
 
-In sticker production, preparing output files for printing and contour cutting can become a repetitive and error-prone manual task. Even when each step is simple, repeating them across many orders quickly becomes costly.
+This project focused on the production-side file preparation work required before sticker printing and contour cutting. The individual actions were not complicated, but they were repetitive, error-prone, and heavily dependent on operator habits.
 
-The team needed an internal tool that could take the existing manual preparation process and convert it into a faster, more standardized workflow.
+The team needed an internal tool that could turn that manual preparation routine into a faster, more standardized workflow that operators could run with less repeated effort.
 
-## What I Built
+## My Responsibilities
 
-I led the development of an internal automation tool for production preparation.
+I led the implementation of an internal desktop tool that converted scattered preparation steps into a more guided workflow.
 
-- Built a desktop workflow that helps operators process files with fewer manual steps.
-- Focused the tool around the actual production goal: print-ready and cut-ready outputs.
-- Used Python and PyQt6 to make the tool easy for internal teams to run and operate.
+- Built a PyQt6-based desktop workflow that operators could actually use day to day.
+- Aligned the tool around the real production objective: print-ready and contour-cut-ready outputs.
+- Turned repeated file-prep work into a more consistent sequence instead of leaving it to manual operator repetition.
 
-## Workflow Design
+## Key Challenges
 
-The value of this tool came from simplifying repeated actions into a guided sequence.
+### Small repeated actions were creating large hidden costs
+
+Each preparation step looked simple in isolation, but the overall routine became expensive when repeated across many orders. The biggest issue was accumulated repetition rather than algorithmic complexity.
+
+### Output consistency depended too much on manual habits
+
+Production quality is sensitive to file preparation differences between operators. A manual process increases the chance of avoidable variation and cleanup work downstream.
+
+### Internal workflow tools still had to feel usable
+
+Even though the tool was internal, it needed to be practical enough for regular operators to adopt. A script-only solution would not be enough if the goal was daily workflow use.
+
+## Solutions
+
+### I packaged the workflow as a desktop tool instead of isolated scripts
+
+Using Python and PyQt6, I built an internal interface that operators could run directly. That made the workflow easier to adopt in real production settings.
+
+### I organized the process around the production sequence
+
+The tool accepts source design files, applies the required preparation steps in order, and produces outputs that are ready for printing and contour cutting. This keeps the workflow aligned with the real downstream task.
+
+### I used automation to standardize repeated preparation
+
+By moving repeated actions into the tool, the workflow became more repeatable and less dependent on individual operator habits.
+
+## Impact
+
+- The project compressed a scattered manual routine into a more efficient one-click-style workflow.
+- It improved production-side consistency by making file preparation more repeatable.
+- It gave me practical experience turning a real operational process into a usable desktop product instead of writing isolated automation scripts.
+
+## Technical Notes
+
+The tool follows a simple operator-facing sequence:
 
 1. Operators load the source design files.
-2. The tool performs the required preparation steps in a consistent order.
+2. The tool applies the required preparation steps in a fixed order.
 3. Output files are generated for printing and contour cutting.
-4. The operator can move directly into the next production step with less manual cleanup.
-
-This type of internal tool is less visible than a customer-facing system, but it directly affects delivery speed and process stability.
-
-## Why It Mattered
-
-### Reducing repeated manual work
-
-Manual preparation is easy to underestimate because each action looks small. But in aggregate, repeated low-level steps become a major efficiency drain. Automation created leverage by removing that repetition.
-
-### Standardizing outputs
-
-When production depends on consistent file preparation, process standardization is important. A tool-based workflow reduces differences between operators and lowers the chance of avoidable mistakes.
-
-### Building for internal users
-
-This project reminded me that internal tools can create very direct business value. Even without a public-facing UI, a good internal workflow can save time every day.
-
-## Outcome
-
-The result was a one-click style internal workflow that made file preparation more efficient and more repeatable for the production side of the business.
-
-It also gave me hands-on experience turning a real manual process into a usable desktop automation product instead of only writing scripts in isolation.
+4. Operators move into the next production step with less manual cleanup or rework.
 
 ## Reflection
 
-This project reinforced a practical lesson: some of the most valuable engineering work is invisible to end customers. If a tool saves operators time, reduces mistakes and shortens the production path, it can have a very strong business impact.
+This project reinforced a practical lesson: some of the highest-leverage engineering work is invisible to customers. If an internal tool saves operator time, reduces mistakes, and shortens the production path, it creates real business value.

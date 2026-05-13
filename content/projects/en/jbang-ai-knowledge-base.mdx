@@ -25,52 +25,64 @@ highlights:
   - "Used SSE to stream ingestion progress so operational teams could observe long-running tasks."
 ---
 
-## Project Context
+## Project Overview
 
-The platform wanted to give teachers a reliable way to organize educational documents, ingest them into a knowledge base, and use large-model question answering on top of that content.
+This project focused on turning uploaded educational documents into a usable knowledge base instead of a passive file store. The platform needed teachers and operations teams to manage documents, ingest them reliably, and make them available for downstream question answering.
 
-From the business side, the biggest challenge was not only storing documents, but making the upload-to-answer pipeline stable enough for non-technical users. The system needed to support document categorization, enterprise-level data isolation, and transparent ingestion progress.
+From a business perspective, the system had to support document categorization, tenant-aware data isolation, and a processing pipeline that non-technical users could trust. The real goal was to make the full path from upload to searchable knowledge stable and observable.
 
-## What I Built
+## My Responsibilities
 
-I focused on the back-end modules that make the knowledge base usable in day-to-day operations.
+I focused on the back-end and workflow pieces that made the knowledge base operational in daily use.
 
-- Built category management and document record modules so users could manage knowledge assets in a structured way.
+- Built category management and document record modules so knowledge assets could be managed in a structured way.
 - Implemented bot-to-knowledge-base binding so different assistants could target different datasets.
-- Designed the asynchronous parsing pipeline for uploaded files, including task handling and progress updates.
+- Designed and delivered the asynchronous document ingestion flow, including task creation, parsing progress, and downstream storage.
 
-## System Flow
+## Key Challenges
 
-The workflow I helped implement followed a clear pipeline:
+### The upload path could not block on document processing
+
+Parsing, chunking, and vector preparation were long-running operations. If they were handled directly in the upload request, the user experience would become slow and the failure surface would be harder to understand.
+
+### Business records and semantic retrieval had different storage needs
+
+The system had to manage categories, records, and tenant relationships while also supporting vector search over processed document chunks. A single storage model would not fit both jobs well.
+
+### Operations teams needed visibility into long-running tasks
+
+For non-technical users, a silent background task feels unreliable. The ingestion process needed observable progress rather than a black-box wait state.
+
+## Solutions
+
+### I split ingestion from the upload request
+
+The upload action stored metadata and created an ingestion task, while parsing and vector preparation ran asynchronously in the background. This kept the interface responsive and made task handling easier to reason about.
+
+### I used MySQL and Milvus for clearly separated responsibilities
+
+MySQL stored structured business data such as categories, document records, and binding relationships. Milvus handled semantic retrieval over processed chunks. This separation matched the actual access patterns of the system.
+
+### I exposed progress through SSE updates
+
+The front end received real-time task progress over SSE so operational users could see whether the ingestion was queued, processing, or finished. That made the system more understandable during long tasks.
+
+## Impact
+
+- The project improved the path from uploaded document to retrieval-ready knowledge instead of stopping at simple file storage.
+- The ingestion flow became more visible and easier for operational teams to monitor.
+- I gained hands-on experience connecting business modules, async workflows, and AI retrieval infrastructure inside a production-oriented system.
+
+## Technical Notes
+
+The ingestion workflow I helped implement followed this sequence:
 
 1. Users upload a document and assign it to a category.
 2. The system stores file metadata and creates an ingestion task.
-3. The parser extracts text, splits it into chunks, and prepares embeddings.
-4. The processed content is written into MySQL and Milvus with tenant-aware isolation.
-5. The front end receives SSE updates to show real-time progress.
-
-This structure made the whole process more understandable and easier to monitor.
-
-## Key Technical Decisions
-
-### Asynchronous ingestion instead of blocking uploads
-
-Document parsing and vectorization can take time, especially for large files. I separated the ingestion step from the upload request so the user interface stayed responsive and the system could report progress more clearly.
-
-### MySQL plus Milvus for mixed storage needs
-
-We needed both relational data management and vector retrieval. MySQL handled records, categories and business relationships, while Milvus handled semantic search over document chunks.
-
-### SSE for long-running status feedback
-
-For operational users, a silent background task feels broken. SSE gave us a lightweight way to continuously expose state changes without forcing users to refresh the page.
-
-## Outcome
-
-This project gave the knowledge base a more complete operational backbone. It improved the path from document upload to searchable knowledge and made the ingestion process visible enough for real business use.
-
-Personally, it strengthened my understanding of how business modules, async task pipelines and AI retrieval systems fit together in production-oriented applications.
+3. Background processing extracts text, splits content into chunks, and prepares embeddings.
+4. Structured data is persisted in MySQL, while vector data is written to Milvus.
+5. The front end subscribes to SSE updates to reflect task progress in real time.
 
 ## Reflection
 
-The most valuable lesson from this project was that "AI capability" is not only about models. In real delivery, a large part of the value comes from reliable ingestion, clean data boundaries, and feedback loops that help users trust the system.
+The biggest lesson from this project was that the value of an AI feature often depends less on the model itself and more on the reliability of ingestion, data boundaries, and user-visible system feedback.
