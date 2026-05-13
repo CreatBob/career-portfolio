@@ -10,6 +10,8 @@ import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
 import { unified } from "unified";
 
+import { rehypeContentImages } from "./content-images";
+
 // Reading speed constants (words/characters per minute)
 const READING_SPEED_EN = 225; // English: words per minute
 const READING_SPEED_ZH = 350; // Chinese: characters per minute
@@ -97,6 +99,7 @@ export async function markdownToHTML(markdown: string) {
     .use(remarkRehype)
     .use(rehypeSlug)
     .use(rehypeKatex)
+    .use(rehypeContentImages)
     .use(rehypeStringify)
     .process(markdown);
 

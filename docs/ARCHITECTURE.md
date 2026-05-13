@@ -95,13 +95,13 @@ The home page reads translated structured data, converts social icon keys into R
 
 ### 3.4 Blog Content Flow
 
-Blog posts live in locale-specific directories under `content/blog`. `src/lib/blog.ts` reads MDX files from the filesystem, parses frontmatter with `gray-matter`, converts Markdown to HTML through `unified`, computes reading time by locale, and returns typed post objects to pages, sitemap, and feed routes.
+Blog posts live in locale-specific directories under `content/blog`. `src/lib/blog.ts` reads MDX files from the filesystem, parses frontmatter with `gray-matter`, converts Markdown to HTML through `unified`, applies the shared content-image transformer from `src/lib/content-images.ts`, computes reading time by locale, and returns typed post objects to pages, sitemap, and feed routes.
 
 > Sources: `src/lib/blog.ts`, `src/app/api/feed/atom.xml/route.ts:88-117`
 
 ### 3.5 Project Content Flow
 
-Project case studies live in locale-specific directories under `content/projects`. `src/lib/projects.ts` reads MDX files from the filesystem, parses typed frontmatter for both summary and full-detail use cases, converts Markdown to HTML through the shared Markdown pipeline, and returns typed project objects to the homepage, portfolio archive route, localized detail routes, and the sitemap.
+Project case studies live in locale-specific directories under `content/projects`. `src/lib/projects.ts` reads MDX files from the filesystem, parses typed frontmatter for both summary and full-detail use cases, converts Markdown to HTML through the shared Markdown pipeline, applies the shared content-image transformer from `src/lib/content-images.ts`, and returns typed project objects to the homepage, portfolio archive route, localized detail routes, and the sitemap.
 
 > Sources: `src/lib/projects.ts`, `src/app/[locale]/projects/[slug]/layout.tsx`, `src/app/[locale]/projects/[slug]/page.tsx`, `src/app/sitemap.ts`
 

@@ -1,0 +1,22 @@
+<svg width="1600" height="1000" viewBox="0 0 1600 1000" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1600" height="1000" rx="40" fill="#F8FAFC"/>
+  <text x="98" y="132" fill="#0F172A" font-family="Arial, sans-serif" font-size="54" font-weight="700">Management Layer vs Retrieval Layer</text>
+  <text x="98" y="186" fill="#64748B" font-family="Arial, sans-serif" font-size="24">Structured records and semantic search served different jobs, so the system kept them distinct.</text>
+  <rect x="98" y="280" width="630" height="550" rx="32" fill="#FFFFFF" stroke="#DBEAFE" stroke-width="4"/>
+  <rect x="872" y="280" width="630" height="550" rx="32" fill="#FFFFFF" stroke="#DCFCE7" stroke-width="4"/>
+  <text x="156" y="366" fill="#1D4ED8" font-family="Arial, sans-serif" font-size="38" font-weight="700">MySQL</text>
+  <text x="156" y="420" fill="#0F172A" font-family="Arial, sans-serif" font-size="28">Categories</text>
+  <text x="156" y="466" fill="#0F172A" font-family="Arial, sans-serif" font-size="28">Document records</text>
+  <text x="156" y="512" fill="#0F172A" font-family="Arial, sans-serif" font-size="28">Bot bindings</text>
+  <text x="156" y="558" fill="#0F172A" font-family="Arial, sans-serif" font-size="28">Task metadata</text>
+  <text x="930" y="366" fill="#15803D" font-family="Arial, sans-serif" font-size="38" font-weight="700">Milvus</text>
+  <text x="930" y="420" fill="#0F172A" font-family="Arial, sans-serif" font-size="28">Chunk vectors</text>
+  <text x="930" y="466" fill="#0F172A" font-family="Arial, sans-serif" font-size="28">Semantic retrieval</text>
+  <text x="930" y="512" fill="#0F172A" font-family="Arial, sans-serif" font-size="28">Knowledge recall</text>
+  <text x="930" y="558" fill="#0F172A" font-family="Arial, sans-serif" font-size="28">Bot query support</text>
+  <path d="M728 470H872" stroke="#94A3B8" stroke-width="14" stroke-linecap="round" stroke-dasharray="18 18"/>
+  <rect x="156" y="642" width="220" height="102" rx="22" fill="#DBEAFE"/>
+  <rect x="930" y="642" width="220" height="102" rx="22" fill="#DCFCE7"/>
+  <text x="190" y="704" fill="#0F172A" font-family="Arial, sans-serif" font-size="26">Manage</text>
+  <text x="972" y="704" fill="#0F172A" font-family="Arial, sans-serif" font-size="26">Retrieve</text>
+</svg>

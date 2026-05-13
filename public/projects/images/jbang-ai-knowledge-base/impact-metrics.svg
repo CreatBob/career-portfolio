@@ -1,0 +1,24 @@
+<svg width="2200" height="1320" viewBox="0 0 2200 1320" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="2200" height="1320" rx="48" fill="#F8FAFC"/>
+  <rect x="90" y="90" width="2020" height="1140" rx="40" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="4"/>
+  <text x="160" y="190" fill="#0F172A" font-family="Arial, sans-serif" font-size="62" font-weight="700">Operational Outcome</text>
+  <text x="160" y="248" fill="#64748B" font-family="Arial, sans-serif" font-size="28">The product path became clearer from upload, to ingestion, to retrieval, to bot-facing use.</text>
+  <rect x="160" y="340" width="520" height="236" rx="30" fill="#DBEAFE"/>
+  <rect x="840" y="340" width="520" height="236" rx="30" fill="#DCFCE7"/>
+  <rect x="1520" y="340" width="520" height="236" rx="30" fill="#FFEDD5"/>
+  <text x="210" y="420" fill="#1D4ED8" font-family="Arial, sans-serif" font-size="32" font-weight="700">Product scope</text>
+  <text x="210" y="506" fill="#0F172A" font-family="Arial, sans-serif" font-size="62" font-weight="700">Upload to Knowledge</text>
+  <text x="890" y="420" fill="#15803D" font-family="Arial, sans-serif" font-size="32" font-weight="700">Task visibility</text>
+  <text x="890" y="506" fill="#0F172A" font-family="Arial, sans-serif" font-size="62" font-weight="700">Queued to Done</text>
+  <text x="1570" y="420" fill="#EA580C" font-family="Arial, sans-serif" font-size="32" font-weight="700">System value</text>
+  <text x="1570" y="506" fill="#0F172A" font-family="Arial, sans-serif" font-size="62" font-weight="700">Manage + Retrieve</text>
+  <rect x="160" y="660" width="1880" height="436" rx="34" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="4"/>
+  <path d="M256 996C398 958 522 868 664 814C786 768 886 762 998 712C1130 654 1234 556 1362 516C1492 474 1600 492 1890 396" stroke="#2563EB" stroke-width="18" stroke-linecap="round"/>
+  <circle cx="256" cy="996" r="18" fill="#0F172A"/>
+  <circle cx="664" cy="814" r="18" fill="#2563EB"/>
+  <circle cx="998" cy="712" r="18" fill="#0EA5E9"/>
+  <circle cx="1362" cy="516" r="18" fill="#14B8A6"/>
+  <circle cx="1890" cy="396" r="18" fill="#F97316"/>
+  <text x="256" y="1074" fill="#334155" font-family="Arial, sans-serif" font-size="24">Upload only</text>
+  <text x="1774" y="1074" fill="#334155" font-family="Arial, sans-serif" font-size="24">Operational knowledge workflow</text>
+</svg>

@@ -1,6 +1,6 @@
 ---
 title: "JBang AI Knowledge Base System"
-summary: "Built the knowledge base management and document processing workflows for an AI education platform serving teachers and operational teams."
+summary: "Designed the management and ingestion workflows that turned uploaded education documents into searchable, bot-ready knowledge for teachers and operations teams."
 dates: "Mar. 2025 - Sep. 2025"
 role: "Java Back-end + AI Application Development Intern"
 company: "Guangzhou Weijiang Internet Technology Co., Ltd."
@@ -9,6 +9,7 @@ category: "ai-app"
 status: "published"
 order: 1
 featured: true
+cover: "/projects/images/jbang-ai-knowledge-base/cover.svg"
 technologies:
   - Java
   - Spring Boot
@@ -20,69 +21,81 @@ links:
   - label: "Product Site"
     href: "https://ai.jbangai.com/"
 highlights:
-  - "Delivered category management, document records and bot binding modules for the knowledge base."
-  - "Built the asynchronous parsing and ingestion flow from uploaded files to searchable vector knowledge."
-  - "Used SSE to stream ingestion progress so operational teams could observe long-running tasks."
+  - "Built category management, document records, and bot binding modules so knowledge assets could be managed as an operational system."
+  - "Designed the asynchronous ingestion pipeline that turned uploaded files into chunked, vectorized, retrieval-ready knowledge."
+  - "Streamed task progress through SSE so non-technical operators could track long-running jobs with confidence."
 ---
 
 ## Project Overview
 
-This project focused on turning uploaded educational documents into a usable knowledge base instead of a passive file store. The platform needed teachers and operations teams to manage documents, ingest them reliably, and make them available for downstream question answering.
+JBang AI serves education teams that need more than a place to upload files. Teachers and operations teams needed a system that could organize course materials, ingest them reliably, and make them available to downstream assistants for retrieval and question answering.
 
-From a business perspective, the system had to support document categorization, tenant-aware data isolation, and a processing pipeline that non-technical users could trust. The real goal was to make the full path from upload to searchable knowledge stable and observable.
+The key business shift was moving from passive document storage to an active knowledge workflow. A file only became valuable after it was categorized, parsed, chunked, embedded, and connected to the right bot. That meant the product had to support both day-to-day content management and the longer system path from upload to searchable knowledge.
+
+![JBang knowledge workflow overview](/projects/images/jbang-ai-knowledge-base/system-overview.svg "layout=wide|caption=The core product value came from connecting document management, async ingestion, retrieval infrastructure, and bot-facing knowledge delivery into one usable workflow")
 
 ## My Responsibilities
 
-I focused on the back-end and workflow pieces that made the knowledge base operational in daily use.
+I worked on the back-end and workflow pieces that made the knowledge base usable in daily operations instead of leaving it as a static file repository.
 
-- Built category management and document record modules so knowledge assets could be managed in a structured way.
-- Implemented bot-to-knowledge-base binding so different assistants could target different datasets.
-- Designed and delivered the asynchronous document ingestion flow, including task creation, parsing progress, and downstream storage.
+- Delivered category management and document record modules so knowledge assets could be tracked in a structured way.
+- Implemented bot-to-knowledge-base binding so different assistants could target different document collections.
+- Participated in the ingestion pipeline from upload metadata to parsing, chunking, vector preparation, and downstream storage.
 
 ## Key Challenges
 
-### The upload path could not block on document processing
+### The upload path could not be tied to the full ingestion workload
 
-Parsing, chunking, and vector preparation were long-running operations. If they were handled directly in the upload request, the user experience would become slow and the failure surface would be harder to understand.
+Parsing files, extracting text, splitting content, and preparing vectors were all long-running steps. If the product handled that work directly inside the upload request, users would face slow feedback, fragile retries, and an unclear failure surface.
 
-### Business records and semantic retrieval had different storage needs
+### Structured business data and semantic retrieval had different storage shapes
 
-The system had to manage categories, records, and tenant relationships while also supporting vector search over processed document chunks. A single storage model would not fit both jobs well.
+The system had to track categories, document records, tenant boundaries, and bot bindings while also supporting semantic search over processed document chunks. The access patterns were different enough that one storage model would not serve both responsibilities well.
 
-### Operations teams needed visibility into long-running tasks
+### Operators needed visible progress for background work
 
-For non-technical users, a silent background task feels unreliable. The ingestion process needed observable progress rather than a black-box wait state.
+For non-technical users, a long-running task without status updates feels indistinguishable from a stuck task. The ingestion flow had to show whether work was queued, processing, completed, or failed so teams could trust the system while waiting.
 
 ## Solutions
 
-### I split ingestion from the upload request
+### I separated upload acceptance from ingestion execution
 
-The upload action stored metadata and created an ingestion task, while parsing and vector preparation ran asynchronously in the background. This kept the interface responsive and made task handling easier to reason about.
+The upload request focused on validation, metadata persistence, and task creation. The heavier document processing steps then ran asynchronously in the background. That split kept the UI responsive, reduced the pressure on the request path, and made retries and task handling easier to reason about.
+
+![Asynchronous ingestion pipeline](/projects/images/jbang-ai-knowledge-base/ingestion-pipeline.svg "size=md|caption=I treated upload and ingestion as two different responsibilities: the request path captured intent, while the background flow completed parsing, chunking, and vector preparation")
 
 ### I used MySQL and Milvus for clearly separated responsibilities
 
-MySQL stored structured business data such as categories, document records, and binding relationships. Milvus handled semantic retrieval over processed chunks. This separation matched the actual access patterns of the system.
+MySQL stored the structured business layer: document records, categories, binding relationships, and task metadata. Milvus handled the semantic retrieval layer over processed chunks. This separation matched how the product was used and helped keep management logic distinct from search infrastructure.
 
-### I exposed progress through SSE updates
+![Structured data and retrieval split](/projects/images/jbang-ai-knowledge-base/storage-split.svg "size=md|caption=The business layer and retrieval layer served different read patterns, so the design kept management records and vector search responsibilities clearly separated")
 
-The front end received real-time task progress over SSE so operational users could see whether the ingestion was queued, processing, or finished. That made the system more understandable during long tasks.
+### I exposed task progress through SSE updates
+
+Instead of forcing operators to refresh or guess what the system was doing, the front end received live task updates through SSE. That made background work more legible: the product could show whether ingestion was waiting, running, or completed, which reduced uncertainty around long jobs.
+
+![Operator progress view](/projects/images/jbang-ai-knowledge-base/progress-stream.svg "size=sm|caption=Live status feedback mattered because the trust problem was not only whether ingestion worked, but whether users could tell what stage it was in")
 
 ## Impact
 
-- The project improved the path from uploaded document to retrieval-ready knowledge instead of stopping at simple file storage.
-- The ingestion flow became more visible and easier for operational teams to monitor.
-- I gained hands-on experience connecting business modules, async workflows, and AI retrieval infrastructure inside a production-oriented system.
+The project improved the path from uploaded document to retrieval-ready knowledge instead of stopping at simple file storage. It also made the ingestion chain more observable for operations teams, which turned a background process into something people could actually monitor and trust.
+
+![Case study outcome snapshot](/projects/images/jbang-ai-knowledge-base/impact-metrics.svg "layout=wide|caption=The real result was a clearer, more operational product path from upload, to ingestion, to retrieval, to bot-facing knowledge use")
+
+- Helped turn the knowledge base from a file upload feature into a system that supported management, ingestion, retrieval, and bot configuration together.
+- Improved operator understanding of long-running ingestion work by making task states visible in the interface.
+- Gained hands-on experience connecting business modules, async workflows, and AI retrieval infrastructure inside a production-oriented product.
 
 ## Technical Notes
 
-The ingestion workflow I helped implement followed this sequence:
+The workflow I helped implement followed this sequence:
 
 1. Users upload a document and assign it to a category.
-2. The system stores file metadata and creates an ingestion task.
-3. Background processing extracts text, splits content into chunks, and prepares embeddings.
-4. Structured data is persisted in MySQL, while vector data is written to Milvus.
-5. The front end subscribes to SSE updates to reflect task progress in real time.
+2. The system stores metadata and creates an ingestion task.
+3. Background processing extracts text, splits content into chunks, and prepares vectors.
+4. Structured business data is persisted in MySQL, while vectorized retrieval data is written to Milvus.
+5. The front end subscribes to task progress updates through SSE and reflects the current ingestion state in real time.
 
 ## Reflection
 
-The biggest lesson from this project was that the value of an AI feature often depends less on the model itself and more on the reliability of ingestion, data boundaries, and user-visible system feedback.
+The biggest lesson from this project was that the value of an AI feature often depends less on the model itself than on the reliability of ingestion, the clarity of system boundaries, and whether users can see the system progressing in a trustworthy way.

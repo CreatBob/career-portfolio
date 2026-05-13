@@ -1,0 +1,24 @@
+<svg width="2200" height="1320" viewBox="0 0 2200 1320" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="2200" height="1320" rx="48" fill="#F8FAFC"/>
+  <rect x="90" y="90" width="2020" height="1140" rx="40" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="4"/>
+  <text x="160" y="190" fill="#0F172A" font-family="Arial, sans-serif" font-size="62" font-weight="700">Outcome Snapshot</text>
+  <text x="160" y="248" fill="#64748B" font-family="Arial, sans-serif" font-size="28">Replace these placeholders with your own numbers, ranges, or operational improvements.</text>
+  <rect x="160" y="340" width="520" height="240" rx="30" fill="#DBEAFE"/>
+  <rect x="840" y="340" width="520" height="240" rx="30" fill="#DCFCE7"/>
+  <rect x="1520" y="340" width="520" height="240" rx="30" fill="#FFEDD5"/>
+  <text x="210" y="420" fill="#1D4ED8" font-family="Arial, sans-serif" font-size="32" font-weight="700">Time to feedback</text>
+  <text x="210" y="506" fill="#0F172A" font-family="Arial, sans-serif" font-size="72" font-weight="700">-65%</text>
+  <text x="890" y="420" fill="#15803D" font-family="Arial, sans-serif" font-size="32" font-weight="700">Manual follow-up</text>
+  <text x="890" y="506" fill="#0F172A" font-family="Arial, sans-serif" font-size="72" font-weight="700">-40%</text>
+  <text x="1570" y="420" fill="#EA580C" font-family="Arial, sans-serif" font-size="32" font-weight="700">Visible job status</text>
+  <text x="1570" y="506" fill="#0F172A" font-family="Arial, sans-serif" font-size="72" font-weight="700">100%</text>
+  <rect x="160" y="676" width="1880" height="420" rx="34" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="4"/>
+  <path d="M260 976C402 932 522 848 646 810C802 762 918 774 1036 724C1190 658 1312 560 1462 540C1594 522 1690 556 1870 472" stroke="#2563EB" stroke-width="18" stroke-linecap="round"/>
+  <circle cx="260" cy="976" r="18" fill="#0F172A"/>
+  <circle cx="646" cy="810" r="18" fill="#1D4ED8"/>
+  <circle cx="1036" cy="724" r="18" fill="#0EA5E9"/>
+  <circle cx="1462" cy="540" r="18" fill="#14B8A6"/>
+  <circle cx="1870" cy="472" r="18" fill="#F97316"/>
+  <text x="260" y="1050" fill="#334155" font-family="Arial, sans-serif" font-size="24">Before</text>
+  <text x="1820" y="1050" fill="#334155" font-family="Arial, sans-serif" font-size="24">After</text>
+</svg>

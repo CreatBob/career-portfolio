@@ -16,7 +16,7 @@
 | --------------------- | ------------------- | ------------------------------------------------------------------------------ |
 | ESLint                | `pnpm lint`         | Syntax, recommended JS/TS rules, import sorting                                |
 | Dependency boundaries | `pnpm lint:deps`    | Layer import rules from `docs/ARCHITECTURE.md`                                 |
-| Harness quality       | `pnpm lint:quality` | Required docs, AGENTS size, i18n parity, blog slug parity, project slug parity |
+| Harness quality       | `pnpm lint:quality` | Required docs, AGENTS size, i18n parity, slug parity, project category parity, local content asset references |
 | Build                 | `pnpm build`        | Next.js compile and route generation                                           |
 
 > Sources: `eslint.config.mts:1-14`, `scripts/lint-deps.mjs`, `scripts/lint-quality.mjs`, `package.json:15-22`
@@ -26,7 +26,7 @@
 1. Lead with behavior risk, not style preference.
 2. Cite exact files and lines for issues.
 3. Check whether changes respect locale routing and message loading.
-4. Check whether blog and project content changes preserve slug, locale parity, and asset references.
+4. Check whether blog and project content changes preserve slug, locale parity, and local asset references.
 5. Check whether analytics changes keep GA4 credentials server-side.
 6. Check whether app routes import only allowed layers.
 

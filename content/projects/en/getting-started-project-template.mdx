@@ -1,0 +1,106 @@
+---
+title: "Template: Project Case Study With Images"
+summary: "A reusable draft template that shows how to combine narrative writing, screenshots, diagrams, and measurable outcomes inside one project case study."
+dates: "2026.05"
+role: "Your Role Here"
+company: "Your Company Here"
+location: "Remote"
+category: "internal-tool"
+status: "draft"
+order: 999
+featured: false
+cover: "/projects/images/getting-started-project-template/cover.svg"
+technologies:
+  - Next.js
+  - TypeScript
+  - Node.js
+  - PostgreSQL
+highlights:
+  - "Lead with one measurable outcome so the reader understands why this project matters."
+  - "Use screenshots and diagrams only when they help explain a decision, workflow, or result."
+  - "Keep each section focused on one business problem and one technical response."
+---
+
+## Project Overview
+
+Use this opening section to answer three questions quickly: what the product is, who it serves, and what changed because of your work. Two short paragraphs are usually enough.
+
+For portfolio writing, the first image works best when it gives the reader a full-system view instead of a random screen.
+
+![System overview sample](/projects/images/getting-started-project-template/overview.svg "layout=wide|caption=Use a wide first image for the system, workflow, or service map that frames the whole story")
+
+Good opening angles:
+
+- The product was already in use, but one workflow was slow, manual, or unstable.
+- The business wanted a clearer path from user action to visible result.
+- Your contribution improved reliability, delivery speed, observability, conversion, or operating cost.
+
+## My Responsibilities
+
+This section should stay concrete. Write only the responsibilities you actually owned, then keep the verbs active.
+
+- Designed the workflow or data model that connected the user action to the backend job.
+- Implemented the core modules, APIs, or automation steps that removed manual work.
+- Worked with product, operations, or design to make progress and failure states visible.
+
+## Key Challenges
+
+List the real constraints here instead of generic difficulty statements. Interviewers usually care more about tradeoffs than buzzwords.
+
+### The workflow had too many hidden states
+
+When a process spans upload, validation, storage, background execution, and final delivery, users lose confidence if the system does not explain what is happening.
+
+### The data model had to serve different read patterns
+
+Business records, reporting queries, and search or retrieval flows often want different structures. The challenge is not just storing data, but storing it in a way each part of the product can use efficiently.
+
+### The team needed proof, not just implementation
+
+Many project stories feel weak because they stop at "I built it." A stronger case study shows what the system looked like, why the design was chosen, and what changed afterward.
+
+## Solutions
+
+This is where images usually help the most. Put the image directly under the subsection it supports.
+
+### I split the user action from the long-running job
+
+The user-facing request handled validation and task creation first. Longer work moved into an asynchronous pipeline so the interface could stay responsive and the job state could be tracked independently.
+
+![Workflow diagram sample](/projects/images/getting-started-project-template/workflow.svg "size=md|caption=Medium diagrams work well for sequence flows, ingestion pipelines, and state transitions")
+
+### I exposed progress in a way non-technical users could understand
+
+The interface should answer simple questions such as "Did my upload succeed?", "Is the job still running?", and "What should I do next if it fails?" A focused dashboard or detail panel is usually enough.
+
+![Dashboard detail sample](/projects/images/getting-started-project-template/dashboard.svg "size=sm|caption=Small images are best for a single panel, local interaction, or one important UI detail")
+
+### I kept the content and proof close together
+
+When you mention a workflow, screenshot, experiment result, or metric, place that evidence in the same section. That keeps the story easy to follow and makes the case study feel grounded.
+
+## Impact
+
+This section should read like outcomes, not tasks. Prefer measurable changes, and if the exact number is confidential, use bounded language such as "cut review time from days to hours" or "reduced repeated support tickets."
+
+![Outcome metrics sample](/projects/images/getting-started-project-template/metrics.svg "layout=wide|caption=Use a wide image again when the result chart has multiple numbers or labels that need breathing room")
+
+- Reduced the time from input to visible system feedback.
+- Lowered the coordination cost for operations or support teams.
+- Made failure states easier to diagnose, which reduced repeated manual follow-up.
+
+## Technical Notes
+
+Use this section for the implementation details that are worth preserving, but avoid turning it into a code dump.
+
+1. Keep each image in the same slug folder under `public/projects/images/<slug>/`.
+2. Use `size=sm`, `size=md`, or the default large image based on how much detail the reader needs.
+3. Use `layout=wide` for architecture maps, comparison charts, and dense result visuals.
+4. Use the alt text as the default caption, or override it with `caption=...`.
+5. Hide the caption with `caption=off` only when the image is purely decorative.
+
+![Texture sample](/projects/images/getting-started-project-template/texture.svg "size=sm|caption=off")
+
+## Reflection
+
+End with what this project taught you about systems, delivery, or product thinking. One honest paragraph is better than a long self-summary.

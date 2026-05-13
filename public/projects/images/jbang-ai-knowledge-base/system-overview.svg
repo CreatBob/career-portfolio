@@ -1,0 +1,35 @@
+<svg width="2200" height="1320" viewBox="0 0 2200 1320" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="2200" height="1320" rx="48" fill="#F8FAFC"/>
+  <rect x="90" y="90" width="2020" height="1140" rx="40" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="4"/>
+  <text x="160" y="190" fill="#0F172A" font-family="Arial, sans-serif" font-size="62" font-weight="700">Knowledge Flow Overview</text>
+  <text x="160" y="248" fill="#64748B" font-family="Arial, sans-serif" font-size="28">From uploaded education documents to retrieval-ready knowledge and bot-facing use.</text>
+  <rect x="160" y="342" width="360" height="214" rx="30" fill="#DBEAFE"/>
+  <rect x="648" y="342" width="360" height="214" rx="30" fill="#E0F2FE"/>
+  <rect x="1136" y="342" width="360" height="214" rx="30" fill="#DCFCE7"/>
+  <rect x="1624" y="342" width="360" height="214" rx="30" fill="#FFEDD5"/>
+  <text x="204" y="430" fill="#1D4ED8" font-family="Arial, sans-serif" font-size="34" font-weight="700">Document Intake</text>
+  <text x="204" y="482" fill="#0F172A" font-family="Arial, sans-serif" font-size="26">Upload</text>
+  <text x="204" y="520" fill="#0F172A" font-family="Arial, sans-serif" font-size="26">Category</text>
+  <text x="692" y="430" fill="#0891B2" font-family="Arial, sans-serif" font-size="34" font-weight="700">Ingestion Task</text>
+  <text x="692" y="482" fill="#0F172A" font-family="Arial, sans-serif" font-size="26">Queue</text>
+  <text x="692" y="520" fill="#0F172A" font-family="Arial, sans-serif" font-size="26">Parse + Chunk</text>
+  <text x="1180" y="430" fill="#15803D" font-family="Arial, sans-serif" font-size="34" font-weight="700">Retrieval Layer</text>
+  <text x="1180" y="482" fill="#0F172A" font-family="Arial, sans-serif" font-size="26">Vector Search</text>
+  <text x="1180" y="520" fill="#0F172A" font-family="Arial, sans-serif" font-size="26">Knowledge Access</text>
+  <text x="1668" y="430" fill="#EA580C" font-family="Arial, sans-serif" font-size="34" font-weight="700">Bot Use</text>
+  <text x="1668" y="482" fill="#0F172A" font-family="Arial, sans-serif" font-size="26">Binding</text>
+  <text x="1668" y="520" fill="#0F172A" font-family="Arial, sans-serif" font-size="26">Question Answering</text>
+  <path d="M520 448H648" stroke="#2563EB" stroke-width="14" stroke-linecap="round"/>
+  <path d="M1008 448H1136" stroke="#0EA5E9" stroke-width="14" stroke-linecap="round"/>
+  <path d="M1496 448H1624" stroke="#22C55E" stroke-width="14" stroke-linecap="round"/>
+  <rect x="160" y="670" width="202" height="360" rx="28" fill="#0F172A"/>
+  <rect x="410" y="670" width="548" height="360" rx="28" fill="#F8FAFC" stroke="#D9E2EC" stroke-width="4"/>
+  <rect x="1010" y="670" width="420" height="360" rx="28" fill="#F8FAFC" stroke="#D9E2EC" stroke-width="4"/>
+  <rect x="1482" y="670" width="502" height="360" rx="28" fill="#F8FAFC" stroke="#D9E2EC" stroke-width="4"/>
+  <text x="454" y="758" fill="#0F172A" font-family="Arial, sans-serif" font-size="36" font-weight="700">Management Side</text>
+  <text x="454" y="816" fill="#475569" font-family="Arial, sans-serif" font-size="24">Category records, document metadata, bot bindings, and ingestion task states.</text>
+  <text x="1054" y="758" fill="#0F172A" font-family="Arial, sans-serif" font-size="36" font-weight="700">Processing Side</text>
+  <text x="1054" y="816" fill="#475569" font-family="Arial, sans-serif" font-size="24">Text extraction, chunk preparation, and retrieval-oriented vector generation.</text>
+  <text x="1526" y="758" fill="#0F172A" font-family="Arial, sans-serif" font-size="36" font-weight="700">Operator Trust</text>
+  <text x="1526" y="816" fill="#475569" font-family="Arial, sans-serif" font-size="24">Visible task progress made long-running work understandable instead of opaque.</text>
+</svg>

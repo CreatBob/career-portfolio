@@ -64,6 +64,100 @@ function projectCategoryMap(locale) {
   );
 }
 
+function isLocalPublicAssetReference(value) {
+  return (
+    typeof value === "string" &&
+    value.startsWith("/") &&
+    !value.startsWith("//")
+  );
+}
+
+function normalizePublicAssetPath(value) {
+  return value.split(/[?#]/, 1)[0].replace(/^\/+/, "");
+}
+
+function collectMarkdownImageReferences(source) {
+  const matches = source.matchAll(/!\[[^\]]*]\(([^)\s]+)(?:\s+"[^"]*")?\)/g);
+  const references = [];
+
+  for (const match of matches) {
+    const assetPath = match[1];
+    if (isLocalPublicAssetReference(assetPath)) {
+      references.push(assetPath);
+    }
+  }
+
+  return references;
+}
+
+function collectHtmlImageReferences(source) {
+  const matches = source.matchAll(/<img[^>]+src=["']([^"']+)["']/gi);
+  const references = [];
+
+  for (const match of matches) {
+    const assetPath = match[1];
+    if (isLocalPublicAssetReference(assetPath)) {
+      references.push(assetPath);
+    }
+  }
+
+  return references;
+}
+
+function collectFrontmatterAssetReferences(frontmatter, fieldNames) {
+  const references = [];
+
+  for (const fieldName of fieldNames) {
+    const match = frontmatter.match(
+      new RegExp(`^${fieldName}:\\s*["']?([^"'\\n]+)["']?\\s*$`, "m"),
+    );
+    const assetPath = match?.[1]?.trim();
+
+    if (isLocalPublicAssetReference(assetPath)) {
+      references.push(assetPath);
+    }
+  }
+
+  return references;
+}
+
+function validateMdxAssetReferences(dir, options = {}) {
+  if (!exists(dir)) return;
+
+  const frontmatterFields = options.frontmatterFields || [];
+  const files = fs
+    .readdirSync(repoPath(dir))
+    .filter((name) => name.endsWith(".mdx"))
+    .sort();
+
+  for (const name of files) {
+    const filePath = repoPath(dir, name);
+    const source = fs.readFileSync(filePath, "utf8");
+    const frontmatter = readFrontmatter(filePath);
+    const references = new Set([
+      ...collectMarkdownImageReferences(source),
+      ...collectHtmlImageReferences(source),
+      ...collectFrontmatterAssetReferences(frontmatter, frontmatterFields),
+    ]);
+
+    for (const reference of references) {
+      const assetPath = normalizePublicAssetPath(reference);
+
+      if (!exists("public", assetPath)) {
+        failures.push(
+          [
+            `${path.relative(root, filePath)} references a missing local asset.`,
+            `Missing asset: /${assetPath}.`,
+            "Fix options:",
+            "1. Add the file under public/ so the path resolves at runtime.",
+            "2. Update the MDX image path or frontmatter reference to the correct asset.",
+          ].join("\n  "),
+        );
+      }
+    }
+  }
+}
+
 function compareSets(label, leftName, left, rightName, right) {
   const rightSet = new Set(right);
   const leftSet = new Set(left);
@@ -189,6 +283,15 @@ for (const slug of enProjectSlugs) {
     );
   }
 }
+
+validateMdxAssetReferences("content/blog/en");
+validateMdxAssetReferences("content/blog/zh");
+validateMdxAssetReferences("content/projects/en", {
+  frontmatterFields: ["cover"],
+});
+validateMdxAssetReferences("content/projects/zh", {
+  frontmatterFields: ["cover"],
+});
 
 if (exists("harness/config/environment.json")) {
   const envConfig = readJson("harness", "config", "environment.json");

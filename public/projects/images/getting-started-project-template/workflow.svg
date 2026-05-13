@@ -1,0 +1,24 @@
+<svg width="1600" height="1000" viewBox="0 0 1600 1000" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1600" height="1000" rx="40" fill="#F8FAFC"/>
+  <text x="96" y="132" fill="#0F172A" font-family="Arial, sans-serif" font-size="54" font-weight="700">Workflow Image Example</text>
+  <text x="96" y="184" fill="#64748B" font-family="Arial, sans-serif" font-size="24">Use this style for sequence diagrams, ingestion pipelines, or request-to-result flows.</text>
+  <rect x="96" y="280" width="250" height="180" rx="28" fill="#DBEAFE"/>
+  <text x="138" y="370" fill="#1D4ED8" font-family="Arial, sans-serif" font-size="30" font-weight="700">1. Input</text>
+  <text x="138" y="414" fill="#0F172A" font-family="Arial, sans-serif" font-size="24">Upload</text>
+  <rect x="474" y="280" width="250" height="180" rx="28" fill="#E0F2FE"/>
+  <text x="516" y="370" fill="#0891B2" font-family="Arial, sans-serif" font-size="30" font-weight="700">2. Validate</text>
+  <text x="516" y="414" fill="#0F172A" font-family="Arial, sans-serif" font-size="24">Check inputs</text>
+  <rect x="852" y="280" width="250" height="180" rx="28" fill="#DCFCE7"/>
+  <text x="894" y="370" fill="#15803D" font-family="Arial, sans-serif" font-size="30" font-weight="700">3. Process</text>
+  <text x="894" y="414" fill="#0F172A" font-family="Arial, sans-serif" font-size="24">Async task</text>
+  <rect x="1230" y="280" width="250" height="180" rx="28" fill="#FFEDD5"/>
+  <text x="1272" y="370" fill="#EA580C" font-family="Arial, sans-serif" font-size="30" font-weight="700">4. Deliver</text>
+  <text x="1272" y="414" fill="#0F172A" font-family="Arial, sans-serif" font-size="24">Visible result</text>
+  <path d="M346 370H474" stroke="#2563EB" stroke-width="14" stroke-linecap="round"/>
+  <path d="M724 370H852" stroke="#0891B2" stroke-width="14" stroke-linecap="round"/>
+  <path d="M1102 370H1230" stroke="#16A34A" stroke-width="14" stroke-linecap="round"/>
+  <rect x="96" y="574" width="1384" height="272" rx="30" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="4"/>
+  <text x="146" y="660" fill="#0F172A" font-family="Arial, sans-serif" font-size="34" font-weight="700">Caption tip</text>
+  <text x="146" y="718" fill="#334155" font-family="Arial, sans-serif" font-size="26">Explain what changed in the workflow, not just what boxes exist.</text>
+  <text x="146" y="766" fill="#64748B" font-family="Arial, sans-serif" font-size="24">Good captions point readers to the decision, bottleneck, or improvement they should notice.</text>
+</svg>

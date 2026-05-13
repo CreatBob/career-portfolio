@@ -10,6 +10,8 @@ import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
 import { unified } from "unified";
 
+import { rehypeContentImages } from "./content-images";
+
 export interface ProjectLink {
   label: string;
   href: string;
@@ -190,6 +192,7 @@ async function markdownToHTML(markdown: string) {
     .use(remarkRehype)
     .use(rehypeSlug)
     .use(rehypeKatex)
+    .use(rehypeContentImages)
     .use(rehypeStringify)
     .process(markdown);
 

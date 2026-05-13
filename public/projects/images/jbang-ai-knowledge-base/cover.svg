@@ -1,0 +1,35 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1600" height="900" rx="40" fill="#F2F7FB"/>
+  <rect x="58" y="58" width="1484" height="784" rx="34" fill="url(#panel)"/>
+  <rect x="112" y="118" width="360" height="664" rx="28" fill="#0F172A"/>
+  <rect x="154" y="166" width="276" height="18" rx="9" fill="#94A3B8"/>
+  <rect x="154" y="208" width="212" height="18" rx="9" fill="#64748B"/>
+  <rect x="154" y="270" width="276" height="124" rx="24" fill="#2563EB"/>
+  <rect x="154" y="428" width="124" height="124" rx="22" fill="#DBEAFE"/>
+  <rect x="306" y="428" width="124" height="124" rx="22" fill="#E0F2FE"/>
+  <rect x="154" y="584" width="276" height="148" rx="24" fill="#111827"/>
+  <rect x="526" y="126" width="962" height="246" rx="30" fill="#FFFFFF"/>
+  <rect x="584" y="188" width="288" height="24" rx="12" fill="#0F172A"/>
+  <rect x="584" y="234" width="420" height="14" rx="7" fill="#94A3B8"/>
+  <rect x="584" y="264" width="360" height="14" rx="7" fill="#CBD5E1"/>
+  <rect x="584" y="314" width="160" height="18" rx="9" fill="#2563EB"/>
+  <rect x="770" y="314" width="140" height="18" rx="9" fill="#14B8A6"/>
+  <rect x="936" y="314" width="154" height="18" rx="9" fill="#F97316"/>
+  <rect x="526" y="418" width="450" height="314" rx="30" fill="#FFFFFF"/>
+  <rect x="1038" y="418" width="450" height="314" rx="30" fill="#FFFFFF"/>
+  <path d="M608 652C650 620 706 576 764 548C812 524 868 512 924 484" stroke="#2563EB" stroke-width="18" stroke-linecap="round"/>
+  <circle cx="608" cy="652" r="20" fill="#0F172A"/>
+  <circle cx="764" cy="548" r="20" fill="#2563EB"/>
+  <circle cx="924" cy="484" r="20" fill="#14B8A6"/>
+  <rect x="1112" y="500" width="294" height="26" rx="13" fill="#0F172A"/>
+  <rect x="1112" y="552" width="212" height="16" rx="8" fill="#94A3B8"/>
+  <rect x="1112" y="586" width="252" height="16" rx="8" fill="#CBD5E1"/>
+  <rect x="1112" y="648" width="136" height="44" rx="22" fill="#0F172A"/>
+  <defs>
+    <linearGradient id="panel" x1="58" y1="58" x2="1542" y2="842" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#E0F2FE"/>
+      <stop offset="0.52" stop-color="#DBEAFE"/>
+      <stop offset="1" stop-color="#F8FAFC"/>
+    </linearGradient>
+  </defs>
+</svg>
