@@ -17,16 +17,8 @@
       "AI 应用与工程实践",
       "探索 Web 架构开发"
     ],
-    "description": "专注于 Python 与 Web 架构，探索 AI 时代的开发范式，享受构建纯粹项目的过程。",
-    "descriptionParts": {
-      "prefix": "专注于 ",
-      "python": "Python",
-      "betweenPythonAndWeb": " 与 ",
-      "web": "Web 架构",
-      "betweenWebAndAi": "，探索 ",
-      "aiEra": "AI 时代",
-      "suffix": " 的开发范式，享受构建纯粹项目的过程。"
-    },
+    "descriptionLine1": "喜欢<reading>阅读</reading>，乐于探究与尝试<newThings>新事物</newThings>，追求<excellence>极致</excellence>",
+    "descriptionLine2": "热爱生活，过好每一天，关注细节。",
     "statsLabel": "作品集概览",
     "stats": {
       "projects": "精选项目",

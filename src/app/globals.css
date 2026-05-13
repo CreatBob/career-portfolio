@@ -120,6 +120,9 @@
     --spotlight: 214 84% 64%;
     --spotlight-soft: 190 85% 53%;
     --paper-shadow: 220 38% 12%;
+    --home-hero-highlight-reading: 188 80% 42%;
+    --home-hero-highlight-discovery: 214 76% 52%;
+    --home-hero-highlight-excellence: 266 62% 56%;
   }
 
   .dark {
@@ -154,6 +157,9 @@
     --spotlight: 214 82% 63%;
     --spotlight-soft: 188 74% 50%;
     --paper-shadow: 0 0% 0%;
+    --home-hero-highlight-reading: 188 84% 66%;
+    --home-hero-highlight-discovery: 214 82% 72%;
+    --home-hero-highlight-excellence: 268 78% 76%;
   }
 }
 
@@ -905,10 +911,6 @@
     animation-delay: 360ms;
   }
 
-  .home-hero__content > :nth-child(7) {
-    animation-delay: 430ms;
-  }
-
   .home-hero__greeting {
     color: #050505;
     font-size: 1.45rem;
@@ -936,12 +938,12 @@
   .home-hero__alias {
     display: inline-flex;
     align-items: baseline;
-    gap: 0.22em;
+    gap: 0.2em;
     color: inherit;
-    font-size: inherit;
-    font-weight: inherit;
-    line-height: inherit;
-    letter-spacing: 0;
+    font-size: 0.46em;
+    font-weight: 760;
+    line-height: 1.05;
+    letter-spacing: 0.02em;
     text-shadow: inherit;
   }
 
@@ -964,49 +966,35 @@
   }
 
   .home-hero__description {
+    display: grid;
+    gap: 0.08rem;
     max-width: 54rem;
     color: #050505;
     font-size: 1.2rem;
     font-weight: 500;
-    line-height: 2.05;
+    line-height: 1.98;
     transition: color 260ms ease;
   }
 
-  .home-hero__stats {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 0.72rem;
-    padding-top: 0.18rem;
-    color: #050505;
-    font-size: 0.98rem;
-    font-weight: 650;
-    line-height: 1.35;
-    transition: color 260ms ease;
+  .home-hero__description-line {
+    display: block;
   }
 
-  .home-hero__stat {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.32rem;
-    border: 1px solid rgb(5 5 5 / 0.16);
-    border-radius: 999px;
-    background: rgb(255 255 255 / 0.58);
-    padding: 0.64rem 0.98rem;
-    white-space: nowrap;
-    backdrop-filter: blur(16px);
-  }
-
-  .home-hero__stat-value {
-    color: #050505;
-    font-family: var(--font-code), "SFMono-Regular", Consolas, monospace;
-    font-size: 0.96rem;
+  .home-hero__highlight {
     font-weight: 700;
+    transition: color 260ms ease;
   }
 
-  .home-hero__stat-separator {
-    display: none;
+  .home-hero__highlight--reading {
+    color: hsl(var(--home-hero-highlight-reading));
+  }
+
+  .home-hero__highlight--discovery {
+    color: hsl(var(--home-hero-highlight-discovery));
+  }
+
+  .home-hero__highlight--excellence {
+    color: hsl(var(--home-hero-highlight-excellence));
   }
 
   .home-hero__actions {
@@ -1136,19 +1124,6 @@
     color: white;
   }
 
-  .dark .home-hero__stats {
-    color: white;
-  }
-
-  .dark .home-hero__stat {
-    border-color: rgba(255, 255, 255, 0.1);
-    background: rgba(255, 255, 255, 0.055);
-  }
-
-  .dark .home-hero__stat-value {
-    color: white;
-  }
-
   .dark .home-hero__button--primary {
     border-color: white;
     background: white;
@@ -1203,18 +1178,6 @@
       font-size: 1.36rem;
     }
 
-    .home-hero__stats {
-      font-size: 1.08rem;
-    }
-
-    .home-hero__stat {
-      padding: 0.72rem 1.12rem;
-    }
-
-    .home-hero__stat-value {
-      font-size: 1.04rem;
-    }
-
     .home-hero__button {
       min-height: 3.85rem;
       padding-inline: 1.85rem;
@@ -1262,10 +1225,6 @@
 
     .home-hero__description {
       font-size: 1.48rem;
-    }
-
-    .home-hero__stats {
-      font-size: 1.14rem;
     }
 
     .home-hero__button {

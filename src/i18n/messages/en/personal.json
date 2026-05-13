@@ -17,16 +17,8 @@
       "AI Application & Engineering Practice",
       "Exploring Web Architecture"
     ],
-    "description": "Focused on Python and web architecture, exploring development paradigms in the AI era, and enjoying the process of building pure projects.",
-    "descriptionParts": {
-      "prefix": "Focused on ",
-      "python": "Python",
-      "betweenPythonAndWeb": " and ",
-      "web": "web architecture",
-      "betweenWebAndAi": ", exploring development paradigms for the ",
-      "aiEra": "AI era",
-      "suffix": ", and enjoying the process of building pure projects."
-    },
+    "descriptionLine1": "Enjoy <reading>reading</reading>, love exploring and trying <newThings>new things</newThings>, and pursue <excellence>excellence</excellence>.",
+    "descriptionLine2": "Love life, make every day count, and care about details.",
     "statsLabel": "Portfolio highlights",
     "stats": {
       "projects": "Selected projects",
