@@ -8,6 +8,36 @@
   "subtitle": "Java后端工程师 / AI全栈应用开发工程师",
   "headline": "以 Java 后端开发为基础，具备 AI 全栈应用开发能力。\n参与过知识库系统、电商工具与自动化业务系统的设计、开发与上线。",
   "welcome": "欢迎来到我的个人主页。",
+  "homeHero": {
+    "greeting": "你好，我是",
+    "displayName": "陈永冠",
+    "alias": "Bob",
+    "typewriterPhrases": [
+      "Python Developer",
+      "AI 应用与工程实践",
+      "探索 Web 架构开发"
+    ],
+    "description": "专注于 Python 与 Web 架构，探索 AI 时代的开发范式，享受构建纯粹项目的过程。",
+    "descriptionParts": {
+      "prefix": "专注于 ",
+      "python": "Python",
+      "betweenPythonAndWeb": " 与 ",
+      "web": "Web 架构",
+      "betweenWebAndAi": "，探索 ",
+      "aiEra": "AI 时代",
+      "suffix": " 的开发范式，享受构建纯粹项目的过程。"
+    },
+    "statsLabel": "作品集概览",
+    "stats": {
+      "projects": "精选项目",
+      "skills": "核心技能",
+      "internships": "实习经历"
+    },
+    "actionsLabel": "主要操作",
+    "resumeCta": "查阅简历",
+    "projectsCta": "我的项目",
+    "socialsLabel": "社交链接"
+  },
   "ogImageUrl": "creatbob.github.io/zh",
   "bioMarkdown": "你好，我是陈永冠，一名关注 Java 后端开发与 AI 应用落地的开发者。我熟悉 Spring Boot、MyBatis-Plus、MySQL 等后端技术，也能使用 Python 与 Web 技术开发自动化工具、AI 应用和业务系统。\n\n在实习过程中，我参与过教育平台知识库系统、贴纸定制商城、生产自动化工具、OCR 文本质检和多租户业务系统的设计、开发与上线，积累了从后端服务、数据存储到 AI 功能集成、SEO 与部署交付的实践经验。\n\n我关注 Prompt、Agent 工作流与 AI 应用架构，希望持续成长为能够独立负责业务模块并推动产品落地的工程师。",
   "location": {

@@ -48,11 +48,6 @@
         "label": "Portfolio"
       },
       {
-        "href": "/#about",
-        "icon": "userround",
-        "label": "About"
-      },
-      {
         "href": "/blog",
         "icon": "notebook",
         "label": "Blog"

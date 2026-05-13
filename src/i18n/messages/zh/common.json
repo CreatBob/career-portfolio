@@ -48,11 +48,6 @@
         "label": "作品集"
       },
       {
-        "href": "/#about",
-        "icon": "userround",
-        "label": "关于我"
-      },
-      {
         "href": "/blog",
         "icon": "notebook",
         "label": "博客"

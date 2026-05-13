@@ -18,6 +18,17 @@ interface FooterLinkProps {
   icon?: React.ComponentType<{ className?: string }>;
 }
 
+function isStaticFileLink(href: string) {
+  return [
+    ".pdf",
+    ".png",
+    ".jpg",
+    ".jpeg",
+    ".webp",
+    ".svg",
+  ].some((extension) => href.endsWith(extension));
+}
+
 function FooterLink({
   href,
   children,
@@ -26,11 +37,7 @@ function FooterLink({
   icon: Icon,
 }: FooterLinkProps) {
   const isInternalLink = href.startsWith("/");
-  const isFileLink =
-    href.endsWith(".pdf") ||
-    href.endsWith(".png") ||
-    href.endsWith(".jpg") ||
-    href.endsWith(".jpeg");
+  const isFileLink = isStaticFileLink(href);
   const target = isFileLink || !isInternalLink ? "_blank" : undefined;
   const rel = isFileLink || !isInternalLink ? "noopener noreferrer" : undefined;
 
@@ -88,14 +95,14 @@ export default function Footer() {
     name: string;
     url: string;
   }>;
+  const navbarItems = t.raw("navbar.items") as Array<{
+    href: string;
+    label: string;
+  }>;
   const githubProfile = socialData.GitHub;
-  const translatedNavigationSections = [
-    { name: t("footer.navigation.about"), href: "/#about" },
-    { name: t("footer.navigation.projects"), href: "/projects" },
-    { name: t("footer.navigation.experience"), href: "/#work" },
-    { name: t("footer.navigation.education"), href: "/#education" },
-    { name: t("footer.navigation.skills"), href: "/#skills" },
-  ];
+  const translatedNavigationSections = navbarItems
+    .filter((item) => !item.href.includes("#") && !isStaticFileLink(item.href))
+    .map((item) => ({ name: item.label, href: item.href }));
 
   return (
     <footer className="portfolio-shell pt-10 pb-24 md:pb-14">

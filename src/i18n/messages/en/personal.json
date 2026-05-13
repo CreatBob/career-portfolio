@@ -8,6 +8,36 @@
   "subtitle": "Java Back-end Engineer / AI Full-Stack Application Developer",
   "headline": "Built on Java back-end development with hands-on AI full-stack application experience.\nWorked on knowledge base systems, e-commerce tools and automation workflows from development to deployment.",
   "welcome": "Welcome to my portfolio.",
+  "homeHero": {
+    "greeting": "Hi, I'm",
+    "displayName": "陈永冠",
+    "alias": "Bob",
+    "typewriterPhrases": [
+      "Python Developer",
+      "AI Application & Engineering Practice",
+      "Exploring Web Architecture"
+    ],
+    "description": "Focused on Python and web architecture, exploring development paradigms in the AI era, and enjoying the process of building pure projects.",
+    "descriptionParts": {
+      "prefix": "Focused on ",
+      "python": "Python",
+      "betweenPythonAndWeb": " and ",
+      "web": "web architecture",
+      "betweenWebAndAi": ", exploring development paradigms for the ",
+      "aiEra": "AI era",
+      "suffix": ", and enjoying the process of building pure projects."
+    },
+    "statsLabel": "Portfolio highlights",
+    "stats": {
+      "projects": "Selected projects",
+      "skills": "Core skills",
+      "internships": "Internships"
+    },
+    "actionsLabel": "Primary actions",
+    "resumeCta": "View Resume",
+    "projectsCta": "My Projects",
+    "socialsLabel": "Social links"
+  },
   "ogImageUrl": "creatbob.github.io",
   "bioMarkdown": "Hi, I'm Chen Yong Guan, a developer focused on Java back-end engineering and AI application delivery. I am comfortable with Spring Boot, MyBatis-Plus, MySQL and related back-end technologies, and I can also build AI-powered tools and web applications with Python and modern web stacks.\n\nDuring my internships, I worked on an AI knowledge base for an education platform, a multi-tenant sticker e-commerce system, production automation tools, OCR quality inspection and deployment workflows. These experiences helped me build practical understanding across business systems, AI integration, data storage, SEO and shipping real products.\n\nI am especially interested in Prompt design, Agent workflows and AI application architecture, and I want to keep growing into an engineer who can own business modules independently and push ideas into production.",
   "location": {
