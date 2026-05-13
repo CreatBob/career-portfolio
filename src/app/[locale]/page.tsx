@@ -98,21 +98,7 @@ export default async function Page(props: {
             className="home-hero__typewriter"
           />
 
-          <p className="home-hero__description">
-            {t("homeHero.descriptionParts.prefix")}
-            <strong className="home-hero__highlight home-hero__highlight--green">
-              {t("homeHero.descriptionParts.python")}
-            </strong>
-            {t("homeHero.descriptionParts.betweenPythonAndWeb")}
-            <strong className="home-hero__highlight home-hero__highlight--violet">
-              {t("homeHero.descriptionParts.web")}
-            </strong>
-            {t("homeHero.descriptionParts.betweenWebAndAi")}
-            <strong className="home-hero__highlight home-hero__highlight--blue">
-              {t("homeHero.descriptionParts.aiEra")}
-            </strong>
-            {t("homeHero.descriptionParts.suffix")}
-          </p>
+          <p className="home-hero__description">{t("homeHero.description")}</p>
 
           <div className="home-hero__stats" aria-label={t("homeHero.statsLabel")}>
             {stats.map((stat, index) => (
