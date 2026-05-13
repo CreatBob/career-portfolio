@@ -81,12 +81,6 @@ export default async function Page(props: {
     <main className="home-page relative">
       {jsonldScript(personJsonLd)}
 
-      <div className="home-page__backdrop pointer-events-none absolute inset-0 -z-10">
-        <div className="home-page__glow home-page__glow--left" />
-        <div className="home-page__glow home-page__glow--right" />
-        <div className="home-page__grid" />
-      </div>
-
       <section id="hero" className="home-hero">
         <div className="home-hero__content" aria-labelledby="home-hero-title">
           <p className="home-hero__greeting">{t("homeHero.greeting")}</p>

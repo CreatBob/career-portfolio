@@ -15,6 +15,7 @@ import {
 } from "next-intl/server";
 import { ThemeProvider } from "next-themes";
 
+import { AmbientBackground } from "@/components/blocks/ambient-background";
 import Footer from "@/components/blocks/footer";
 import Navbar from "@/components/blocks/navbar/navbar";
 import { ScrollRestore } from "@/components/blocks/scroll-restore";
@@ -97,10 +98,13 @@ export default async function LocaleLayout({
         <NextIntlClientProvider locale={locale} messages={messages}>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <TooltipProvider delayDuration={0}>
-              <ScrollRestore />
-              <Navbar />
-              {children}
-              <Footer />
+              <AmbientBackground />
+              <div className="site-shell relative z-10">
+                <ScrollRestore />
+                <Navbar />
+                {children}
+                <Footer />
+              </div>
             </TooltipProvider>
           </ThemeProvider>
         </NextIntlClientProvider>

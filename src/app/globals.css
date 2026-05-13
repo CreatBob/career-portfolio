@@ -335,65 +335,72 @@
     background-size: 28px 28px;
   }
 
-  .home-page {
-    color: hsl(var(--foreground));
+  .site-shell {
+    position: relative;
+    z-index: 1;
+  }
+
+  .site-ambient {
+    --ambient-spotlight-opacity: 0.58;
+    --ambient-grid-opacity: 0.24;
+    --ambient-orb-opacity: 0.38;
+    --ambient-noise-opacity: 0.08;
+    --ambient-veil-opacity: 0.72;
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: clip;
+    pointer-events: none;
     isolation: isolate;
-    min-height: 100dvh;
-    overflow-x: hidden;
   }
 
-  .home-page + footer {
-    display: none;
+  .site-ambient--showcase {
+    --ambient-spotlight-opacity: 0.72;
+    --ambient-grid-opacity: 0.3;
+    --ambient-orb-opacity: 0.5;
+    --ambient-noise-opacity: 0.09;
+    --ambient-veil-opacity: 0.84;
   }
 
-  .home-page__backdrop {
-    transition: background 320ms ease;
-    background:
-      radial-gradient(
-        circle at 18% 18%,
-        hsl(var(--spotlight) / 0.18),
-        transparent 26%
-      ),
-      radial-gradient(
-        circle at 84% 14%,
-        hsl(var(--spotlight-soft) / 0.14),
-        transparent 24%
-      ),
-      linear-gradient(
-        180deg,
-        hsl(var(--background)) 0%,
-        hsl(var(--background)) 34%,
-        hsl(208 30% 92%) 68%,
-        hsl(var(--background)) 100%
-      );
+  .site-ambient--reading {
+    --ambient-spotlight-opacity: 0.3;
+    --ambient-grid-opacity: 0.14;
+    --ambient-orb-opacity: 0.2;
+    --ambient-noise-opacity: 0.05;
+    --ambient-veil-opacity: 0.56;
   }
 
-  .home-page__glow {
-    position: absolute;
-    border-radius: 999px;
-    filter: blur(90px);
-    opacity: 0.52;
-  }
-
-  .home-page__glow--left {
-    top: 6rem;
-    left: 6%;
-    width: 26rem;
-    height: 26rem;
-    background: hsl(var(--spotlight) / 0.22);
-  }
-
-  .home-page__glow--right {
-    top: 3rem;
-    right: 8%;
-    width: 24rem;
-    height: 24rem;
-    background: hsl(var(--spotlight-soft) / 0.18);
-  }
-
-  .home-page__grid {
+  .site-ambient__spotlight,
+  .site-ambient__veil,
+  .site-ambient__grid,
+  .site-ambient__orb,
+  .site-ambient__noise {
     position: absolute;
     inset: 0;
+  }
+
+  .site-ambient__spotlight {
+    opacity: var(--ambient-spotlight-opacity);
+    mix-blend-mode: screen;
+    will-change: background-image;
+  }
+
+  .site-ambient__veil {
+    opacity: var(--ambient-veil-opacity);
+    background:
+      linear-gradient(
+        180deg,
+        transparent 0%,
+        transparent 34%,
+        hsl(var(--background) / 0.1) 68%,
+        hsl(var(--background) / 0.32) 100%
+      );
+    will-change: transform;
+  }
+
+  .site-ambient__grid {
+    inset: -8%;
+    opacity: var(--ambient-grid-opacity);
     background-image:
       linear-gradient(
         to right,
@@ -406,8 +413,87 @@
         transparent 1px
       );
     background-size: 72px 72px;
-    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.95) 35%, transparent 100%);
-    opacity: 0.32;
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.96) 18%, transparent 100%);
+    will-change: transform;
+  }
+
+  .site-ambient__orb {
+    border-radius: 999px;
+    filter: blur(110px);
+    opacity: var(--ambient-orb-opacity);
+    will-change: transform;
+  }
+
+  .site-ambient__orb--primary {
+    top: 6rem;
+    left: 4%;
+    width: min(34rem, 45vw);
+    height: min(34rem, 45vw);
+    background:
+      radial-gradient(circle, hsl(var(--spotlight) / 0.26), transparent 68%);
+    animation: ambient-float 18s ease-in-out infinite;
+  }
+
+  .site-ambient__orb--secondary {
+    top: 4rem;
+    right: 6%;
+    left: auto;
+    width: min(28rem, 34vw);
+    height: min(28rem, 34vw);
+    background:
+      radial-gradient(circle, hsl(var(--spotlight-soft) / 0.22), transparent 70%);
+    animation: ambient-float 22s ease-in-out infinite reverse;
+  }
+
+  .site-ambient__noise {
+    opacity: var(--ambient-noise-opacity);
+    background-image:
+      radial-gradient(hsl(var(--foreground) / 0.1) 0.6px, transparent 0.8px),
+      radial-gradient(hsl(var(--foreground) / 0.08) 0.6px, transparent 0.8px);
+    background-position:
+      0 0,
+      14px 14px;
+    background-size:
+      28px 28px,
+      28px 28px;
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.26), transparent 82%);
+  }
+
+  .site-ambient--interactive .site-ambient__noise {
+    animation: ambient-breathe 12s ease-in-out infinite;
+  }
+
+  @keyframes ambient-float {
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+
+    50% {
+      transform: translate3d(0, -18px, 0) scale(1.03);
+    }
+  }
+
+  @keyframes ambient-breathe {
+    0%,
+    100% {
+      opacity: var(--ambient-noise-opacity);
+    }
+
+    50% {
+      opacity: calc(var(--ambient-noise-opacity) + 0.02);
+    }
+  }
+
+  .home-page {
+    color: hsl(var(--foreground));
+    isolation: isolate;
+    min-height: 100dvh;
+    overflow-x: hidden;
+  }
+
+  .home-page + footer {
+    display: none;
   }
 
   .home-page__brief .hero-title {
@@ -626,27 +712,6 @@
 
   .home-page .section-kicker {
     color: hsl(var(--foreground) / 0.46);
-  }
-
-  .dark .home-page__backdrop {
-    background:
-      radial-gradient(
-        circle at 18% 18%,
-        hsl(var(--spotlight) / 0.18),
-        transparent 26%
-      ),
-      radial-gradient(
-        circle at 84% 14%,
-        hsl(var(--spotlight-soft) / 0.14),
-        transparent 24%
-      ),
-      linear-gradient(
-        180deg,
-        #040507 0%,
-        #080b12 32%,
-        #0b0f18 62%,
-        hsl(var(--background)) 100%
-      );
   }
 
   .dark .home-page__brief .hero-title {
@@ -1184,6 +1249,14 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
+    .site-ambient__grid,
+    .site-ambient__veil,
+    .site-ambient__orb,
+    .site-ambient__noise {
+      animation: none;
+      transform: none !important;
+    }
+
     .home-hero__content > *,
     .home-typewriter__cursor,
     .home-hero__button,
@@ -1195,6 +1268,29 @@
     .home-hero__button:hover,
     .home-social-link:hover {
       transform: none;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .site-ambient {
+      --ambient-spotlight-opacity: 0.42;
+      --ambient-grid-opacity: 0.16;
+      --ambient-orb-opacity: 0.24;
+      --ambient-noise-opacity: 0.04;
+    }
+
+    .site-ambient__grid {
+      background-size: 52px 52px;
+    }
+
+    .site-ambient__orb--primary {
+      width: 22rem;
+      height: 22rem;
+    }
+
+    .site-ambient__orb--secondary {
+      width: 18rem;
+      height: 18rem;
     }
   }
 
@@ -1222,47 +1318,6 @@
     100% {
       opacity: 0;
     }
-  }
-
-  .portfolio-archive-page__backdrop {
-    background:
-      radial-gradient(circle at 14% 12%, hsl(var(--spotlight) / 0.16), transparent 24%),
-      radial-gradient(circle at 88% 12%, hsl(var(--spotlight-soft) / 0.14), transparent 22%),
-      linear-gradient(180deg, hsl(var(--background)) 0%, hsl(208 30% 94%) 48%, hsl(var(--background)) 100%);
-  }
-
-  .portfolio-archive-page__glow {
-    position: absolute;
-    border-radius: 999px;
-    filter: blur(100px);
-    opacity: 0.42;
-  }
-
-  .portfolio-archive-page__glow--left {
-    top: 4rem;
-    left: 4%;
-    width: 24rem;
-    height: 24rem;
-    background: hsl(var(--spotlight) / 0.18);
-  }
-
-  .portfolio-archive-page__glow--right {
-    top: 8rem;
-    right: 6%;
-    width: 22rem;
-    height: 22rem;
-    background: hsl(var(--spotlight-soft) / 0.18);
-  }
-
-  .portfolio-archive-page__grid {
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(to right, hsl(var(--foreground) / 0.04) 1px, transparent 1px),
-      linear-gradient(to bottom, hsl(var(--foreground) / 0.04) 1px, transparent 1px);
-    background-size: 72px 72px;
-    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.98) 25%, transparent 100%);
-    opacity: 0.34;
   }
 
   .archive-filter-chip {
@@ -1677,13 +1732,6 @@
     .project-story-next__grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
-  }
-
-  .dark .portfolio-archive-page__backdrop {
-    background:
-      radial-gradient(circle at 15% 16%, hsl(var(--spotlight) / 0.16), transparent 22%),
-      radial-gradient(circle at 84% 12%, hsl(var(--spotlight-soft) / 0.12), transparent 20%),
-      linear-gradient(180deg, #05070c 0%, #09101a 42%, hsl(var(--background)) 100%);
   }
 
   .dark .archive-grid-card,

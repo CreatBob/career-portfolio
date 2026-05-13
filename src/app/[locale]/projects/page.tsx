@@ -77,12 +77,6 @@ export default async function ProjectsArchivePage(props: {
     <main className="portfolio-archive-page relative overflow-hidden pt-28 pb-24 md:pt-32">
       {jsonldScript(personJsonLd)}
 
-      <div className="portfolio-archive-page__backdrop pointer-events-none absolute inset-0 -z-10">
-        <div className="portfolio-archive-page__glow portfolio-archive-page__glow--left" />
-        <div className="portfolio-archive-page__glow portfolio-archive-page__glow--right" />
-        <div className="portfolio-archive-page__grid" />
-      </div>
-
       <section className="portfolio-shell">
         <div>
           <ProjectArchive
