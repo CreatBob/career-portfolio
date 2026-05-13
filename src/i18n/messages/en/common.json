@@ -43,7 +43,7 @@
         "label": "Home"
       },
       {
-        "href": "/#projects",
+        "href": "/projects",
         "icon": "layers3",
         "label": "Portfolio"
       },
@@ -66,6 +66,36 @@
     "theme": "Theme",
     "language": "Language",
     "brandLabel": "Personal Brand"
+  },
+  "portfolioArchive": {
+    "metaTitle": "Portfolio Archive",
+    "metaDescription": "A magazine-style archive of engineering projects, AI applications and internal tools.",
+    "kicker": "Portfolio Archive",
+    "title": "Selected projects, organized like a magazine archive instead of a simple grid.",
+    "description": "This collection focuses on business-facing systems, AI-enabled workflows, and internal tools that improved delivery quality, operations, or production efficiency.",
+    "backHome": "Back Home",
+    "downloadResume": "Download Resume",
+    "enterArchive": "View the full portfolio",
+    "backToArchive": "Back to Portfolio Archive",
+    "featured": "Cover Story",
+    "archive": "Archive",
+    "openCaseStudy": "Open case study",
+    "visitProject": "Visit project",
+    "noteLabel": "Editorial Note",
+    "noteBody": "These projects are written as case studies, not just screenshots. The goal is to show how I think through systems, tradeoffs and delivery.",
+    "storySpread": "Opening Spread",
+    "nextReading": "Next Reading",
+    "meta": {
+      "role": "Role",
+      "company": "Company",
+      "location": "Location"
+    },
+    "categories": {
+      "all": "All",
+      "aiApp": "AI Applications",
+      "businessSystem": "Business Systems",
+      "internalTool": "Internal Tools"
+    }
   },
   "blog": {
     "title": "Blog",

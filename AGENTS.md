@@ -39,7 +39,7 @@ This file is the entry map for AI agents working in this repository. Keep it sho
 
 1. Add profile, work, or section list data: edit `src/i18n/messages/{en,zh}/personal.json` or `collections.json`.
 2. Add a blog post: add matching slugs under `content/blog/en/` and `content/blog/zh/` unless intentionally locale-specific.
-3. Add a project case study: add matching slugs under `content/projects/en/` and `content/projects/zh/`, then add the same slug under `src/i18n/messages/{en,zh}/collections.json`.
+3. Add a project case study: add matching slugs under `content/projects/en/` and `content/projects/zh/`, and keep required frontmatter plus `category` aligned across locales.
 4. Add a route: create it under `src/app/[locale]/` unless it is a locale-neutral API or metadata route.
 5. Add UI primitives: place reusable shadcn-style primitives under `src/components/ui/`.
 6. Add section-level UI: place feature components under `src/components/portfolio/`, `src/components/blog/`, or `src/components/blocks/`.
@@ -92,7 +92,7 @@ Optional third-party and platform variables:
 2. Preserve pnpm as the package manager because `pnpm-lock.yaml` is committed.
 3. Keep i18n key parity between `src/i18n/messages/en` and `src/i18n/messages/zh`.
 4. Keep blog slug parity between `content/blog/en` and `content/blog/zh` unless docs explain the exception.
-5. Keep project slug parity between `content/projects/en` and `content/projects/zh`, and keep those slugs aligned with `collections.json`.
+5. Keep project slug parity between `content/projects/en` and `content/projects/zh`, and keep required frontmatter such as `category` aligned across locales.
 6. Never commit `.env` files or secret material.
 7. Do not modify unrelated user changes in the working tree.
 8. Prefer small, focused patches and run the narrowest useful checks.

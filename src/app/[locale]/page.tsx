@@ -1,5 +1,5 @@
 import {
-  ArrowDown,
+  ArrowRight,
   BriefcaseBusiness,
   GraduationCap,
   Layers3,
@@ -21,10 +21,11 @@ import Work from "@/components/portfolio/work";
 import { CustomReactMarkdown } from "@/components/react-markdown";
 import { Badge } from "@/components/ui/badge";
 import { BlurFade } from "@/components/ui/blur-fade";
-import { buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { BLUR_FADE_DELAY, siteConfig } from "@/data/site";
 import { Link as I18nLink, routing } from "@/i18n/routing";
 import { generatePersonJsonLd } from "@/lib/jsonld";
+import { getPublishedProjectSummaries } from "@/lib/projects";
 import { transformSocialData } from "@/lib/social-icons";
 import { cn, getIconComponent, jsonldScript } from "@/lib/utils";
 
@@ -133,19 +134,6 @@ export default async function Page(props: {
     title: string;
     content: string;
   }>("news.items");
-  const projectsItems = getCollectionItems<{
-    slug: string;
-    title: string;
-    href?: string;
-    dates: string;
-    active: boolean;
-    description: string;
-    technologies: string[];
-    authors: string;
-    links?: Array<{ type: string; href: string; icon: string }>;
-    image?: string;
-    video?: string;
-  }>("projects.items");
   const publicationsItems = getCollectionItems<{
     title: string;
     href?: string;
@@ -195,14 +183,16 @@ export default async function Page(props: {
   }>("invitedTalks.items");
 
   const personJsonLd = await generatePersonJsonLd(locale);
+  const projectSummaries = await getPublishedProjectSummaries(locale);
   const blogItem = navbarItems.find((item) => item.href === "/blog");
   const resumeItem = navbarItems.find((item) => item.href.endsWith(".pdf"));
   const focusSkills = skills.slice(0, 8);
   const supportingSkills = skills.slice(0, 12);
-  const leadingProject = projectsItems[0];
+  const leadingProject = projectSummaries[0];
+  const featuredProjects = projectSummaries.slice(0, 3);
   const heroMetrics = [
     {
-      value: String(projectsItems.length).padStart(2, "0"),
+      value: String(projectSummaries.length).padStart(2, "0"),
       label: t("sections.selectedProjects"),
     },
     {
@@ -260,7 +250,7 @@ export default async function Page(props: {
                   {leadingProject ? (
                     <span className="hero-chip">
                       <Layers3 className="size-4" />
-                      {leadingProject.title}
+                      {leadingProject.metadata.title}
                     </span>
                   ) : null}
                 </div>
@@ -269,15 +259,15 @@ export default async function Page(props: {
 
             <BlurFade delay={BLUR_FADE_DELAY * 2}>
               <div className="flex flex-wrap gap-3">
-                <a
-                  href="#projects"
+                <I18nLink
+                  href="/projects"
                   className={cn(
                     buttonVariants({ size: "lg" }),
                     "hero-primary-button rounded-full px-6 shadow-sm",
                   )}
                 >
-                  {locale === "zh" ? "查看作品集" : "View Portfolio"}
-                </a>
+                  {locale === "zh" ? "进入作品集" : "Enter Portfolio"}
+                </I18nLink>
                 <a
                   href="#about"
                   className={cn(
@@ -355,20 +345,23 @@ export default async function Page(props: {
                       {locale === "zh" ? "代表项目" : "Featured Build"}
                     </div>
                     <div className="text-foreground text-xl leading-tight font-semibold tracking-[-0.04em]">
-                      {leadingProject?.title ?? t("sections.selectedProjects")}
+                      {leadingProject?.metadata.title ??
+                        t("sections.selectedProjects")}
                     </div>
                     <p className="text-muted-foreground text-sm leading-7">
-                      {leadingProject?.description ?? t("headline")}
+                      {leadingProject?.metadata.summary ?? t("headline")}
                     </p>
                   </div>
 
                   {leadingProject ? (
                     <div className="flex flex-wrap gap-2">
-                      {leadingProject.technologies.slice(0, 5).map((tech) => (
+                      {(leadingProject.metadata.technologies || [])
+                        .slice(0, 5)
+                        .map((tech) => (
                         <span key={tech} className="hero-tech-tag">
                           {tech}
                         </span>
-                      ))}
+                        ))}
                     </div>
                   ) : null}
 
@@ -391,15 +384,15 @@ export default async function Page(props: {
                     ))}
                   </div>
 
-                  <a
-                    href="#projects"
+                  <I18nLink
+                    href="/projects"
                     className="text-foreground/84 hover:text-foreground inline-flex items-center gap-2 text-sm font-medium transition-colors"
                   >
                     <span>
-                      {locale === "zh" ? "向下查看项目" : "Explore projects below"}
+                      {locale === "zh" ? "查看完整作品集" : "Open the full portfolio"}
                     </span>
-                    <ArrowDown className="size-4" />
-                  </a>
+                    <ArrowRight className="size-4" />
+                  </I18nLink>
                 </div>
 
                 <div className="space-y-3">
@@ -420,7 +413,7 @@ export default async function Page(props: {
         </div>
       </section>
 
-      {projectsItems.length > 0 ? (
+      {featuredProjects.length > 0 ? (
         <section id="projects" className="portfolio-shell mt-24">
           <div className="space-y-8">
             <BlurFade delay={BLUR_FADE_DELAY * 5}>
@@ -428,30 +421,46 @@ export default async function Page(props: {
                 kicker={t("sections.selectedProjects")}
                 title={
                   locale === "zh"
-                    ? "把真实项目放在首页中心"
-                    : "Real products, not placeholder case studies"
+                    ? "精选案例，作为完整作品集的封面预览"
+                    : "A cover spread for the full portfolio archive"
                 }
                 description={t("sections.checkOutLatestWork")}
               />
             </BlurFade>
             <BlurFade delay={BLUR_FADE_DELAY * 6}>
               <ProjectsSection
-                projects={projectsItems.map((project) => ({
-                  ...project,
+                projects={featuredProjects.map((project) => ({
+                  title: project.metadata.title,
                   href:
                     locale === routing.defaultLocale
                       ? `/projects/${project.slug}`
                       : `/${locale}/projects/${project.slug}`,
-                  links: project.links?.map((link) => ({
-                    ...link,
-                    icon: getIconComponent(link.icon),
+                  dates: project.metadata.dates,
+                  active: Boolean(project.metadata.featured),
+                  description: project.metadata.summary,
+                  technologies: project.metadata.technologies || [],
+                  authors: `**Role:** ${project.metadata.role}`,
+                  image: project.metadata.cover,
+                  links: (project.metadata.links || []).map((link) => ({
+                    type: link.label,
+                    href: link.href,
+                    icon: <ArrowRight className="size-3.5" />,
                   })),
                 }))}
-                mobileDisplayCount={4}
+                mobileDisplayCount={3}
                 desktopDisplayCount={3}
-                showAllText={t("showAll")}
                 featuredFirst={true}
               />
+            </BlurFade>
+            <BlurFade delay={BLUR_FADE_DELAY * 7}>
+              <div className="flex justify-center">
+                <Button asChild className="hero-primary-button rounded-full px-6 shadow-sm">
+                  <I18nLink href="/projects">
+                    <span>{t("portfolioArchive.enterArchive")}</span>
+                    <ArrowRight className="size-4" />
+                  </I18nLink>
+                </Button>
+              </div>
             </BlurFade>
           </div>
         </section>

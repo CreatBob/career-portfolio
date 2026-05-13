@@ -91,7 +91,7 @@ export default function Footer() {
   const githubProfile = socialData.GitHub;
   const translatedNavigationSections = [
     { name: t("footer.navigation.about"), href: "/#about" },
-    { name: t("footer.navigation.projects"), href: "/#projects" },
+    { name: t("footer.navigation.projects"), href: "/projects" },
     { name: t("footer.navigation.experience"), href: "/#work" },
     { name: t("footer.navigation.education"), href: "/#education" },
     { name: t("footer.navigation.skills"), href: "/#skills" },

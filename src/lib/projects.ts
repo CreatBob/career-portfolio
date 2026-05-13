@@ -15,6 +15,14 @@ export interface ProjectLink {
   href: string;
 }
 
+export const PROJECT_CATEGORIES = [
+  "ai-app",
+  "business-system",
+  "internal-tool",
+] as const;
+
+export type ProjectCategory = (typeof PROJECT_CATEGORIES)[number];
+
 export interface ProjectMetadata {
   title: string;
   summary: string;
@@ -22,6 +30,7 @@ export interface ProjectMetadata {
   role: string;
   company: string;
   location: string;
+  category: ProjectCategory;
   status?: string;
   order?: number;
   featured?: boolean;
@@ -33,16 +42,126 @@ export interface ProjectMetadata {
   [key: string]: unknown;
 }
 
-export interface ProjectPost {
+interface ProjectRecordBase {
   metadata: ProjectMetadata;
   slug: string;
-  source: string;
   locale: string;
 }
 
-export function isPublishedProject(
-  project: ProjectPost | null | undefined,
-): project is ProjectPost {
+export type ProjectSummary = ProjectRecordBase;
+
+export interface ProjectPost extends ProjectRecordBase {
+  source: string;
+}
+
+function isProjectCategory(value: unknown): value is ProjectCategory {
+  return (
+    typeof value === "string" &&
+    PROJECT_CATEGORIES.includes(value as ProjectCategory)
+  );
+}
+
+function normalizeProjectMetadata(rawMetadata: Record<string, unknown>) {
+  const title =
+    typeof rawMetadata.title === "string" ? rawMetadata.title : "";
+  const summary =
+    typeof rawMetadata.summary === "string" ? rawMetadata.summary : "";
+  const dates =
+    typeof rawMetadata.dates === "string" ? rawMetadata.dates : "";
+  const role = typeof rawMetadata.role === "string" ? rawMetadata.role : "";
+  const company =
+    typeof rawMetadata.company === "string" ? rawMetadata.company : "";
+  const location =
+    typeof rawMetadata.location === "string" ? rawMetadata.location : "";
+  const status =
+    typeof rawMetadata.status === "string" ? rawMetadata.status : "draft";
+  const technologies = Array.isArray(rawMetadata.technologies)
+    ? (rawMetadata.technologies as string[])
+    : [];
+  const links = Array.isArray(rawMetadata.links)
+    ? (rawMetadata.links as ProjectLink[])
+    : [];
+  const highlights = Array.isArray(rawMetadata.highlights)
+    ? (rawMetadata.highlights as string[])
+    : [];
+
+  const metadata: ProjectMetadata = {
+    ...rawMetadata,
+    title,
+    summary,
+    dates,
+    role,
+    company,
+    location,
+    category: isProjectCategory(rawMetadata.category)
+      ? rawMetadata.category
+      : "internal-tool",
+    status,
+    order:
+      typeof rawMetadata.order === "number" ? rawMetadata.order : undefined,
+    featured: Boolean(rawMetadata.featured),
+    cover:
+      typeof rawMetadata.cover === "string" ? rawMetadata.cover : undefined,
+    technologies,
+    links,
+    highlights,
+    updatedAt:
+      typeof rawMetadata.updatedAt === "string"
+        ? rawMetadata.updatedAt
+        : undefined,
+  };
+
+  return metadata;
+}
+
+function sortProjects<T extends ProjectRecordBase>(projects: T[]) {
+  return [...projects].sort((left, right) => {
+    const featuredDelta = Number(Boolean(right.metadata.featured)) -
+      Number(Boolean(left.metadata.featured));
+
+    if (featuredDelta !== 0) {
+      return featuredDelta;
+    }
+
+    const leftOrder =
+      typeof left.metadata.order === "number"
+        ? left.metadata.order
+        : Number.MAX_SAFE_INTEGER;
+    const rightOrder =
+      typeof right.metadata.order === "number"
+        ? right.metadata.order
+        : Number.MAX_SAFE_INTEGER;
+
+    if (leftOrder !== rightOrder) {
+      return leftOrder - rightOrder;
+    }
+
+    return left.metadata.title.localeCompare(right.metadata.title);
+  });
+}
+
+function parseProjectFile(
+  slug: string,
+  locale: string,
+): { metadata: ProjectMetadata; rawContent: string } | null {
+  const filePath = path.join(getContentDirectory(locale), `${slug}.mdx`);
+
+  if (!fs.existsSync(filePath)) {
+    return null;
+  }
+
+  const source = fs.readFileSync(filePath, "utf-8");
+  const { content: rawContent, data: rawMetadata } = matter(source);
+
+  return {
+    metadata: normalizeProjectMetadata(rawMetadata),
+    rawContent,
+  };
+}
+
+export function isPublishedProject<T extends ProjectRecordBase | null | undefined>(
+  project: T,
+): project is Exclude<T, null | undefined> {
   return Boolean(project && project.metadata.status === "published");
 }
 
@@ -81,96 +200,81 @@ export async function getProject(
   slug: string,
   locale: string = "en",
 ): Promise<ProjectPost | null> {
-  const filePath = path.join(getContentDirectory(locale), `${slug}.mdx`);
+  const parsed = parseProjectFile(slug, locale);
 
-  if (!fs.existsSync(filePath)) {
+  if (!parsed) {
     return null;
   }
 
-  const source = fs.readFileSync(filePath, "utf-8");
-  const { content: rawContent, data: rawMetadata } = matter(source);
-  const content = await markdownToHTML(rawContent);
-
-  const metadata: ProjectMetadata = {
-    ...rawMetadata,
-    title: rawMetadata.title || "",
-    summary: rawMetadata.summary || "",
-    dates: rawMetadata.dates || "",
-    role: rawMetadata.role || "",
-    company: rawMetadata.company || "",
-    location: rawMetadata.location || "",
-    status: rawMetadata.status || "draft",
-    order:
-      typeof rawMetadata.order === "number" ? rawMetadata.order : undefined,
-    featured: Boolean(rawMetadata.featured),
-    cover:
-      typeof rawMetadata.cover === "string" ? rawMetadata.cover : undefined,
-    technologies: Array.isArray(rawMetadata.technologies)
-      ? (rawMetadata.technologies as string[])
-      : [],
-    links: Array.isArray(rawMetadata.links)
-      ? (rawMetadata.links as ProjectLink[])
-      : [],
-    highlights: Array.isArray(rawMetadata.highlights)
-      ? (rawMetadata.highlights as string[])
-      : [],
-    updatedAt:
-      typeof rawMetadata.updatedAt === "string"
-        ? rawMetadata.updatedAt
-        : undefined,
-  };
+  const content = await markdownToHTML(parsed.rawContent);
 
   return {
-    metadata,
+    metadata: parsed.metadata,
     slug,
     source: content,
     locale,
   };
 }
 
-async function getAllProjects(
+async function getAllProjectSummaries(
   dir: string,
   locale: string = "en",
-): Promise<ProjectPost[]> {
+): Promise<ProjectSummary[]> {
   const mdxFiles = getMDXFiles(dir);
-  const projects = await Promise.all(
-    mdxFiles.map(async (file) => {
+  const projects = mdxFiles
+    .map((file) => {
       const slug = path.basename(file, path.extname(file));
-      const project = await getProject(slug, locale);
-      return project;
-    }),
-  );
+      const parsed = parseProjectFile(slug, locale);
 
-  return projects.filter((project): project is ProjectPost => project !== null);
+      if (!parsed) {
+        return null;
+      }
+
+      return {
+        metadata: parsed.metadata,
+        slug,
+        locale,
+      };
+    })
+    .filter((project): project is ProjectSummary => project !== null);
+
+  return projects;
 }
 
-function sortProjects(projects: ProjectPost[]) {
-  return [...projects].sort((left, right) => {
-    const leftOrder =
-      typeof left.metadata.order === "number"
-        ? left.metadata.order
-        : Number.MAX_SAFE_INTEGER;
-    const rightOrder =
-      typeof right.metadata.order === "number"
-        ? right.metadata.order
-        : Number.MAX_SAFE_INTEGER;
+export async function getProjectSummaries(
+  locale: string = "en",
+): Promise<ProjectSummary[]> {
+  try {
+    const projects = await getAllProjectSummaries(
+      getContentDirectory(locale),
+      locale,
+    );
+    return sortProjects(projects);
+  } catch (error) {
+    console.error(`Error getting projects for locale ${locale}:`, error);
+    return [];
+  }
+}
 
-    if (leftOrder !== rightOrder) {
-      return leftOrder - rightOrder;
-    }
-
-    return left.metadata.title.localeCompare(right.metadata.title);
-  });
+export async function getPublishedProjectSummaries(
+  locale: string = "en",
+): Promise<ProjectSummary[]> {
+  const projects = await getProjectSummaries(locale);
+  return projects.filter(isPublishedProject);
 }
 
 export async function getProjects(
   locale: string = "en",
 ): Promise<ProjectPost[]> {
   try {
-    const projects = await getAllProjects(getContentDirectory(locale), locale);
-    return sortProjects(projects);
+    const summaries = await getProjectSummaries(locale);
+    const projects = await Promise.all(
+      summaries.map((project) => getProject(project.slug, locale)),
+    );
+
+    return projects.filter((project): project is ProjectPost => project !== null);
   } catch (error) {
-    console.error(`Error getting projects for locale ${locale}:`, error);
+    console.error(`Error getting full projects for locale ${locale}:`, error);
     return [];
   }
 }

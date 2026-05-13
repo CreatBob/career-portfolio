@@ -43,7 +43,7 @@
         "label": "首页"
       },
       {
-        "href": "/#projects",
+        "href": "/projects",
         "icon": "layers3",
         "label": "作品集"
       },
@@ -66,6 +66,36 @@
     "theme": "主题",
     "language": "语言",
     "brandLabel": "个人品牌"
+  },
+  "portfolioArchive": {
+    "metaTitle": "作品集总览",
+    "metaDescription": "以杂志式封面与案例叙事组织的工程项目、AI 应用与内部工具作品集。",
+    "kicker": "作品集总览",
+    "title": "把项目整理成一本可以翻阅的作品目录，而不是简单排一排卡片。",
+    "description": "这里收录的是更接近真实业务落地的项目：包括 AI 应用、业务系统和内部工具，重点呈现问题、取舍、实现和结果。",
+    "backHome": "返回首页",
+    "downloadResume": "下载简历",
+    "enterArchive": "查看完整作品集",
+    "backToArchive": "返回作品集总览",
+    "featured": "封面案例",
+    "archive": "项目归档",
+    "openCaseStudy": "打开案例页",
+    "visitProject": "访问项目",
+    "noteLabel": "编者按",
+    "noteBody": "这些项目不是截图集合，而是按案例方式组织的工程叙事。我更希望你看到我如何理解系统、权衡取舍并推动交付。",
+    "storySpread": "开篇导读",
+    "nextReading": "下一组阅读",
+    "meta": {
+      "role": "角色",
+      "company": "公司",
+      "location": "地点"
+    },
+    "categories": {
+      "all": "全部",
+      "aiApp": "AI 应用",
+      "businessSystem": "业务系统",
+      "internalTool": "内部工具"
+    }
   },
   "blog": {
     "title": "博客",

@@ -4,9 +4,9 @@
 
 ## 1 Purpose
 
-The project case study subsystem stores long-form project details as locale-specific MDX files, renders them into localized detail pages, and keeps homepage project cards linked to those slugs through `collections.json`.
+The project case study subsystem stores long-form project details as locale-specific MDX files, renders them into localized detail pages, and exposes project summaries from MDX frontmatter for the homepage and portfolio archive route.
 
-> Sources: `src/lib/projects.ts`, `src/app/[locale]/projects/[slug]/layout.tsx`, `src/app/[locale]/projects/[slug]/page.tsx`, `src/i18n/messages/en/collections.json`
+> Sources: `src/lib/projects.ts`, `src/app/[locale]/projects/page.tsx`, `src/app/[locale]/projects/[slug]/layout.tsx`, `src/app/[locale]/projects/[slug]/page.tsx`
 
 ## 2 Content Layout
 
@@ -17,9 +17,9 @@ Project case studies live in parallel locale directories:
 | English | `content/projects/en/` |
 | Chinese | `content/projects/zh/` |
 
-Homepage project cards still read translated summary data from `src/i18n/messages/{en,zh}/collections.json`, and each listed project must include a `slug` that matches the MDX filename.
+The homepage project preview and the `/[locale]/projects` archive both read project summary data directly from `src/lib/projects.ts`, and each MDX filename defines the route slug.
 
-> Sources: `content/projects/en/`, `content/projects/zh/`, `src/app/[locale]/page.tsx`, `scripts/lint-quality.mjs`
+> Sources: `content/projects/en/`, `content/projects/zh/`, `src/app/[locale]/page.tsx`, `src/app/[locale]/projects/page.tsx`, `scripts/lint-quality.mjs`
 
 ## 3 Parsing Pipeline
 
@@ -43,6 +43,7 @@ Each project case study should provide these fields:
 - `role`
 - `company`
 - `location`
+- `category`
 - `status`
 
 Recommended optional fields:
@@ -60,7 +61,6 @@ Recommended optional fields:
 ## 6 Change Rules
 
 1. Add matching slugs under `content/projects/en/` and `content/projects/zh/` unless a documented exception exists.
-2. Add the same slug to `src/i18n/messages/en/collections.json` and `src/i18n/messages/zh/collections.json` so homepage cards can link to the detail page.
-3. Keep required frontmatter fields present in both locales.
-4. Run `pnpm lint:quality` after changing project MDX files or project slugs.
-5. Run `pnpm build` after changing project routes, parsing logic, or sitemap behavior.
+2. Keep required frontmatter fields present in both locales, including the same `category`.
+3. Run `pnpm lint:quality` after changing project MDX files or project slugs.
+4. Run `pnpm build` after changing project routes, parsing logic, or sitemap behavior.

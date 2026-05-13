@@ -89,9 +89,9 @@ Incoming non-API requests pass through `src/middleware.ts`, which delegates to `
 
 ### 3.3 Portfolio Page Composition
 
-The home page reads translated structured data, converts social icon keys into React components, generates Person JSON-LD, and composes section components for profile, projects, publications, education, work, awards, talks, skills, services, and contact. Project cards read summary data from `collections.json` and route into localized project case study pages by slug.
+The home page reads translated structured data, converts social icon keys into React components, generates Person JSON-LD, and composes section components for profile, projects, publications, education, work, awards, talks, skills, services, and contact. Project previews now read summary data directly from project MDX frontmatter through `src/lib/projects.ts`, and route into localized project case study pages by slug.
 
-> Sources: `src/app/[locale]/page.tsx`, `src/i18n/messages/en/collections.json`
+> Sources: `src/app/[locale]/page.tsx`, `src/lib/projects.ts`
 
 ### 3.4 Blog Content Flow
 
@@ -101,7 +101,7 @@ Blog posts live in locale-specific directories under `content/blog`. `src/lib/bl
 
 ### 3.5 Project Content Flow
 
-Project case studies live in locale-specific directories under `content/projects`. `src/lib/projects.ts` reads MDX files from the filesystem, parses typed frontmatter, converts Markdown to HTML through the shared Markdown pipeline, and returns typed project objects to localized detail routes and the sitemap.
+Project case studies live in locale-specific directories under `content/projects`. `src/lib/projects.ts` reads MDX files from the filesystem, parses typed frontmatter for both summary and full-detail use cases, converts Markdown to HTML through the shared Markdown pipeline, and returns typed project objects to the homepage, portfolio archive route, localized detail routes, and the sitemap.
 
 > Sources: `src/lib/projects.ts`, `src/app/[locale]/projects/[slug]/layout.tsx`, `src/app/[locale]/projects/[slug]/page.tsx`, `src/app/sitemap.ts`
 

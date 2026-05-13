@@ -41,31 +41,27 @@ function mdxSlugs(dir) {
     .sort();
 }
 
-function projectSlugsFromCollections(locale) {
-  const file = readJson("src", "i18n", "messages", locale, "collections.json");
-  const items = file.projects?.items;
-  if (!Array.isArray(items)) return [];
+function readFrontmatter(file) {
+  const source = fs.readFileSync(file, "utf8");
+  const match = source.match(/^---\r?\n([\s\S]*?)\r?\n---/);
+  return match?.[1] || "";
+}
 
-  const missingSlugTitles = items
-    .filter((item) => typeof item.slug !== "string" || item.slug.trim() === "")
-    .map((item) => item.title || "untitled");
+function projectCategoryMap(locale) {
+  const dir = repoPath("content", "projects", locale);
+  if (!fs.existsSync(dir)) return new Map();
 
-  if (missingSlugTitles.length > 0) {
-    failures.push(
-      [
-        `projects.items in ${locale}/collections.json must include a non-empty slug.`,
-        `Missing slug entries: ${missingSlugTitles.join(", ")}.`,
-        "Fix options:",
-        `1. Add slug values to src/i18n/messages/${locale}/collections.json.`,
-        "2. Keep slug values aligned with content/projects/<locale> filenames.",
-      ].join("\n  "),
-    );
-  }
-
-  return items
-    .map((item) => item.slug)
-    .filter((slug) => typeof slug === "string" && slug.trim().length > 0)
-    .sort();
+  return new Map(
+    fs
+      .readdirSync(dir)
+      .filter((name) => name.endsWith(".mdx"))
+      .map((name) => {
+        const slug = name.replace(/\.mdx$/, "");
+        const frontmatter = readFrontmatter(path.join(dir, name));
+        const categoryMatch = frontmatter.match(/^category:\s*"?(.*?)"?\s*$/m);
+        return [slug, categoryMatch?.[1] || ""];
+      }),
+  );
 }
 
 function compareSets(label, leftName, left, rightName, right) {
@@ -153,32 +149,46 @@ compareSets(
   mdxSlugs("content/projects/zh"),
 );
 
-const enProjectSlugs = projectSlugsFromCollections("en");
-const zhProjectSlugs = projectSlugsFromCollections("zh");
+const enProjectSlugs = mdxSlugs("content/projects/en");
+const enProjectCategories = projectCategoryMap("en");
+const zhProjectCategories = projectCategoryMap("zh");
+const validProjectCategories = new Set([
+  "ai-app",
+  "business-system",
+  "internal-tool",
+]);
 
-compareSets(
-  "project listing parity",
-  "collections.en.projects.items",
-  enProjectSlugs,
-  "collections.zh.projects.items",
-  zhProjectSlugs,
-);
+for (const locale of ["en", "zh"]) {
+  const categoryMap =
+    locale === "en" ? enProjectCategories : zhProjectCategories;
 
-compareSets(
-  "project listing vs content parity (en)",
-  "collections.en.projects.items",
-  enProjectSlugs,
-  "content/projects/en",
-  mdxSlugs("content/projects/en"),
-);
+  for (const [slug, category] of categoryMap.entries()) {
+    if (!validProjectCategories.has(category)) {
+      failures.push(
+        [
+          `content/projects/${locale}/${slug}.mdx must define a valid category.`,
+          `Found: ${category || "missing"}.`,
+          "Allowed values: ai-app, business-system, internal-tool.",
+        ].join("\n  "),
+      );
+    }
+  }
+}
 
-compareSets(
-  "project listing vs content parity (zh)",
-  "collections.zh.projects.items",
-  zhProjectSlugs,
-  "content/projects/zh",
-  mdxSlugs("content/projects/zh"),
-);
+for (const slug of enProjectSlugs) {
+  if (enProjectCategories.get(slug) !== zhProjectCategories.get(slug)) {
+    failures.push(
+      [
+        `project category parity mismatch for slug ${slug}.`,
+        `en: ${enProjectCategories.get(slug) || "missing"}.`,
+        `zh: ${zhProjectCategories.get(slug) || "missing"}.`,
+        "Fix options:",
+        "1. Keep project category aligned between locale files.",
+        "2. If the mismatch is intentional, document the exception and adjust this linter.",
+      ].join("\n  "),
+    );
+  }
+}
 
 if (exists("harness/config/environment.json")) {
   const envConfig = readJson("harness", "config", "environment.json");
