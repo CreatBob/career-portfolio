@@ -8,6 +8,10 @@ import { LOCALES, routing } from "@/i18n/routing";
 import { generateProjectCaseStudyJsonLd } from "@/lib/jsonld";
 import { constructMetadata } from "@/lib/metadata";
 import {
+  extractCaseStudySections,
+  getCaseStudySectionTocItems,
+} from "@/lib/project-case-study";
+import {
   getAvailableProjectLocales,
   getProject,
   isPublishedProject,
@@ -58,6 +62,9 @@ export default async function ProjectLayout(props: {
   }
 
   const projectJsonLd = await generateProjectCaseStudyJsonLd(project);
+  const tocItems = getCaseStudySectionTocItems(
+    extractCaseStudySections(project.source),
+  );
 
   return (
     <main
@@ -66,11 +73,20 @@ export default async function ProjectLayout(props: {
     >
       {jsonldScript(projectJsonLd)}
 
-      <div className="fixed top-32 left-6 z-10 hidden xl:block">
-        <TableOfContents content={project.source} maxLevel={2} />
-      </div>
+      {tocItems.length > 0 ? (
+        <div className="fixed top-32 left-6 z-10 hidden xl:block">
+          <TableOfContents
+            items={tocItems.map((item) => ({
+              id: item.id,
+              text: item.title,
+              level: 2,
+            }))}
+            maxLevel={2}
+          />
+        </div>
+      ) : null}
 
-      <MobileTOC content={project.source} maxLevel={2} />
+      <MobileTOC items={tocItems} maxLevel={2} />
 
       {props.children}
     </main>

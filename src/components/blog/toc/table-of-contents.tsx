@@ -12,7 +12,8 @@ interface TOCItem {
 }
 
 interface TableOfContentsProps {
-  content: string;
+  content?: string;
+  items?: TOCItem[];
   className?: string;
   hideTitle?: boolean;
   onItemClick?: () => void;
@@ -21,32 +22,25 @@ interface TableOfContentsProps {
 
 export function TableOfContents({
   content,
+  items,
   className,
   hideTitle = false,
   onItemClick,
   maxLevel = 2,
 }: TableOfContentsProps) {
-  const [toc, setToc] = useState<TOCItem[]>([]);
   const t = useTranslations();
+  const [toc, setToc] = useState<TOCItem[]>(
+    normalizeTocItems(items, maxLevel),
+  );
 
-  // Extract headings from HTML content
   useEffect(() => {
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(content, "text/html");
-    const headings = doc.querySelectorAll("h1, h2, h3, h4, h5, h6");
+    if (items?.length) {
+      setToc(normalizeTocItems(items, maxLevel));
+      return;
+    }
 
-    const tocItems: TOCItem[] = Array.from(headings)
-      .filter((heading) => heading.id)
-      .map((heading) => {
-        const id = heading.id;
-        const text = heading.textContent?.trim() || "";
-        const level = parseInt(heading.tagName.charAt(1));
-
-        return { id, text, level };
-      })
-      .filter((item) => item.text.length > 0 && item.level <= maxLevel);
-    setToc(tocItems);
-  }, [content, maxLevel]);
+    setToc(getTocItemsFromContent(content, maxLevel));
+  }, [content, items, maxLevel]);
 
   const scrollToHeading = (id: string) => {
     const element = document.getElementById(id);
@@ -106,9 +100,34 @@ export function TableOfContents({
 
   return (
     <div className={cn("w-62", className)}>
-      <div className="border-border/50 bg-background/80 rounded-xl border p-5 shadow-2xl shadow-black/5 backdrop-blur-xl dark:shadow-black/20">
+      <div className="border-border/50 bg-background/80 rounded-[1.5rem] border p-5 shadow-2xl shadow-black/5 backdrop-blur-xl dark:shadow-black/20">
         {tocContent}
       </div>
     </div>
+  );
+}
+
+function getTocItemsFromContent(content: string | undefined, maxLevel: number) {
+  if (!content) {
+    return [];
+  }
+
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(content, "text/html");
+  const headings = doc.querySelectorAll("h1, h2, h3, h4, h5, h6");
+
+  return Array.from(headings)
+    .filter((heading) => heading.id)
+    .map((heading) => ({
+      id: heading.id,
+      text: heading.textContent?.trim() || "",
+      level: parseInt(heading.tagName.charAt(1)),
+    }))
+    .filter((item) => item.text.length > 0 && item.level <= maxLevel);
+}
+
+function normalizeTocItems(items: TOCItem[] | undefined, maxLevel: number) {
+  return (items ?? []).filter(
+    (item) => item.text.length > 0 && item.level <= maxLevel,
   );
 }

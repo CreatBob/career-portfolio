@@ -1,30 +1,30 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import React, { useState } from "react";
+import { useState } from "react";
 
+import type { CaseStudySectionTocItem } from "@/lib/project-case-study";
 import { cn } from "@/lib/utils";
 
 import { Button } from "../../ui/button";
 import { TableOfContents } from "./table-of-contents";
 
 interface MobileTOCProps {
-  content: string;
+  content?: string;
+  items?: CaseStudySectionTocItem[];
   maxLevel?: number;
 }
 
-export function MobileTOC({ content, maxLevel = 2 }: MobileTOCProps) {
+export function MobileTOC({
+  content,
+  items,
+  maxLevel = 2,
+}: MobileTOCProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [hasHeadings, setHasHeadings] = useState(false);
   const t = useTranslations();
-
-  // Check if content has headings
-  React.useEffect(() => {
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(content, "text/html");
-    const headings = doc.querySelectorAll("h1, h2, h3, h4, h5, h6");
-    setHasHeadings(headings.length > 0);
-  }, [content]);
+  const hasHeadings = items?.length
+    ? items.length > 0
+    : hasHeadingsInContent(content);
 
   // Don't render if no headings
   if (!hasHeadings) {
@@ -107,6 +107,11 @@ export function MobileTOC({ content, maxLevel = 2 }: MobileTOCProps) {
             <div className="flex-1 p-4">
               <TableOfContents
                 content={content}
+                items={items?.map((item) => ({
+                  id: item.id,
+                  text: item.title,
+                  level: 2,
+                }))}
                 hideTitle={true}
                 maxLevel={maxLevel}
                 onItemClick={() => setIsOpen(false)}
@@ -117,4 +122,15 @@ export function MobileTOC({ content, maxLevel = 2 }: MobileTOCProps) {
       </div>
     </>
   );
+}
+
+function hasHeadingsInContent(content: string | undefined) {
+  if (!content || typeof window === "undefined") {
+    return false;
+  }
+
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(content, "text/html");
+  const headings = doc.querySelectorAll("h1, h2, h3, h4, h5, h6");
+  return headings.length > 0;
 }
