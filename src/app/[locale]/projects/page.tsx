@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 
 import { ProjectArchive } from "@/components/portfolio/projects-section/project-archive";
-import { Button } from "@/components/ui/button";
-import { Link, type Locale,routing } from "@/i18n/routing";
+import { type Locale, routing } from "@/i18n/routing";
 import { generatePersonJsonLd } from "@/lib/jsonld";
 import { constructMetadata } from "@/lib/metadata";
 import { getPublishedProjectSummaries } from "@/lib/projects";
@@ -85,56 +84,13 @@ export default async function ProjectsArchivePage(props: {
       </div>
 
       <section className="portfolio-shell">
-        <div className="space-y-8">
-          <div className="archive-cover-panel">
-            <div className="grid gap-8 xl:grid-cols-[minmax(0,1.15fr)_minmax(280px,0.85fr)] xl:items-end">
-              <div className="space-y-6">
-                <div className="section-kicker">{t("portfolioArchive.kicker")}</div>
-                <h1 className="archive-cover-title">
-                  {t("portfolioArchive.title")}
-                </h1>
-                <p className="archive-cover-summary">
-                  {t("portfolioArchive.description")}
-                </p>
-                <div className="flex flex-wrap gap-3">
-                  <Button asChild className="archive-primary-cta rounded-full px-6">
-                    <Link href="/">
-                      {t("portfolioArchive.backHome")}
-                    </Link>
-                  </Button>
-                  <Button
-                    asChild
-                    variant="outline"
-                    className="archive-secondary-cta rounded-full px-6"
-                  >
-                    <a href="/resume.pdf">{t("portfolioArchive.downloadResume")}</a>
-                  </Button>
-                </div>
-              </div>
-
-              <div className="archive-cover-note">
-                <div className="archive-cover-note__label">
-                  {t("portfolioArchive.noteLabel")}
-                </div>
-                <div className="archive-cover-note__body">
-                  {t("portfolioArchive.noteBody")}
-                </div>
-              </div>
-            </div>
-          </div>
-
+        <div>
           <ProjectArchive
             categories={categories}
             categoryLabels={categoryLabels}
             projects={archiveProjects}
             labels={{
-              featured: t("portfolioArchive.featured"),
               archive: t("portfolioArchive.archive"),
-              role: t("portfolioArchive.meta.role"),
-              company: t("portfolioArchive.meta.company"),
-              location: t("portfolioArchive.meta.location"),
-              openCaseStudy: t("portfolioArchive.openCaseStudy"),
-              visitProject: t("portfolioArchive.visitProject"),
             }}
           />
         </div>
