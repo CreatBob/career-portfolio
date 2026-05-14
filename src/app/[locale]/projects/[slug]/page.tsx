@@ -110,19 +110,17 @@ export default async function ProjectPage(props: {
             </div>
 
             <div className="project-story-overview__body">
-              <div className="project-story-overview__section">
-                <div className="project-story-overview__eyebrow">
-                  {highlights.length > 0 ? (
+              {highlights.length > 0 ? (
+                <div className="project-story-overview__section">
+                  <div className="project-story-overview__eyebrow">
                     <span className="archive-results-count">
                       {highlights.length.toString().padStart(2, "0")}
                     </span>
-                  ) : null}
-                  <span className="project-story-overview__eyebrow-label">
+                    <span className="project-story-overview__eyebrow-label">
                     核心贡献
-                  </span>
-                </div>
+                    </span>
+                  </div>
 
-                {highlights.length > 0 ? (
                   <div className="project-story-highlight-list">
                     {highlights.map((highlight) => (
                       <div key={highlight} className="project-story-highlight">
@@ -131,8 +129,8 @@ export default async function ProjectPage(props: {
                       </div>
                     ))}
                   </div>
-                ) : null}
-              </div>
+                </div>
+              ) : null}
 
               <div className="project-story-overview__facts">
                 <div className="project-story-overview__fact">

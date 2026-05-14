@@ -1,0 +1,51 @@
+---
+title: "AI Resume Builder & Mock Interview Platform"
+summary: "A job-prep tool that combines resume editing, template switching, AI rewriting, mock interviews, and knowledge ingestion."
+dates: "2026.03 - 2026.05"
+role: "Independent Developer"
+company: "Personal Project"
+location: "Remote"
+category: "ai-app"
+status: "published"
+order: 1
+featured: true
+cover: "/projects/images/resume-builder/cover.png"
+technologies:
+  - Vue 3
+  - TypeScript
+  - Vite
+  - Spring AI
+  - FastAPI
+  - OpenAI API
+  - MySQL
+  - PostgreSQL + pgvector
+links:
+  - label: "Product Site"
+    href: "https://resume.mythflow.shop"
+highlights:
+  - "Connected resume editing, AI rewriting, and mock interviews in one workflow"
+  - "Supported 9 templates, 7 resume modules, and multi-resume management"
+  - "Added knowledge ingestion with OCR and pgvector retrieval"
+---
+
+## Features
+- Built a resume editor and real-time preview workspace with 7 editable modules, visibility toggles, and module reordering.
+- Built template selection and export flows with 9 built-in templates, plus PDF, Markdown, and JSON export with JSON import.
+- Built an AI resume optimization panel that streams suggestions and rewritten content by module, with apply and undo actions.
+- Built an AI interview workspace with candidate and interviewer modes, streaming turns, session list, session detail, and scoring flow.
+- Built a knowledge ingestion flow for documents and images with OCR-to-Markdown, chunking, embeddings, and pgvector retrieval.
+
+![Main workspace](/projects/images/resume-builder/screenshot-01.png "layout=wide|caption=Resume editor workspace")
+![Core feature](/projects/images/resume-builder/screenshot-02.png "size=md|caption=AI interview workspace")
+![Template page](/projects/images/resume-builder/screenshot-03.png "size=md|caption=Template selection page")
+
+## Tech Stack
+- Frontend: Vue 3, TypeScript, Vite, Pinia
+- Backend: Spring AI, FastAPI
+- Database: MySQL, PostgreSQL + pgvector
+- AI: OpenAI API, OCR, RAG
+
+## Results
+- Shipped 9 resume templates and 7 core editing modules in one editing-to-export workflow.
+- Covered 3 main workspaces and 10+ AI/resume-related endpoints across two backend implementations.
+- Supported 8 upload formats for the knowledge base and used a 500 ms auto-save cycle in the editor.

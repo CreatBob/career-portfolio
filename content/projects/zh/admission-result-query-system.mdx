@@ -1,0 +1,75 @@
+---
+title: "录取结果查询系统"
+summary: "面向春季高考与夏季高考考生的录取结果查询系统，独立负责前后端开发、部署上线与运维保障，并通过学校信息部门安全测试。"
+dates: "2025"
+role: "全栈开发 / 部署运维"
+company: "学校招生项目"
+location: "中国"
+category: "business-system"
+status: "published"
+order: 4
+featured: false
+cover: "/projects/images/admission-result-query-system/cover.png"
+technologies:
+  - Java
+  - Spring Boot
+  - Vue
+  - MySQL
+  - Nginx
+links:
+  - label: "产品站点"
+    href: "https://lqcx.gdgm.edu.cn/"
+highlights:
+  - "独立负责前后端开发、Nginx 部署、HTTPS 证书配置与上线运维，完成从开发到交付的全流程落地。"
+  - "支持春季高考与夏季高考录取结果查询，并通过缓存、限流、验证码、防刷与日志能力应对高峰访问。"
+  - "系统已正式部署上线，配套管理后台，通过学校信息部门专业安全测试，并申请《录取结果查询系统》软件著作权。"
+---
+
+## 项目简介
+
+录取结果查询系统面向学校招生场景，服务参加春季高考和夏季高考的考生，用于在线查询录取结果。这个项目不是演示性质的小工具，而是已经正式部署上线、承接真实访问流量的业务系统。
+
+我负责的不只是单一功能模块，而是把考生查询端、管理后台、后端服务与上线环境整体落地。项目的重点在于让考生在录取阶段能够快速、稳定、准确地获取结果，同时让学校侧具备可维护、可控的发布和管理能力。
+
+![录取查询首页](/projects/images/admission-result-query-system/query-home.png "layout=wide|caption=录取结果查询系统首页")
+
+## 我的职责
+
+这个项目由我以全栈方式推进，前后端开发、部署上线和日常运维保障都由我负责。
+
+- 使用 Spring Boot 完成后端接口与核心业务逻辑开发。
+- 使用 Vue 完成考生查询端页面与交互实现。
+- 设计并实现管理后台，用于结果维护、数据管理和运营侧使用。
+- 负责 Nginx 部署、HTTPS 证书配置以及正式环境上线。
+- 补齐日志记录与基础运维保障，让系统在真实使用阶段更易观察和排查。
+
+![管理后台](/projects/images/admission-result-query-system/admin-dashboard.png "size=md|caption=录取结果查询系统管理后台")
+
+## 技术实现
+
+录取查询这类系统的核心看起来是“查结果”，但真正上线后，需要面对的是短时间内集中访问、重复查询频繁以及基础安全要求严格这些现实问题。为此，我在系统实现上重点补强了稳定性和防护能力，而不只是完成一个可用页面。
+
+- 通过缓存降低热点查询对数据库的直接压力。
+- 增加限流能力，避免高峰期请求过载影响整体可用性。
+- 使用验证码与防刷策略降低恶意请求和重复刷新的风险。
+- 保留日志能力，便于排查访问异常、查询问题和运行状态。
+- 配套管理后台，让学校侧可以更稳定地维护查询数据和发布流程。
+
+![查询结果页](/projects/images/admission-result-query-system/result-page.png "size=md|caption=录取结果查询结果页")
+
+## 结果与影响
+
+项目已经正式部署上线，服务学校春季高考与夏季高考考生的录取结果查询场景，并能够应对录取阶段用户集中、高频访问的实际压力。相比只完成一个查询页面，这个项目更重要的价值在于它已经进入真实业务流程，并接受了实际用户和学校流程的验证。
+
+- 系统通过了学校信息部门的专业安全测试。
+- 项目已申请《录取结果查询系统》软件著作权。
+- 学校公众号可基于该系统界面向考生提供查询指引。
+- 真实用户会在外部平台分享使用截图和查询体验，进一步证明系统已经进入实际使用场景。
+
+![学校公众号使用说明](/projects/images/admission-result-query-system/school-guide.png "size=md|caption=学校公众号录取查询指引页面")
+![用户使用反馈](/projects/images/admission-result-query-system/user-feedback.png "size=md|caption=用户使用截图")
+![安全测试与软著证明](/projects/images/admission-result-query-system/security-and-copyright.png "layout=wide|caption=安全测试与软件著作权相关截图")
+
+## 项目总结
+
+这个项目让我完整经历了一个真实业务系统从开发、部署到上线运行的全流程。相比只负责局部模块，这次更能体现我在全栈交付、稳定性保障和生产环境落地上的能力，也让我更理解高峰访问场景下业务系统对可用性与安全性的实际要求。

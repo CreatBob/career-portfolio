@@ -71,6 +71,7 @@ pnpm harness:verify
 | 6.5     | [Blog Content Design](docs/design-docs/blog-content.md)       | Blog MDX loading, feeds, rendering                        |
 | 6.6     | [Project Content Design](docs/design-docs/project-content.md) | Project case study MDX loading, slug rules, detail routes |
 | 6.7     | [Analytics Design](docs/design-docs/analytics-api.md)         | GA4 API route and env handling                            |
+| 6.8     | [Content Workflow](docs/CONTENT_WORKFLOW.md)                  | End-to-end process for writing and publishing portfolio content |
 
 ## 7 Environment
 

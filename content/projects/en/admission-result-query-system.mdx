@@ -1,0 +1,75 @@
+---
+title: "Admission Result Query System"
+summary: "A production admission result lookup system for spring and summer college entrance exams, built end to end across frontend, backend, deployment, and operations, and verified through the university's security review."
+dates: "2025"
+role: "Full-Stack Developer / Deployment & Operations"
+company: "University Admissions Project"
+location: "China"
+category: "business-system"
+status: "published"
+order: 4
+featured: false
+cover: "/projects/images/admission-result-query-system/cover.png"
+technologies:
+  - Java
+  - Spring Boot
+  - Vue
+  - MySQL
+  - Nginx
+links:
+  - label: "Product Site"
+    href: "https://lqcx.gdgm.edu.cn/"
+highlights:
+  - "Owned the full delivery path across frontend, backend, Nginx deployment, HTTPS certificate setup, and production operations."
+  - "Supported admission result lookup for both spring and summer exams, with caching, rate limiting, captcha, anti-abuse controls, and logging for peak traffic periods."
+  - "Launched the system in production with an admin dashboard, passed the university information department's security testing, and applied for the software copyright titled Admission Result Query System."
+---
+
+## Project Overview
+
+This system was built for a university admissions scenario and served candidates who needed to check their admission results for both the spring and summer college entrance exams. It was not a demo or internal prototype, but a live production system that handled real user traffic after launch.
+
+My work covered more than a single feature. I delivered the candidate-facing query flow, the admin dashboard, the backend services, and the production environment together as one complete system. The key goal was to help candidates retrieve results quickly, reliably, and accurately while giving the school a manageable and controlled operational workflow.
+
+![Admission query home](/projects/images/admission-result-query-system/query-home.png "layout=wide|caption=Admission result query homepage")
+
+## My Responsibilities
+
+I handled this project as a full-stack delivery effort, including development, launch, and ongoing operational support.
+
+- Built the backend APIs and core business logic with Spring Boot.
+- Implemented the candidate-facing query interface and interactions with Vue.
+- Designed and developed the admin dashboard for result management and operational use.
+- Managed the Nginx deployment, HTTPS certificate setup, and production launch.
+- Added logging and operational safeguards so the live system was easier to observe and troubleshoot.
+
+![Admin dashboard](/projects/images/admission-result-query-system/admin-dashboard.png "size=md|caption=Admission result query admin dashboard")
+
+## Technical Notes
+
+At first glance this looks like a simple result lookup system, but once it goes live the real challenge is concentrated traffic, repeated queries, and baseline security requirements. Because of that, I focused on stability and protection features rather than stopping at a basic working page.
+
+- Used caching to reduce direct database pressure on hot queries.
+- Added rate limiting to protect availability during peak request periods.
+- Used captcha and anti-abuse controls to reduce malicious or repeated refresh traffic.
+- Kept logging in place for troubleshooting query issues, access anomalies, and runtime behavior.
+- Built a supporting admin dashboard so the school side could manage result data and release workflows more reliably.
+
+![Result page](/projects/images/admission-result-query-system/result-page.png "size=md|caption=Admission result page")
+
+## Impact
+
+The system was deployed and launched for real university admissions usage, supporting both spring and summer exam candidates and handling concentrated peak-period traffic. Its value was not just that a query page existed, but that it entered a real operational workflow and was validated by real users and school-side processes.
+
+- Passed the university information department's professional security testing.
+- Applied for the software copyright titled Admission Result Query System.
+- Provided the interface used in the university's official public guidance for result lookup.
+- Reached a point where real users shared lookup screenshots and usage feedback on external platforms, showing that the system was actively used in practice.
+
+![Official school guide](/projects/images/admission-result-query-system/school-guide.png "size=md|caption=Official school guide page")
+![User feedback](/projects/images/admission-result-query-system/user-feedback.png "size=md|caption=User screenshot")
+![Security and copyright proof](/projects/images/admission-result-query-system/security-and-copyright.png "layout=wide|caption=Security review and software copyright screenshots")
+
+## Reflection
+
+This project let me go through the full lifecycle of a real business system from implementation and deployment to production launch. More than a partial module contribution, it reflects my ability to deliver across the stack, support stability under real traffic, and bring a system into a production environment with practical security and operational constraints.
